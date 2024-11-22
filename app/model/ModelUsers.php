@@ -30,7 +30,7 @@ class ModelUsers {
                 'prenom' => $prenom,
                 'email' => $email,
                 'password' => $hashed_password,
-                'photo_profil' => $photo_profil // le chemin de l'image est sauvegardé ici
+                'photo_profil' => $photo_profil 
             ]);
             return true;
         } catch (PDOException $e) {

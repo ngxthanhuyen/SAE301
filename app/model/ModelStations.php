@@ -7,7 +7,7 @@ class ModelStations {
 
         $stmt = $pdo->prepare("INSERT IGNORE INTO stations (num_station, nom, latitude, longitude, altitude, libgeo, codegeo, nom_epci, code_epci, nom_dept, code_dept, nom_reg, code_reg) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         
-        // Lier les paramètres
+        //Lier les paramètres
         $stmt->bindParam(1, $num_station);
         $stmt->bindParam(2, $nom);
         $stmt->bindParam(3, $latitude);

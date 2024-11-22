@@ -3,15 +3,15 @@ session_start();
 
 class ControllerUser {
     public function index() {
-        //On vérifie si l'utilisateur est un visiteur
+        //On vérifie d'abord si l'utilisateur est un visiteur
         if (isset($_GET['visiteur']) && $_GET['visiteur'] == 'true') {
             $_SESSION['is_visiteur'] = true;
         } else {
-            //Si un utilisateur est connecté, on retire le statut de visiteur
+            // Si un utilisateur est connecté, on retire le statut de visiteur
             unset($_SESSION['is_visiteur']);
         }
 
-        //On détermine le nom d'utilisateur à afficher
+        // Détermine le nom d'utilisateur à afficher
         if (isset($_SESSION['is_visiteur']) && $_SESSION['is_visiteur'] === true) {
             return [
                 'username' => 'visiteur',
@@ -26,70 +26,83 @@ class ControllerUser {
                 'creation_date' => $_SESSION['creation_date'],
                 'role' => 'utilisateur',
             ];
-            }
+        }
         return null; 
     }
 
     //Méthode pour gérer la mise à jour du profil
     public function updateProfile() {
-        if (isset($_SESSION['update_profile']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Récupération des données du formulaire
-            $nom = !empty($_POST['nom']) ? $_POST['nom'] : null;
-            $prenom = !empty($_POST['prenom']) ? $_POST['prenom'] : null;
-            $username = !empty($_POST['username']) ? $_POST['username'] : null;
-            $email = !empty($_POST['email']) ? $_POST['email'] : null;
-            $photo_profil = !empty($_FILES['photo_profil']['name']) ? $_FILES['photo_profil'] : null;
-    
-            // Traitement de l'upload de la photo de profil (si une photo est uploadée)
-            $target_file = "";
-            if ($photo_profil) {
+            $nom = $_POST['nom'] ?? null;
+            $prenom = $_POST['prenom'] ?? null;
+            $username = $_POST['username'] ?? null;
+            $email = $_POST['email'] ?? null;
+            $photo_profil = $_FILES['photo_profil'] ?? null;
+
+            // Traitement de la photo de profil
+            $target_file = '';
+            if ($photo_profil && $photo_profil['error'] === 0) {
                 $target_dir = "../upload/";
-                $target_file = $target_dir . basename($photo_profil["name"]);
-                if (!move_uploaded_file($photo_profil["tmp_name"], $target_file)) {
-                    $_SESSION['error'] = "Erreur lors de l'upload de la photo de profil.";
+
+                // Vérifier l'extension du fichier
+                $allowedExtensions = ['jpg', 'jpeg', 'png'];
+                $extension = strtolower(pathinfo($photo_profil['name'], PATHINFO_EXTENSION));
+                if (!in_array($extension, $allowedExtensions)) {
+                    $_SESSION['error'] = "L'extension du fichier doit être jpg, jpeg ou png.";
+                    header("Location: ../view/user_page.php");
+                    exit;
+                }
+
+                // Vérifier la taille du fichier (max 2 Mo)
+                $maxSize = 2 * 1024 * 1024; 
+                if ($photo_profil['size'] > $maxSize) {
+                    $_SESSION['error'] = "Le fichier ne doit pas dépasser 2 Mo.";
+                    header("Location: ../view/user_page.php");
+                    exit;
+                }
+
+                $fileName = basename($photo_profil['name']);
+                $target_file = $target_dir . $fileName;
+
+                if (file_exists($target_file)) {
+                    $fileName = pathinfo($photo_profil['name'], PATHINFO_FILENAME) . '_' . uniqid() . '.' . $extension;
+                    $target_file = $target_dir . $fileName;
+                }
+
+                //On déplace le fichier vers le répertoire de téléchargement
+                if (!move_uploaded_file($photo_profil['tmp_name'], $target_file)) {
+                    $_SESSION['error'] = "Erreur lors de l'upload de la photo.";
                     header("Location: ../view/user_page.php");
                     exit;
                 }
             } else {
-                // Si aucune photo n'est uploadée, on garde l'ancienne image
-                $target_file = $_SESSION['photo_profil'] ?? ''; 
+                //Si aucune photo n'est téléchargée, conserver l'ancienne photo
+                $target_file = $_SESSION['photo_profil'] ?? '';
             }
-    
+
+            // Mise à jour du profil dans la base de données
             $model = new ModelUsers();
-            
-            // On vérifie si au moins un champ a été rempli, sinon on renvoie une erreur
-            if (!$nom && !$prenom && !$username && !$email && !$photo_profil) {
-                $_SESSION['error'] = "Veuillez remplir au moins un champ à mettre à jour.";
-                header("Location: ../view/user_page.php");
-                exit;
+            $updateSuccess = $model->updateProfile($nom, $prenom, $username, $email, $target_file);
+
+            // Si la mise à jour est réussie
+            if ($updateSuccess) {
+                // Mise à jour des informations dans la session
+                $_SESSION['nom'] = $nom ?: $_SESSION['nom'];
+                $_SESSION['prenom'] = $prenom ?: $_SESSION['prenom'];
+                $_SESSION['username'] = $username ?: $_SESSION['username'];
+                $_SESSION['email'] = $email ?: $_SESSION['email'];
+                $_SESSION['photo_profil'] = $target_file ?: $_SESSION['photo_profil'];
+
+                $_SESSION['success'] = "Profil mis à jour avec succès.";
+            } else {
+                $_SESSION['error'] = "Erreur lors de la mise à jour du profil.";
             }
-    
-            try {
-                //Mise à jour des informations
-                $updateSuccess = $model->updateProfile($nom, $prenom, $username, $email, $target_file);
-    
-                if ($updateSuccess) {
-                    // Mise à jour dans la session (si les données sont changées)
-                    if ($nom) $_SESSION['nom'] = $nom;
-                    if ($prenom) $_SESSION['prenom'] = $prenom;
-                    if ($username) $_SESSION['username'] = $username;
-                    if ($email) $_SESSION['email'] = $email;
-                    if ($target_file) $_SESSION['photo_profil'] = $target_file;
-    
-                    $_SESSION['success'] = "Profil mis à jour avec succès.";
-                } else {
-                    $_SESSION['error'] = "Erreur lors de la mise à jour du profil dans la base de données.";
-                }
-            } catch (Exception $e) {
-                $_SESSION['error'] = "Une exception s'est produite : " . $e->getMessage();
-            }
-            
+
+            // Redirection vers la page de l'utilisateur
             header("Location: ../view/user_page.php");
             exit;
-        } else {
-            header("Location: ../view/user_page.php");
         }
     }
-    
 }
 ?>

@@ -1,8 +1,7 @@
 <?php
 include_once '../model/Model.php';
 include_once '../model/ModelStations.php';
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+
 
 class ControllerStations {
     private $modelStations;
@@ -12,8 +11,8 @@ class ControllerStations {
     }
 
     public function recupererStationsDepuisAPI() {
-        $pageSize = 100; // Taille de la page imposée par l'API
-        $insertCount = 0;
+        //Taille de la page imposée par l'API
+        $pageSize = 100; 
         
         try {
             // Première requête pour obtenir le nombre total d'enregistrements
@@ -57,14 +56,11 @@ class ControllerStations {
                             $result['nom_reg'] ?? null,
                             $result['code_reg'] ?? null
                         );
-                        $insertCount++; //Incrémenter le compteur
                     }
                 } else {
-                    //Sortir de la boucle si aucun résultat n'est renvoyé
                     break;
                 }
             }
-            echo "Total de stations insérées : $insertCount";
         } catch (Exception $e) {
             echo "Erreur : " . $e->getMessage();
         }

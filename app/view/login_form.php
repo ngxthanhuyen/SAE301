@@ -41,7 +41,7 @@ $error2 = $authController->register();
     </nav>
     <div class="container" id="container">
         <div class="form-container register-container">
-            <form action="register_form.php" method="post">
+            <form action="register_form.php" method="post" enctype="multipart/form-data">
                 <h1>S'inscrire</h1>
                 <input type="text" name="username" placeholder="Username">
                 <input type="text" name="nom" placeholder="Nom">
@@ -129,6 +129,6 @@ $error2 = $authController->register();
             </div>
         </div>
     </div>
-    <script src="../../static/script/script.js"></script>
+    <script src="../../static/script/authentification.js"></script>
 </body>
 </html>
