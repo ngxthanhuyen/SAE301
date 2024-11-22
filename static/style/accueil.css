@@ -1,0 +1,225 @@
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Orelega+One&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Orelega+One&family=Signika:wght@300..700&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Orelega+One&family=Reddit+Sans:ital,wght@0,200..900;1,200..900&family=Signika:wght@300..700&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins");
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Orelega+One&family=Quicksand:wght@300..700&family=Reddit+Sans:ital,wght@0,200..900;1,200..900&family=Signika:wght@300..700&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    padding: 10px;
+    z-index: 10;
+    position: relative;
+}
+
+.navbar-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 140px;
+    padding: 0 80px;
+}
+
+.navbar-logo img {
+    height: 40px;
+}
+
+.navbar-title {
+    color: white;
+    font-weight: 650;
+    text-align: center;
+}
+
+.navbar-links {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    align-items: center; 
+    text-align: center;
+    flex-grow: 1; 
+    margin : 0;
+}
+
+.navbar-links li {
+    margin: 0 40px;
+}
+
+.navbar-links li:last-child {
+    margin-right: -65px; 
+} 
+.navbar-links a {
+    position: relative;
+    text-decoration: none;
+    color: white;
+    font-family: 'Quicksand';
+    font-size: 20px;
+    font-weight: 650;
+    padding-bottom: 10px; 
+    display: block;
+}
+
+.navbar-links a:hover {
+    color: #4bb6b7;
+}
+
+.navbar-links a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0; 
+    height: 6px; 
+    background-color: #b6cef1; 
+    transition: width 0.3s ease; 
+}
+
+.navbar-links a:hover::after {
+    width: 100%; 
+}
+
+.navbar-user {
+    display: flex;
+    align-items: center; 
+    margin-right: 20px;
+}
+
+.navbar-user img {
+    width: 30px;
+    height: 30px;
+}
+
+/* Video Background */
+.video-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+}
+
+#background-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Hero Section */
+.hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 88vh;
+    color: #fff;
+    position: relative;
+    z-index: 1;
+}
+
+.hero h1 {
+    font-size: 120px;
+    color: #32417a;
+    margin-bottom: 50px;
+    width: 800px;
+    font-family: 'Signika';
+}
+
+.hero p {
+    max-width: 600px;
+    font-size: 22px;
+    color: #2369cd;
+    font-family: 'Sour Gummy';
+}
+
+/*Features*/
+.feature {
+    padding: 40px 60px;
+    color: #32417a;
+    background-color: white;
+}
+.section-title {
+    margin-block-end: 40px;
+    align-items: center;
+    text-align: center;
+    font-size: 80px;
+    font-family: 'Signika';
+}
+
+.flex-list {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    gap: 20px;
+}
+.feature-container {
+    width: 460px;
+}
+
+.feature-row {
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+}
+
+
+.feature-container .img-row2 {
+    margin-top: 80px;
+}
+.card-title {
+    color: #3b3b3b;
+    font-size: 44px;
+    margin-top: 30px;
+    font-family: 'Quicksand';
+    text-align: center;
+}
+
+.card-icon {
+    width: 120px;
+    height: 120px;
+}
+
+.card-text {
+    margin-top: 60px;
+    font-size: 18px;
+    color: rgb(93, 93, 93);
+    font-family: 'Poppins';
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: auto; 
+}
+
+.button {
+    margin-top: 35px;
+    display: inline-block;
+    padding: 12px 26px;
+    background-color: #12769E;
+    color: #fcf6f3;
+    border-color: #fcf6f3;
+    border: solid;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+    font-size: 28px;
+}
+
+.button:hover {
+    background-color: #fcf6f3;
+    color: #12769E;
+    border-color: #12769E;
+}

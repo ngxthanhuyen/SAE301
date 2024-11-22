@@ -10,18 +10,6 @@ loginButton.addEventListener("click", ()=>{
     container.classList.remove("right-panel-active");
 });
 
-document.getElementById('checkbox_visiteur').addEventListener('change', function() {
-    if (this.checked) {
-        window.location.href = 'user_page.php';
-    }
-});
-document.getElementById('checkbox_visiteur2').addEventListener('change', function() {
-    if (this.checked) {
-        window.location.href = 'user_page.php';
-    }
-});
-
-
 //On sélectionne tous les éléments avec la classe "oeil"
 const oeils = document.querySelectorAll('.oeil');
 
@@ -45,8 +33,3 @@ oeils.forEach(function(oeil) {
         }
     });
 });
-
-
-
-
-
