@@ -102,7 +102,7 @@ class ControllerAuth {
                     }
                 } else {
                     $error[] = 'Erreur lors du téléchargement de la photo de profil. Code erreur: ' . $_FILES['photo_profil']['error'];
-                    echo 'Erreur de téléchargement : ' . $_FILES['photo_profil']['error'] . '<br>'; // Affiche l'erreur
+                    echo 'Erreur de téléchargement : ' . $_FILES['photo_profil']['error'] . '<br>'; 
                 }
 
                 // Vérification de l'existence de l'utilisateur et des mots de passe
@@ -114,7 +114,7 @@ class ControllerAuth {
                     // Création de l'utilisateur
                     if ($this->user->create($username, $nom, $prenom, $email, $password, $photo_profil)) {
                         echo 'Utilisateur créé avec succès.<br>';
-                        header('Location: ../view/login_form.php');  // Rediriger vers la page de connexion
+                        header('Location: ../view/login_form.php');  
                         exit();
                     } else {
                         $error[] = 'Erreur lors de la création de l\'utilisateur.';
