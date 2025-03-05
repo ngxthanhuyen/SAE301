@@ -325,6 +325,76 @@ class ModelDashBoard {
         return $moyennesSemaine;
     }
     
+    public function getMesuresMoisStation($num_station_recherche, $date_mois) {
+        try {
+            $dateTimeMois = DateTime::createFromFormat('Y-m', $date_mois);
+            if (!$dateTimeMois) {
+                throw new Exception("Format de mois invalide. Utiliser 'Y-m'.");
+            }
+
+            $startDate = $dateTimeMois->format('Y-m-01');
+            $endDate = $dateTimeMois->modify('+1 month')->format('Y-m-01');
+
+            $mesuresMois = [];
+            $currentDate = new DateTime($startDate);
+
+            while ($currentDate->format('Y-m-d') < $endDate) {
+                $mesureJour = $this->getMoyenneMesuresParStationDate($num_station_recherche, $currentDate->format('Y-m-d'));
+                $mesuresMois[$currentDate->format('Y-m-d')] = $mesureJour;
+                $currentDate->modify('+1 day');
+            }
+
+            return $mesuresMois;
+        } catch (Exception $e) {
+            header('Content-Type: application/json');
+            echo json_encode(['error' => $e->getMessage()]);
+            exit;
+        }
+    }
+
+    public function calculerMoyenneMois($mesuresMois) {
+        $totaux = [
+            'temperature' => 0,
+            'vent' => 0,
+            'humidite' => 0,
+            'pression' => 0
+        ];
+
+        $comptes = [
+            'temperature' => 0,
+            'vent' => 0,
+            'humidite' => 0,
+            'pression' => 0
+        ];
+
+        foreach ($mesuresMois as $jour => $mesureJour) {
+            if ($mesureJour) {
+                if (isset($mesureJour['temperature'])) {
+                    $totaux['temperature'] += $mesureJour['temperature'];
+                    $comptes['temperature']++;
+                }
+                if (isset($mesureJour['vent'])) {
+                    $totaux['vent'] += $mesureJour['vent'];
+                    $comptes['vent']++;
+                }
+                if (isset($mesureJour['humidite'])) {
+                    $totaux['humidite'] += $mesureJour['humidite'];
+                    $comptes['humidite']++;
+                }
+                if (isset($mesureJour['pression'])) {
+                    $totaux['pression'] += $mesureJour['pression'];
+                    $comptes['pression']++;
+                }
+            }
+        }
+
+        $moyennesMois = [];
+        foreach ($totaux as $parametre => $total) {
+            $moyennesMois[$parametre] = ($comptes[$parametre] > 0) ? round($total / $comptes[$parametre], 2) : null;
+        }
+
+        return $moyennesMois;
+    }
       
     public function getWeatherIcon($weatherCode) {
         switch ($weatherCode) {
@@ -372,7 +442,7 @@ class ModelDashBoard {
             case '34': return ['icon' => '🌨️', 'description' => 'Neige fondue']; 
             case '35': return ['icon' => '🌨️❄️', 'description' => 'Chutes de neige intermittentes']; 
             case '36': return ['icon' => '🌨️❄️', 'description' => 'Neige continue']; 
-            case '37': return ['icon' => '🌨️', 'description' => 'Grésil']; 
+            case '37': return ['icon' => '🌨️❄️', 'description' => 'Grésil']; 
             case '38': return ['icon' => '🧊', 'description' => 'Grêle']; 
             case '39': return ['icon' => '🌨️❄️', 'description' => 'Averses de neige']; 
     
@@ -452,5 +522,76 @@ class ModelDashBoard {
             default: return ['icon' => '❓', 'description' => 'Code inconnu']; 
         }
     }    
+
+    public function getMesuresAnneeStation($num_station_recherche, $date_annee) {
+        try {
+            $dateTimeAnnee = DateTime::createFromFormat('Y', $date_annee);
+            if (!$dateTimeAnnee) {
+                throw new Exception("Format d'année invalide. Utiliser 'Y'.");
+            }
+
+            $startDate = $dateTimeAnnee->format('Y-01-01');
+            $endDate = $dateTimeAnnee->modify('+1 year')->format('Y-01-01');
+
+            $mesuresAnnee = [];
+            $currentDate = new DateTime($startDate);
+
+            while ($currentDate->format('Y-m-d') < $endDate) {
+                $mesureJour = $this->getMoyenneMesuresParStationDate($num_station_recherche, $currentDate->format('Y-m-d'));
+                $mesuresAnnee[$currentDate->format('Y-m-d')] = $mesureJour;
+                $currentDate->modify('+1 day');
+            }
+
+            return $mesuresAnnee;
+        } catch (Exception $e) {
+            header('Content-Type: application/json');
+            echo json_encode(['error' => $e->getMessage()]);
+            exit;
+        }
+    }
+
+    public function calculerMoyenneAnnee($mesuresAnnee) {
+        $totaux = [
+            'temperature' => 0,
+            'vent' => 0,
+            'humidite' => 0,
+            'pression' => 0
+        ];
+
+        $comptes = [
+            'temperature' => 0,
+            'vent' => 0,
+            'humidite' => 0,
+            'pression' => 0
+        ];
+
+        foreach ($mesuresAnnee as $jour => $mesureJour) {
+            if ($mesureJour) {
+                if (isset($mesureJour['temperature'])) {
+                    $totaux['temperature'] += $mesureJour['temperature'];
+                    $comptes['temperature']++;
+                }
+                if (isset($mesureJour['vent'])) {
+                    $totaux['vent'] += $mesureJour['vent'];
+                    $comptes['vent']++;
+                }
+                if (isset($mesureJour['humidite'])) {
+                    $totaux['humidite'] += $mesureJour['humidite'];
+                    $comptes['humidite']++;
+                }
+                if (isset($mesureJour['pression'])) {
+                    $totaux['pression'] += $mesureJour['pression'];
+                    $comptes['pression']++;
+                }
+            }
+        }
+
+        $moyennesAnnee = [];
+        foreach ($totaux as $parametre => $total) {
+            $moyennesAnnee[$parametre] = ($comptes[$parametre] > 0) ? round($total / $comptes[$parametre], 2) : null;
+        }
+
+        return $moyennesAnnee;
+    }
 }
 ?>

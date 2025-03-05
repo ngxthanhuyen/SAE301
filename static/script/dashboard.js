@@ -142,12 +142,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const stationSelection = document.getElementById('station-hidden').value;
         let dateSelection = document.getElementById('date-journee').value;
         let semaineSelection = document.getElementById('date-semaine').value;
-    
+        let moisSelection = document.getElementById('monthInput').value;
+        let anneeSelection = document.getElementById('annee-hidden').value;
+
         clearExistingElements(); 
-        // Vérifier si une station est sélectionnée et qu'une date ou une semaine est choisie
-        if (stationSelection && (dateSelection || semaineSelection)) {
+        // Vérifier si une station est sélectionnée et qu'une date, une semaine, un mois ou une année est choisi
+        if (stationSelection && (dateSelection || semaineSelection || moisSelection || anneeSelection)) {
             let url = '';
-            let dataType = ''; // Indiquer si on a une date ou une semaine
+            let dataType = ''; // Indiquer si on a une date, une semaine, un mois ou une année
 
             if (semaineSelection) {
                 url = `dashboard.php?station=${stationSelection}&semaine_selection=${semaineSelection}`;
@@ -155,24 +157,30 @@ document.addEventListener('DOMContentLoaded', () => {
             } else if (dateSelection) {
                 url = `dashboard.php?station=${stationSelection}&date_selection=${dateSelection}`;
                 dataType = 'date'; 
+            } else if (moisSelection) {
+                url = `dashboard.php?station=${stationSelection}&mois_selection=${moisSelection}`;
+                dataType = 'mois';
+            } else if (anneeSelection) {
+                url = `dashboard.php?station=${stationSelection}&annee_selection=${anneeSelection}`;
+                dataType = 'annee';
             }
-    
+
             // Afficher l'URL dans la console avant d'envoyer la requête
-            console.log('URL envoyée :', url);
-    
+            console.log('URL envoyée :', url);
+
             // Récupération des données via fetch
             fetch(url)
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error('Erreur HTTP : ' + response.status);
+                        throw new Error('Erreur HTTP : ' + response.status);
                     }
                     return response.json(); 
                 })
                 .then(data => {
-                    console.log('Données reçues :', data);
+                    console.log('Données reçues :', data);
                     document.getElementById('gauge-container').innerHTML = '';
                     document.getElementById('graph-container').innerHTML = '';
-                    document.getElementById('table-container'.innerHTML = '');
+                    document.getElementById('table-container').innerHTML = '';
                     document.getElementById('weather-widget').style.display = 'none';
 
                     if (data && Object.keys(data).length > 0) {  
@@ -189,21 +197,33 @@ document.addEventListener('DOMContentLoaded', () => {
                             displayTempGraphSemaine(data.mesuresSemaine);
                             displayPluvioGraphSemaine(data.mesuresSemaine);
                             displayGraphsSemaine(data.mesuresSemaine);
+                        } else if (dataType === 'mois') {
+                            // Afficher les éléments du mois
+                            displayGaugesMois(data.moyennesMois);
+                            displayTableMois(data.mesuresMois);
+                            displayGraphsMois(data.mesuresMois);
+                        } else if (dataType === 'annee') {
+                            // Afficher les éléments de l'année
+                            displayGaugesAnnee(data.moyennesAnnee);
+                            displayTableAnnee(data.mesuresAnnee);
+                            displayGraphsAnnee(data.mesuresAnnee);
                         }
                     } else {
-                        console.error("Erreur : Aucune donnée à afficher ou structure de données incorrecte");
+                        console.error("Erreur : Aucune donnée à afficher ou structure de données incorrecte");
                     }
                 })
                 .catch(error => {
-                    console.error("Erreur lors de la récupération des données :", error);
+                    console.error("Erreur lors de la récupération des données :", error);
                 })
                 .finally(() => {
-                    // Effacer les champs de date et de semaine après la requête
+                    // Effacer les champs de date, semaine, mois et année après la requête
                     document.getElementById('date-journee').value = '';
                     document.getElementById('date-semaine').value = '';
+                    document.getElementById('monthInput').value = '';
+                    document.getElementById('annee-hidden').value = '';
                 });
             } else {
-                alert("Veuillez sélectionner une station et une date (ou semaine).");
+                alert("Veuillez sélectionner une station et une date, une semaine, un mois ou une année.");
             }
         });       
        
@@ -1158,4 +1178,554 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }   
+
+    function displayGaugesMois(moyennesMois) {
+        const gaugeContainer = document.getElementById('gauge-container');
+        gaugeContainer.innerHTML = '';
+
+        if (moyennesMois && Object.keys(moyennesMois).length > 0) {
+            const title = document.createElement('h1');
+            title.classList.add('dashboard-title');
+            title.textContent = 'Observations moyennes du mois';
+            gaugeContainer.appendChild(title);
+
+            const parameterLabels = {
+                'temperature': 'Température',
+                'vent': 'Vent',
+                'humidite': 'Humidité',
+                'pression': 'Pression'
+            };
+
+            const units = {
+                'temperature': '°C',
+                'vent': 'm/s',
+                'humidite': '%',
+                'pression': 'Pa'
+            };
+
+            Object.keys(moyennesMois).forEach(parameter => {
+                const value = moyennesMois[parameter];
+                const label = parameterLabels[parameter] || parameter;
+                const unit = units[parameter] || '';
+
+                const gaugeDiv = document.createElement('div');
+                gaugeDiv.classList.add('gauge');
+
+                const canvas = document.createElement('canvas');
+                canvas.classList.add('gauge-canvas');
+                gaugeDiv.appendChild(canvas);
+
+                const valueContainer = document.createElement('div');
+                valueContainer.classList.add('gauge-value');
+
+                const valueSpan = document.createElement('span');
+                valueSpan.classList.add('value');
+                valueSpan.textContent = value;
+
+                const unitSpan = document.createElement('span');
+                unitSpan.classList.add('unit');
+                unitSpan.textContent = unit;
+
+                valueContainer.appendChild(valueSpan);
+                valueContainer.appendChild(unitSpan);
+                gaugeDiv.appendChild(valueContainer);
+
+                const labelDiv = document.createElement('div');
+                labelDiv.classList.add('gauge-label');
+                labelDiv.textContent = label;
+                gaugeDiv.appendChild(labelDiv);
+
+                gaugeContainer.appendChild(gaugeDiv);
+
+                const ctx = canvas.getContext('2d');
+                new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        datasets: [{
+                            data: [value, 100 - value],
+                            backgroundColor: ['#108439', '#E0E0E0'],
+                            borderWidth: 0,
+                        }],
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: '75%',
+                        circumference: 270,
+                        rotation: -135,
+                        plugins: {
+                            tooltip: { enabled: false },
+                            legend: { display: false },
+                        },
+                        elements: {
+                            arc: {
+                                borderRadius: 5,
+                            },
+                        },
+                    },
+                });
+            });
+        }
+    }
+
+    function displayTableMois(mesuresMois) {
+        const tableContainer = document.getElementById('table-container');
+        tableContainer.innerHTML = '';
+
+        if (!mesuresMois || Object.keys(mesuresMois).length === 0) {
+            console.warn('Avertissement : Aucune donnée à afficher dans le tableau.');
+            tableContainer.textContent = 'Aucune donnée disponible pour le tableau.';
+            return;
+        }
+
+        const table = document.createElement('table');
+        table.classList.add('mesures-table');
+
+        const thead = document.createElement('thead');
+        const headerRow = document.createElement('tr');
+        const headers = ['Date', 'Température (°C)', 'Vent (m/s)', 'Humidité (%)', 'Pression (Pa)', 'Visibilité(m)', 'Précipitation(mm)'];
+        headers.forEach(headerText => {
+            const th = document.createElement('th');
+            th.textContent = headerText;
+            headerRow.appendChild(th);
+        });
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
+
+        const tbody = document.createElement('tbody');
+        Object.keys(mesuresMois).forEach(date => {
+            const mesure = mesuresMois[date];
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${date}</td>
+                <td>${mesure.temperature}</td>
+                <td>${mesure.vent}</td>
+                <td>${mesure.humidite}</td>
+                <td>${mesure.pression}</td>
+                <td>${mesure.visibilite}</td>
+                <td>${mesure.precipitation}</td>
+            `;
+            tbody.appendChild(row);
+        });
+        table.appendChild(tbody);
+
+        tableContainer.appendChild(table);
+    }
+
+    function displayGraphsMois(mesuresMois) {
+        const graphContainer = document.getElementById('graph-container');
+        graphContainer.innerHTML = '';
+
+        if (!mesuresMois || Object.keys(mesuresMois).length === 0) {
+            console.warn('Avertissement : Aucune donnée à afficher pour les graphiques.');
+            graphContainer.textContent = 'Aucune donnée disponible pour les graphiques.';
+            return;
+        }
+
+        const units = {
+            'temperature': '°C',
+            'vent': 'm/s',
+            'humidite': '%',
+            'pression': 'Pa'
+        };
+
+        const existingTitle = graphContainer.previousElementSibling;
+        if (existingTitle && existingTitle.classList.contains('graph-title')) {
+            existingTitle.remove();
+        }
+
+        const graphTitle = document.createElement('h1');
+        graphTitle.classList.add('graph-title');
+        graphTitle.textContent = 'Graphiques des mesures du mois';
+        graphContainer.parentNode.insertBefore(graphTitle, graphContainer);
+
+        const parameters = ['temperature', 'vent', 'humidite', 'pression'];
+        const dates = Object.keys(mesuresMois);
+
+        parameters.forEach(parameter => {
+            const labels = dates;
+            const values = labels.map(date => mesuresMois[date] ? mesuresMois[date][parameter] : null);
+
+            const graphWrapper = document.createElement('div');
+            graphWrapper.classList.add('graph-wrapper');
+            graphContainer.appendChild(graphWrapper);
+
+            const canvas = document.createElement('canvas');
+            canvas.id = `chart-${parameter}`;
+            graphWrapper.appendChild(canvas);
+
+            const ctx = canvas.getContext('2d');
+
+            let chartType = 'line';
+
+            const chart = new Chart(ctx, {
+                type: chartType,
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: parameter.toUpperCase() + ` (${units[parameter]})`,
+                        data: values,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Date',
+                                font: {
+                                    size: 16,
+                                    family: 'Arial'
+                                }
+                            },
+                            grid: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: parameter.toUpperCase() + ` (${units[parameter]})`,
+                                font: {
+                                    size: 16,
+                                    family: 'Arial'
+                                }
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            borderColor: '#fff',
+                            borderWidth: 1,
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += context.parsed.y;
+                                    }
+                                    return label;
+                                }
+                            }
+                        },
+                        legend: {
+                            labels: {
+                                font: {
+                                    size: 14,
+                                    family: 'Arial'
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            const toggleButton = document.createElement('button');
+            toggleButton.textContent = 'Bâtons';
+            toggleButton.classList.add('toggle-button');
+            graphWrapper.appendChild(toggleButton);
+
+            toggleButton.addEventListener('click', () => {
+                if (chart.config.type === 'line') {
+                    chart.config.type = 'bar';
+                    toggleButton.textContent = 'Courbe';
+                } else {
+                    chart.config.type = 'line';
+                    toggleButton.textContent = 'Bâtons';
+                }
+                chart.update();
+            });
+        });
+    }
+
+    function displayGaugesAnnee(moyennesAnnee) {
+        const gaugeContainer = document.getElementById('gauge-container');
+        gaugeContainer.innerHTML = '';
+
+        if (moyennesAnnee && Object.keys(moyennesAnnee).length > 0) {
+            const title = document.createElement('h1');
+            title.classList.add('dashboard-title');
+            title.textContent = 'Observations moyennes de l\'année';
+            gaugeContainer.appendChild(title);
+
+            const parameterLabels = {
+                'temperature': 'Température',
+                'vent': 'Vent',
+                'humidite': 'Humidité',
+                'pression': 'Pression'
+            };
+
+            const units = {
+                'temperature': '°C',
+                'vent': 'm/s',
+                'humidite': '%',
+                'pression': 'Pa'
+            };
+
+            Object.keys(moyennesAnnee).forEach(parameter => {
+                const value = moyennesAnnee[parameter];
+                const label = parameterLabels[parameter] || parameter;
+                const unit = units[parameter] || '';
+
+                const gaugeDiv = document.createElement('div');
+                gaugeDiv.classList.add('gauge');
+
+                const canvas = document.createElement('canvas');
+                canvas.classList.add('gauge-canvas');
+                gaugeDiv.appendChild(canvas);
+
+                const valueContainer = document.createElement('div');
+                valueContainer.classList.add('gauge-value');
+
+                const valueSpan = document.createElement('span');
+                valueSpan.classList.add('value');
+                valueSpan.textContent = value;
+
+                const unitSpan = document.createElement('span');
+                unitSpan.classList.add('unit');
+                unitSpan.textContent = unit;
+
+                valueContainer.appendChild(valueSpan);
+                valueContainer.appendChild(unitSpan);
+                gaugeDiv.appendChild(valueContainer);
+
+                const labelDiv = document.createElement('div');
+                labelDiv.classList.add('gauge-label');
+                labelDiv.textContent = label;
+                gaugeDiv.appendChild(labelDiv);
+
+                gaugeContainer.appendChild(gaugeDiv);
+
+                const ctx = canvas.getContext('2d');
+                new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        datasets: [{
+                            data: [value, 100 - value],
+                            backgroundColor: ['#108439', '#E0E0E0'],
+                            borderWidth: 0,
+                        }],
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: '75%',
+                        circumference: 270,
+                        rotation: -135,
+                        plugins: {
+                            tooltip: { enabled: false },
+                            legend: { display: false },
+                        },
+                        elements: {
+                            arc: {
+                                borderRadius: 5,
+                            },
+                        },
+                    },
+                });
+            });
+        }
+    }
+
+    function displayTableAnnee(mesuresAnnee) {
+        const tableContainer = document.getElementById('table-container');
+        tableContainer.innerHTML = '';
+
+        if (!mesuresAnnee || Object.keys(mesuresAnnee).length === 0) {
+            console.warn('Avertissement : Aucune donnée à afficher dans le tableau.');
+            tableContainer.textContent = 'Aucune donnée disponible pour le tableau.';
+            return;
+        }
+
+        const table = document.createElement('table');
+        table.classList.add('mesures-table');
+
+        const thead = document.createElement('thead');
+        const headerRow = document.createElement('tr');
+        const headers = ['Date', 'Température (°C)', 'Vent (m/s)', 'Humidité (%)', 'Pression (Pa)', 'Visibilité(m)', 'Précipitation(mm)'];
+        headers.forEach(headerText => {
+            const th = document.createElement('th');
+            th.textContent = headerText;
+            headerRow.appendChild(th);
+        });
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
+
+        const tbody = document.createElement('tbody');
+        Object.keys(mesuresAnnee).forEach(date => {
+            const mesure = mesuresAnnee[date];
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${date}</td>
+                <td>${mesure.temperature}</td>
+                <td>${mesure.vent}</td>
+                <td>${mesure.humidite}</td>
+                <td>${mesure.pression}</td>
+                <td>${mesure.visibilite}</td>
+                <td>${mesure.precipitation}</td>
+            `;
+            tbody.appendChild(row);
+        });
+        table.appendChild(tbody);
+
+        tableContainer.appendChild(table);
+    }
+
+    function displayGraphsAnnee(mesuresAnnee) {
+        const graphContainer = document.getElementById('graph-container');
+        graphContainer.innerHTML = '';
+
+        if (!mesuresAnnee || Object.keys(mesuresAnnee).length === 0) {
+            console.warn('Avertissement : Aucune donnée à afficher pour les graphiques.');
+            graphContainer.textContent = 'Aucune donnée disponible pour les graphiques.';
+            return;
+        }
+
+        const units = {
+            'temperature': '°C',
+            'vent': 'm/s',
+            'humidite': '%',
+            'pression': 'Pa'
+        };
+
+        const existingTitle = graphContainer.previousElementSibling;
+        if (existingTitle && existingTitle.classList.contains('graph-title')) {
+            existingTitle.remove();
+        }
+
+        const graphTitle = document.createElement('h1');
+        graphTitle.classList.add('graph-title');
+        graphTitle.textContent = 'Graphiques des mesures de l\'année';
+        graphContainer.parentNode.insertBefore(graphTitle, graphContainer);
+
+        const parameters = ['temperature', 'vent', 'humidite', 'pression'];
+        const dates = Object.keys(mesuresAnnee);
+
+        parameters.forEach(parameter => {
+            const labels = dates;
+            const values = labels.map(date => mesuresAnnee[date] ? mesuresAnnee[date][parameter] : null);
+
+            const graphWrapper = document.createElement('div');
+            graphWrapper.classList.add('graph-wrapper');
+            graphContainer.appendChild(graphWrapper);
+
+            const canvas = document.createElement('canvas');
+            canvas.id = `chart-${parameter}`;
+            graphWrapper.appendChild(canvas);
+
+            const ctx = canvas.getContext('2d');
+
+            let chartType = 'line';
+
+            const chart = new Chart(ctx, {
+                type: chartType,
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: parameter.toUpperCase() + ` (${units[parameter]})`,
+                        data: values,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Date',
+                                font: {
+                                    size: 16,
+                                    family: 'Arial'
+                                }
+                            },
+                            grid: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: parameter.toUpperCase() + ` (${units[parameter]})`,
+                                font: {
+                                    size: 16,
+                                    family: 'Arial'
+                                }
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            borderColor: '#fff',
+                            borderWidth: 1,
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += context.parsed.y;
+                                    }
+                                    return label;
+                                }
+                            }
+                        },
+                        legend: {
+                            labels: {
+                                font: {
+                                    size: 14,
+                                    family: 'Arial'
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            const toggleButton = document.createElement('button');
+            toggleButton.textContent = 'Bâtons';
+            toggleButton.classList.add('toggle-button');
+            graphWrapper.appendChild(toggleButton);
+
+            toggleButton.addEventListener('click', () => {
+                if (chart.config.type === 'line') {
+                    chart.config.type = 'bar';
+                    toggleButton.textContent = 'Courbe';
+                } else {
+                    chart.config.type = 'line';
+                    toggleButton.textContent = 'Bâtons';
+                }
+                chart.update();
+            });
+        });
+    }
 });

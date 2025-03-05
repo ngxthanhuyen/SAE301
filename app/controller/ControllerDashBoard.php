@@ -113,5 +113,47 @@ class ControllerDashBoard {
         
         return $response;
     }    
+
+    public function getMesuresEtMoyennesMois($num_station_recherche, $date_mois) {
+        $response = [];
+
+        try {
+            $mesuresMois = $this->modelDashBoard->getMesuresMoisStation($num_station_recherche, $date_mois);
+
+            if (empty($mesuresMois)) {
+                throw new Exception("Aucune donnée disponible pour ce mois.");
+            }
+
+            $moyennesMois = $this->modelDashBoard->calculerMoyenneMois($mesuresMois);
+
+            $response['mesuresMois'] = $mesuresMois;
+            $response['moyennesMois'] = $moyennesMois;
+        } catch (Exception $e) {
+            $response = ['error' => $e->getMessage()];
+        }
+
+        return $response;
+    }
+
+    public function getMesuresEtMoyennesAnnee($num_station_recherche, $date_annee) {
+        $response = [];
+
+        try {
+            $mesuresAnnee = $this->modelDashBoard->getMesuresAnneeStation($num_station_recherche, $date_annee);
+
+            if (empty($mesuresAnnee)) {
+                throw new Exception("Aucune donnée disponible pour cette année.");
+            }
+
+            $moyennesAnnee = $this->modelDashBoard->calculerMoyenneAnnee($mesuresAnnee);
+
+            $response['mesuresAnnee'] = $mesuresAnnee;
+            $response['moyennesAnnee'] = $moyennesAnnee;
+        } catch (Exception $e) {
+            $response = ['error' => $e->getMessage()];
+        }
+
+        return $response;
+    }
 }
 ?>

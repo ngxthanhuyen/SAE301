@@ -45,9 +45,39 @@ if (isset($_GET['station'])) {
             exit;
         }
     }
+
+    // Si un mois est sélectionné
+    if (isset($_GET['mois_selection'])) {
+        $date_mois = $_GET['mois_selection'];
+        $data = $controllerDashboard->getMesuresEtMoyennesMois($num_station, $date_mois);
+
+        if ($data) {
+            header('Content-Type: application/json');
+            echo json_encode($data);
+            exit;
+        } else {
+            echo json_encode(['error' => 'Aucune donnée trouvée pour ce mois.']);
+            exit;
+        }
+    }
+
+    // Si une année est sélectionnée
+    if (isset($_GET['annee_selection'])) {
+        $date_annee = $_GET['annee_selection'];
+        $data = $controllerDashboard->getMesuresEtMoyennesAnnee($num_station, $date_annee);
+
+        if ($data) {
+            header('Content-Type: application/json');
+            echo json_encode($data);
+            exit;
+        } else {
+            echo json_encode(['error' => 'Aucune donnée trouvée pour cette année.']);
+            exit;
+        }
+    }
     
-    // Si aucune date ou semaine n'est spécifiée
-    echo json_encode(['error' => 'Veuillez spécifier une date ou une semaine pour la station.']);
+    // Si aucune date, semaine, mois ou année n'est spécifiée
+    echo json_encode(['error' => 'Veuillez spécifier une date, une semaine, un mois ou une année pour la station.']);
     exit;
 }
 
