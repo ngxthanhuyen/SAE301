@@ -7,12 +7,10 @@ class ControllerAuth {
     private $user;
 
     public function __construct() {
-        //Obtention de l'instance de la base de données depuis la classe Model
         $pdo = Model::getInstance()->getPdo();
         $this->user = new ModelUsers($pdo);
     }
 
-    // Fonction de connexion
     public function login() {
         $error = [];
 
@@ -24,30 +22,25 @@ class ControllerAuth {
                 $error[] = 'Veuillez remplir tous les champs!';
             } else {
                 $row = $this->user->findUser($email_or_username);
-                if ($row) {
-                    if (password_verify($password, $row['password'])) {
-                        $_SESSION['user_id'] = $row['user_id'];
-                        $_SESSION['nom'] = $row['nom'];
-                        $_SESSION['prenom'] = $row['prenom'];
-                        $_SESSION['fullname'] = $row['prenom'] . ' ' . $row['nom'];
-                        $_SESSION['username'] = $row['username'];
-                        $_SESSION['email'] = $row['email'];
-                        $_SESSION['creation_date'] = $row['creation_date'];
-                        $_SESSION['photo_profil'] = $row['photo_profil'];
-                        header('Location: ../view/user_page.php');
-                        exit();
-                    } else {
-                        $error[] = "Identifiant ou mot de passe invalide!";
-                    }
+                if ($row && password_verify($password, $row['password'])) {
+                    $_SESSION['user_id'] = $row['user_id'];
+                    $_SESSION['nom'] = $row['nom'];
+                    $_SESSION['prenom'] = $row['prenom'];
+                    $_SESSION['fullname'] = $row['prenom'] . ' ' . $row['nom'];
+                    $_SESSION['username'] = $row['username'];
+                    $_SESSION['email'] = $row['email'];
+                    $_SESSION['creation_date'] = $row['creation_date'];
+                    $_SESSION['photo_profil'] = $row['photo_profil'];
+                    header('Location: ../view/user_page.php');
+                    exit();
                 } else {
-                    $error[] = "Identifiant ou mot de passe invalide!";
+                $error[] = "Identifiant ou mot de passe invalide!";
                 }
             }
         }
         return $error;
     }
 
-    // Fonction d'inscription
     public function register() {
         $errors = [];
 
@@ -75,7 +68,6 @@ class ControllerAuth {
                 mkdir($uploadDir, 0777, true); 
             }
 
-            //Photo de profil par défaut si l'utilisateur ne télécharge pas d'image
             $defaultPhoto = 'avatar.jpg'; 
 
             if (isset($_FILES['photo_profil']) && $_FILES['photo_profil']['error'] === 0) {
@@ -90,11 +82,10 @@ class ControllerAuth {
                 if (in_array($extension, $allowedExtensions) && $size <= $maxSize) {
                     $fileName = $_FILES['photo_profil']['name'];
                     $filePath = $uploadDir . $fileName;
-                    //Déplacement du fichier
-                    if (!move_uploaded_file($tmpName, $filePath)) {
-                        $errors[] = 'Erreur lors du téléchargement de la photo.';
-                    } else {
+                    if (move_uploaded_file($tmpName, $filePath)) {
                         $photo_profil = $fileName;
+                    } else {
+                        $errors[] = 'Erreur lors du téléchargement de la photo. Code d\'erreur : ' . $_FILES['photo_profil']['error'];
                     }
                 } else {
                     $errors[] = 'Le fichier doit être une image valide (jpg, jpeg, png) et ne doit pas dépasser 2 Mo.';
@@ -110,9 +101,8 @@ class ControllerAuth {
 
             // Création de l'utilisateur
             if (empty($errors)) {
-                $hashed_password = password_hash($password, PASSWORD_BCRYPT);
-                if ($this->user->create($username, $nom, $prenom, $email, $hashed_password, $photo_profil)) {
-                    header('Location: login_form.php');
+                if ($this->user->create($username, $nom, $prenom, $email, $password, $photo_profil)) {
+                    header('Location: ../view/login_form.php');
                     exit();
                 } else {
                     $errors[] = 'Erreur lors de la création de l\'utilisateur.';

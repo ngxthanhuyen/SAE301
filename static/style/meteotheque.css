@@ -1,0 +1,850 @@
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Orelega+One&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Orelega+One&family=Signika:wght@300..700&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Orelega+One&family=Reddit+Sans:ital,wght@0,200..900;1,200..900&family=Signika:wght@300..700&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins");
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Orelega+One&family=Quicksand:wght@300..700&family=Reddit+Sans:ital,wght@0,200..900;1,200..900&family=Signika:wght@300..700&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+    border: none;
+    text-decoration: none;
+}
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9fc;
+}
+
+.flash {
+    padding: 10px;
+    border-radius: 5px;
+    margin: 20px auto;
+    font-weight: 600;
+    text-align: center;
+    max-width: 930px;
+    width: 100%;
+}
+
+.flash.success {
+    background-color: #d4edda; 
+    color: #155724; 
+    border: 1px solid #c3e6cb; 
+}
+
+.flash-message.error {
+    background-color: #f8d7da; 
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.meteotheque-container {
+    max-width: 930px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
+h1 {
+    margin-top: 30px;
+    font-size: 45px;
+    color: #4A4A8A;
+    margin-bottom: 30px;
+    font-family: 'Signika';
+    text-shadow: 2px 6px 4px rgba(0, 0, 0, 0.2);  
+}
+
+.subtitle {
+    font-size: 20px;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.username {
+    color: #12769E;
+}
+
+.favorites-message {
+    text-align: center; 
+    margin: 50px 0; 
+    font-family: 'Signika';
+    font-weight: 600;
+}
+
+.no-favorites {
+    font-size: 24px; 
+    color: #4bb6b7;
+    margin-bottom: 10px;
+}
+
+.decouvrir-stations {
+    font-size: 16px; 
+    color: #666; 
+    margin-bottom: 10px; 
+}
+.lien {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.fleche-container {
+    margin-bottom: 10px;
+}
+
+.fleche-bas {
+    display: block;
+}
+
+
+.lien-stations {
+    display: inline-flex; 
+    padding: 10px 20px; 
+    background-color: #7F83A1; 
+    color: white; 
+    text-decoration: none; 
+    border-radius: 5px; 
+    transition: background-color 0.3s, transform 0.2s, 0.3 ease-in-out; 
+    align-items: center;
+    margin-left: 10px;
+}
+.lien-stations .fa-arrow-right {
+    font-size: 14px;
+    margin-left: 15px;
+}
+
+.lien-stations:hover {
+    background-color: #4bb6b7;
+    transform: scale(1.05); 
+}
+
+.station-section {
+    margin-bottom: 60px;
+}
+
+.station-name {
+    font-size: 30px;
+    color: #7F83A1;
+    font-family: 'Signika';
+    text-align: left;
+    margin-bottom: 8px; 
+}
+.station-name span {
+    color: #12769E;
+}
+
+.station-container {
+    background-color: #91d7ff;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 10px auto;
+    text-align: left;
+    display: flex;
+    height: 480px;
+    position: relative;
+}
+.station-card {
+   display: flex;
+}
+
+/* Style global du formulaire */
+.form {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+/* Style des étiquettes */
+.form-label {
+    font-size: 20px;
+    width: 350px;
+    color: #333;
+    font-weight: bold;
+    font-family: 'Reddit Sans';
+}
+
+/* Style des champs de saisie */
+.form-input {
+    width: 100%;
+    padding: 6px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    color: #333;
+    transition: all 0.3s ease;
+}
+
+.form-input:focus {
+    border-color: #007BFF;
+    outline: none;
+}
+
+/* Style du bouton de soumission */
+.form-submit {
+    padding: 8px 20px;
+    background-color: #66bff2;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.form-submit:hover {
+    background-color: #0056b3;
+}
+
+/* Ajouter un effet de focus sur le bouton lors de l'interaction */
+.form-submit:focus {
+    outline: none;
+}
+
+.infos-container {
+    margin-top: 4px;
+    width: 600px;
+    height: auto;
+}
+
+.station-card .infos {
+    font-size: 22px;
+    color: white;
+    font-family: 'Reddit Sans';
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.station-card span {
+    font-size: 24px;
+    color: #12769E;
+}
+
+.weather-data {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+    align-items: flex-end;
+    right: 90px;
+}
+
+.temperature {
+    font-size: 48px;
+    font-family: 'Reddit Sans';
+    font-weight: bold;
+    color: #12769E;
+    margin-bottom: 5px;
+}
+
+.mesures {
+    font-size: 22px;
+    font-family: 'Reddit Sans';
+    color: white;
+    font-weight: 600;
+    line-height: 34px;
+}
+
+.favorite-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 10; 
+    transform: scale(1.1); 
+}
+
+
+.favorite-button:active {
+    transform: scale(1.1); 
+}
+
+.hidden {
+    display: none;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 350px;
+    text-align: center;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.modal-content p {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 19px;
+    margin-bottom: 15px;
+}
+
+#confirmYes, #confirmNo {
+    padding: 5px 15px;
+    cursor: pointer;
+    font-size: 18px;
+    margin: 0 16px; 
+}
+
+#confirmYes {
+    background-color: rgb(252 179 174);
+    color: white;
+    border: none;
+    margin-bottom: 10px;
+}
+
+#confirmNo {
+    background-color: #b9afcf;
+    color: white;
+    border: none;
+    margin-bottom: 10px;
+}
+
+.parameters-selection {
+    position: absolute;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 120px;
+    max-width: 100%;
+    width: 900px;
+}
+
+.parameter-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: flex-start; 
+}
+
+.parameter-btn {
+    font-size: 17px;
+    font-family: 'Reddit Sans';
+    font-weight: bold;
+    color: white;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, background-color 0.3s;
+    position: relative;
+    padding-bottom: 4px;
+    display: block;
+    background-color: transparent; 
+}
+
+.parameter-btn::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 5px;
+    background-color: #12769E;
+    transition: width 0.3s ease-in-out;
+}
+
+.parameter-btn.active::after {
+    width: 100%; 
+}
+.parameter-btn:not(.active)::after {
+    width: 0;
+}
+
+.separator {
+    width: 2px;
+    height: 20px;
+    background-color: #12769E;
+}
+
+.chart-container {
+    margin-top: -5px;
+    margin-left: -25px;  
+    width: 100%;
+    max-width: 600px;
+    height: 120px;
+    display: none;
+}
+
+.weekly-forecast {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    overflow-x: auto; 
+    gap: 15px; 
+    margin-left: -23px;
+    margin-top: -1px;
+}
+
+.forecast-day {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.9); 
+    font-family: 'Reddit Sans';
+    padding: 10px;
+    width: 90px;
+    height: 190px; 
+    min-height: 100%;
+    margin-right: 15px;
+}
+
+.forecast-day .day {
+    font-size: 18px;
+    font-weight: bold;
+    color: #787878;
+}
+
+.forecast-day .weather-icon {
+    font-size: 30px;
+    margin: 10px 0;
+}
+
+.forecast-day .max-temp {
+    margin-top: 6px;
+    font-size: 24px;
+    color: rgb(252 179 174);
+    font-weight: bold;
+}
+
+.forecast-day .min-temp {
+    font-size: 24px;
+    margin-top: 10px;
+    color: #2f91d2;
+    font-weight: bold;
+}
+
+#user-choices {
+    margin: 30px auto;
+    padding: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);     
+    background: white;     
+    border-radius: 15px;   
+    max-width: 800px;
+    width: 100%;
+    position: relative;
+}
+
+#user-choices .centered-title {
+    font-size: 40px;
+    color: #333;
+    margin-bottom: 20px;
+    font-weight: bold;
+    text-align: center;
+    font-family: 'Quicksand';
+    text-shadow: 2px 6px 4px rgba(0, 0, 0, 0.2);  
+}
+
+.choices-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.choices-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.station, .date-time {
+    flex: 1;
+    text-align: center;
+}
+
+.station .label, .date-time .label {
+    display: block;
+    font-weight: bold;
+    font-size: 22px;
+    margin-bottom: 5px;
+    color: #71658b;
+    font-family: 'Reddit Sans';
+    font-weight: 800;
+    background-color: transparent;
+}
+
+.station .value, .date-time .value {
+    font-size: 22px;
+    color: #4c4c4c;
+    font-family: 'Reddit Sans';
+}
+
+.table-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px; 
+} 
+
+.table-container table {
+    border-collapse: collapse;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+}
+
+.table-container th, .table-container td {
+    padding: 15px;
+    border: 1px solid #ddd;
+}
+.table-container th {
+    background-color: #e4e4e4;
+    font-size: 18px;
+    font-family: 'Signika';
+    font-weight: bold;
+}
+.table-container th:first-child {
+    background-color: #f7d7f7;
+    color: #ba5a85;
+    font-weight: bold;
+}
+.table-container th:nth-child(2) {
+    background-color: #cde2ff;
+    color: #4787f7;
+}
+.table-container th:nth-child(3) {
+    background-color: #dbc4ff;
+    color: #6348f7;
+}
+.table-container th:last-child {
+    background-color: #ffc7c7;
+    color: #e63838;
+}
+.table-container td:first-child {
+    font-weight: bold;
+    color: #666;
+    font-family: 'Reddit Sans';
+}
+.table-container td {
+    font-size: 16px;
+    color: #333;
+}
+.table-container td:nth-child(1) {
+    background-color: #fde8f0;
+}
+.table-container td:nth-child(2) {
+    background-color: #eff6ff;
+}
+.table-container td:nth-child(3) {
+    background-color: #f3ebff;
+}
+.table-container td:nth-child(4) {
+    background-color: #ffeaea;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: transparent;
+    border: none;
+    border-radius: 50%;
+    padding: 20px;
+    font-size: 26px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 40px; 
+    height: 40px; 
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); 
+    transition: background-color 0.3s ease, transform 0.2s ease-in-out;
+}
+
+.close-button:hover {
+    color: #ff0000;
+    transform: scale(1.1); 
+}
+
+.close-button:active {
+    transform: scale(1.1); 
+}
+
+#confirmTableModal .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 350px;
+    text-align: center;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+#confirmTableModal .modal-content p {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 19px;
+    margin-bottom: 15px;
+}
+
+.tableConfirmNo, .tableConfirmYes {
+    padding: 5px 15px;
+    cursor: pointer;
+    font-size: 18px;
+    margin: 0 16px; 
+}
+
+.tableConfirmYes {
+    background-color: rgb(252 179 174);
+    color: white;
+    border: none;
+    margin-bottom: 10px;
+}
+
+.tableConfirmNo {
+    background-color: #b9afcf;
+    color: white;
+    border: none;
+    margin-bottom: 10px;
+}
+
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center; 
+    margin-bottom: 30px;
+}
+
+.center-btn-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px; 
+}
+
+.btn-publish {
+    display: inline-flex; 
+    padding: 12px 28px; 
+    background-color: #9ca1bf; 
+    color: white; 
+    text-decoration: none; 
+    border-radius: 5px; 
+    transition: background-color 0.3s, transform 0.2s, 0.3 ease-in-out; 
+    align-items: center;    
+    font-size: 16px; 
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease; 
+}
+
+.btn-publish:hover {
+    background-color: #9ca1bf; 
+    transform: scale(1.05); 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}
+
+.btn-publish:focus {
+    outline: none; 
+    box-shadow: 0 0 5px rgba(140, 100, 182, 0.5); 
+}
+
+/* Style de la zone publication */
+.publication-option {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    margin-bottom: 20px; 
+}
+
+.publication-option label {
+    margin-right: 10px;
+    font-size: 20px;
+    font-family: 'Reddit Sans';
+    font-weight: 600;
+}
+
+/* Style de la checkbox */
+.publication-option input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+}
+
+/* Style de l'icône dans le bouton */
+.btn-publish i {
+    margin-left: 8px; 
+    font-size: 18px; 
+}
+
+.alerts-section {
+    margin: 30px auto;
+    padding: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);     
+    background: white;     
+    border-radius: 15px;   
+    max-width: 800px;
+    width: 100%;
+    position: relative;
+}
+
+.alert-title {
+    font-size: 40px;
+    color: #8B0000;
+    margin-bottom: 20px;
+    font-weight: bold;
+    text-align: center;
+    font-family: 'Quicksand';
+    text-shadow: 2px 6px 4px rgba(0, 0, 0, 0.2);  
+}
+
+#historique-table {
+    max-width: 600px;
+    margin: 20px auto;
+    overflow-x: auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+thead {
+    background-color: #bdb3df;
+}
+
+th, td {
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+th {
+    font-weight: bold;
+    color: white;
+    font-size: 18px;
+}
+
+tr:nth-child(even) {
+    background-color: #ded7f7;
+}
+
+#historique-table tr:hover {
+    background-color: #8B0000;
+    color: white;
+}
+#historique-table tr:hover td {
+    color: white;
+    cursor: pointer;
+}
+
+td {
+    color: #333;
+    font-weight: 500;
+}
+
+.no-alerts {
+    text-align: center;
+    font-style: italic;
+    color: #888;
+}
+
+.delete-button {
+    position: absolute;
+    top: -5px;
+    right: -6px;
+    background: white;
+    border: none;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    border-radius: 50%;
+    padding: 8px;
+    width: 18px; 
+    height: 20px; 
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); 
+    transition: background-color 0.3s ease, transform 0.2s ease-in-out;
+}
+.delete-button:hover {
+    background-color: white;
+    color: #8B0000;
+}
+
+.info {
+    font-size: 33px; 
+    color: #32417a;
+    margin-bottom: 10px;
+}
+
+.creer-compte {
+    font-size: 20px; 
+    color: white; 
+    margin-bottom: 10px; 
+    font-family: 'Quicksand';
+    font-weight: 800;
+    margin-bottom: 20px;
+}
+
+.lien {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.fleche-container {
+    margin-bottom: 10px;
+}
+
+.fleche-bas {
+    display: block;
+}
+
+.lien-inscription {
+    display: inline-flex; 
+    padding: 10px 20px; 
+    background-color: #E9CAD2; 
+    color: #32417a; 
+    text-decoration: none; 
+    border-radius: 5px; 
+    transition: background-color 0.3s, transform 0.2s, 0.3 ease-in-out; 
+    align-items: center;
+    margin-left: 10px;
+    font-size: 20px;
+}
+.lien-inscription .fa-arrow-right {
+    font-size: 14px;
+    margin-left: 15px;
+}
+
+.lien-inscription:hover {
+    background-color: #7F83A1;
+    transform: scale(1.05); 
+    color: #E9CAD2; 
+}

@@ -1,0 +1,333 @@
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Orelega+One&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Orelega+One&family=Signika:wght@300..700&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Orelega+One&family=Reddit+Sans:ital,wght@0,200..900;1,200..900&family=Signika:wght@300..700&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins");
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Orelega+One&family=Quicksand:wght@300..700&family=Reddit+Sans:ital,wght@0,200..900;1,200..900&family=Signika:wght@300..700&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+    border: none;
+    text-decoration: none;
+}
+
+body {
+    background-image: url('../images/sky.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    padding: 10px;
+    z-index: 1000;
+    position: relative;
+    width: 100%;
+    background-color: white;
+    height: 85px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); 
+}
+
+
+.navbar-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 120px;
+    font-family: 'Quicksand';
+}
+
+.navbar-logo img {
+    height: 55px;
+}
+
+.navbar-title {
+    color: #32417a;
+    font-weight: 650;
+    text-align: center;
+    font-size: 22px;
+    text-decoration: none;
+    border: none;
+    outline: none;
+}
+
+h1 {
+    color: #E9CAD2;
+    font-size: 80px;
+    flex-wrap: wrap;
+    font-family: 'Signika';
+    text-align: center;
+    align-items: center;
+    margin-bottom: 30px;
+    margin-top: 30px;
+    text-shadow: 2px 6px 4px rgba(0, 0, 0, 0.2);  
+}
+/* Barre de recherche */
+
+.search-container {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    position: relative; 
+    width: 350px;
+    margin-bottom: 60px;
+}
+
+.search-bar {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 350px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.search-input {
+    flex: 1;
+    width: 350px;
+    padding: 12px 15px;
+    font-size: 1rem;
+    border: 2px solid #32417a;
+    border-radius: 25px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    font-family: 'Reddit Sans';
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #cea8b2;
+    box-shadow: 0px 2px 8px rgba(74, 74, 138, 0.3);
+}
+
+.search-button {
+    position: absolute;
+    right: 15px;
+    top: 6px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    color: #888;
+    font-size: 26px;
+}
+
+.search-button:hover .search-icon {
+    color: #cea8b2;
+}
+
+.search-icon {
+    pointer-events: none;
+}
+
+
+#suggestions div {
+    padding: 10px;
+    cursor: pointer;
+}
+
+#suggestions div:hover {
+    background-color: #f0f0f0;
+}
+.search-container {
+    position: relative;
+}
+
+#suggestions {
+    position: absolute;
+    width: 340px;
+    cursor: pointer;
+    border-radius: 29px;
+    box-shadow: 0 3px 6.4px 0 rgba(0, 0, 0, 0.5);
+    padding: unset;
+    margin: unset;
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 1001;
+    background-color: #ffffff;
+    scrollbar-color: #12769E #f1f1f1; 
+    scrollbar-width: thick; 
+    top: 100%;
+    font-family: 'Reddit Sans';
+    font-weight: 400;
+    color: #32417a;
+}
+
+.suggestion {
+    padding: 5px;
+    cursor: pointer;
+    border-bottom: 1px solid #d4d4d4;
+}
+
+.suggestion:last-child {
+    border-bottom: none;
+}
+
+.suggestion:hover {
+    background-color: #E9CAD2;
+    transition: background-color 0.3s ease;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+
+.meteotheque-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 650px;
+    margin: 40px auto;
+    padding: 30px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.meteotheque-block p {
+    font-size: 22px;
+    font-family: 'Quicksand';
+    margin-bottom: 8px;
+    margin-top: 15px;
+    color: #32417a;
+    font-weight: 600;
+}
+
+.eye img {
+    margin-left: 5px;
+    top: 10px;
+    vertical-align: sub;
+}
+
+.meteotheque-block .user-name.top-right {
+    position: absolute;
+    top: 0; 
+    right: 0; 
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #32417a;
+    background-color: #E9CAD2;
+    padding: 8px 10px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-family: 'Signika';
+    font-weight: 600;
+}
+
+.meteotheque-block .user-name svg {
+    margin-right: 5px;
+}
+.meteotheque-block a {
+    position: relative;
+    border-radius: 50px;
+    border: 1px solid #4bb6b7;
+    background-color: #E9CAD2;
+    color: #32417a;
+    font-size: 18px;
+    margin-top: 10px;
+    padding: 12px ;
+    text-transform: capitalize;
+    transition: 0.3 ease-in-out;
+    text-decoration: none;
+    font-weight: 600;
+    font-family: 'Signika';
+    padding-left: 40px;
+    padding-right: 60px;
+}
+
+.meteotheque-block a:hover {
+    letter-spacing: 3px;
+    background-color: #9b9fbc;
+    color: #E9CAD2;
+}
+
+.meteotheque-block  a:active {
+    transform: scale(0.95);
+}
+
+.meteotheque-block a:focus {
+    outline: none;
+}
+
+.meteotheque-block a.ghost {
+    border: 2px solid #fff;
+}
+
+.meteotheque-block a.ghost i{
+    top: 14px;
+    position: absolute;
+    right: 35px;
+}
+
+.favorites-message {
+    text-align: center; 
+    margin: 50px 0; 
+    font-family: 'Signika';
+    font-weight: 600;
+}
+
+.info {
+    font-size: 33px; 
+    color: #32417a;
+    margin-bottom: 10px;
+}
+
+.creer-compte {
+    font-size: 20px; 
+    color: white; 
+    margin-bottom: 10px; 
+    font-family: 'Quicksand';
+    font-weight: 800;
+    margin-bottom: 20px;
+}
+
+.lien {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.fleche-container {
+    margin-bottom: 10px;
+}
+
+.fleche-bas {
+    display: block;
+}
+
+.lien-inscription {
+    display: inline-flex; 
+    padding: 10px 20px; 
+    background-color: #E9CAD2; 
+    color: #32417a; 
+    text-decoration: none; 
+    border-radius: 5px; 
+    transition: background-color 0.3s, transform 0.2s, 0.3 ease-in-out; 
+    align-items: center;
+    margin-left: 10px;
+    font-size: 20px;
+}
+.lien-inscription .fa-arrow-right {
+    font-size: 14px;
+    margin-left: 15px;
+}
+
+.lien-inscription:hover {
+    background-color: #7F83A1;
+    transform: scale(1.05); 
+    color: #E9CAD2; 
+}
+

@@ -19,6 +19,7 @@ class ControllerUser {
             ];
         } elseif (isset($_SESSION['username'])) {
             return [
+                'id' => $_SESSION['user_id'],
                 'nom' => $_SESSION['nom'],
                 'prenom' => $_SESSION['prenom'],
                 'username' => $_SESSION['username'],

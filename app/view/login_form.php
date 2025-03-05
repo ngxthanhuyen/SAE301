@@ -17,25 +17,10 @@ $error2 = $authController->register();
 </head>
 <body>
     <nav class="navbar">
-        <ul class="navbar-links">
-            <li><a href="accueil.php">Accueil</a></li>
-            <li><a href="#">Stations</a></li>
-            <li><a href="#">Tableau<br> de bord</a></li>
-            <div class="navbar-logo">
-                <a href="accueil.php" class="logo-link">
-                    <img src="../../static/images/logo.png" alt="Our'Atmos Logo">
-                    <span class="navbar-title">Our'Atmos</span>
-                </a>
-            </div>
-            <li><a href="#">Cartes<br> climatiques</a></li>
-            <li><a href="#">Alerte</a></li>
-            <li><a href="#">Météothèque</a></li>
-        </ul>
-        <div class="navbar-user">
-            <a href="user_page.php">
-            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="#32417a">
-                <path d="M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm0 2c-3.33 0-10 1.67-10 5v2h20v-2c0-3.33-6.67-5-10-5z"/>
-            </svg>
+        <div class="navbar-logo">
+            <a class="logo-link">
+                <img src="../../static/images/logo.png" alt="Our'Atmos Logo">
+                <span class="navbar-title">Our'Atmos</span>
             </a>
         </div>
     </nav>
@@ -68,7 +53,7 @@ $error2 = $authController->register();
                 };
                 ?>
                 <button type="submit" name="register">S'inscrire</button>
-                <a href="user_page.php?visiteur=true">ou continuez en tant que visiteur</a>    
+                <a href="meteothequeVisiteur.php">ou continuez en tant que visiteur</a>    
                 <div class="social-container">
                     <a href="#" class="social"><i class="lni lni-facebook-fill"></i></a>
                     <a href="#" class="social"><i class="lni lni-google"></i></a>
@@ -101,7 +86,7 @@ $error2 = $authController->register();
                 };
                 ?>
                 <button type="submit" name="login">Se connecter</button>
-                <a href="user_page.php?visiteur=true">ou continuez en tant que visiteur</a>    
+                <a href="meteothequeVisiteur.php">ou continuez en tant que visiteur</a>    
                 <div class="social-container">
                     <a href="#" class="social"><i class="lni lni-facebook-fill"></i></a>
                     <a href="#" class="social"><i class="lni lni-google"></i></a>

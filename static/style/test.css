@@ -1,0 +1,335 @@
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Orelega+One&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Orelega+One&family=Signika:wght@300..700&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Orelega+One&family=Reddit+Sans:ital,wght@0,200..900;1,200..900&family=Signika:wght@300..700&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins");
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Orelega+One&family=Quicksand:wght@300..700&family=Reddit+Sans:ital,wght@0,200..900;1,200..900&family=Signika:wght@300..700&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; 
+}
+
+
+/* Style général */
+body {
+    background-color: #f5f7fa;
+    margin: 0;
+    padding: 0;
+}
+
+/*Visualisation des données*/
+.data-visualization {
+    background: #C3D8DA;
+    justify-content: center;
+    align-items: center;
+    max-width: 1200px;
+    width: 100%;
+    position: relative;
+    border: 1px solid #dfe3e8;
+    border-radius: 10px;
+    padding: 20px 30px;
+    margin: 0 auto; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Poppins', sans-serif;
+    margin-bottom: 50px;
+}
+
+h1 {
+    font-size: 60px;
+    color: #6AA6AC;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    font-weight: bold;
+    text-align: center;
+    font-family: 'Signika';
+    text-shadow: 2px 6px 4px rgba(0, 0, 0, 0.2);  
+}
+
+.visualization-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 70px;
+    align-items: center;
+}
+
+.granularity {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+}
+
+.granularity h2 {
+    background: #649ca3;
+    color: white;
+    font-size: 18px;
+    padding: 10px 10px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+    font-family: 'Poppins';
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+
+.granularity .btn-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start; 
+    align-items: center;
+    gap: 10px;
+}
+
+.granularity .btn-group:first-child {
+    margin-bottom: 20px; 
+}
+
+.granularity .btn-group:not(:first-child) {
+    margin-bottom: 10px; 
+}
+
+.station {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    color: black;
+    font-size: 22px;
+    font-family: 'Poppins';
+    width: auto;
+}
+
+.select-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+
+.select-input {
+    overflow-wrap: break-word;
+    font-family: 'Reddit Sans';
+    font-weight: 600;
+    font-size: 15px; 
+    padding: 10px 15px; 
+    border: 1px solid #71658b; 
+    border-radius: 5px; 
+    color: #4c4c4c; 
+    background-color: #ffffff; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s, transform 0.3s;
+    width: 250px;
+    cursor: pointer;
+    text-indent: -10px; 
+}
+
+.select-input::after {
+    content: "\2193"; 
+    position: absolute;
+    right: 15px; 
+    top: 50%;
+    transform: translateY(-50%); 
+    font-size: 18px; 
+    color: #6AA6AC; 
+    pointer-events: none; 
+}
+
+.options-list {
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    cursor: pointer;
+    box-shadow: 0 3px 6.4px 0 rgba(0, 0, 0, 0.5);
+    padding: unset;
+    margin: unset;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1001;
+    background-color: #fcf6f3;
+    scrollbar-color: #6AA6AC #f1f1f1;
+    scrollbar-width: thick;
+    display: none; 
+    overflow-y: auto;
+}
+
+.options {
+    padding: 14px;
+    cursor: pointer;
+    color: #488e94;
+    font-size: 16px;
+    font-weight: 600;
+    background-color: #ffffff;
+    border-bottom: 1px solid #d4d4d4;
+    font-family: 'Reddit Sans';
+}
+
+.select-active {
+    background-color: #0c6385 !important;
+    color: #fcf6f3;
+}
+
+.options:hover, .select-active {
+    background-color: #e9e9e9;
+}
+
+.options-list.show {
+    display: block; 
+}
+
+select {
+    overflow-wrap: break-word;
+    font-family: 'Reddit Sans';
+    font-size: 18px; 
+    padding: 10px 15px; 
+    border: 1px solid rgb(235, 170, 165); 
+    border-radius: 5px; 
+    color: #4c4c4c; 
+    background-color: #ffffff; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s, transform 0.3s;
+    width: 200px;
+    cursor: pointer;
+}
+
+select:focus {
+    outline: none;
+    border-color: #0c6385;
+    box-shadow: 0 0 5px rgba(12, 99, 133, 0.5);
+} 
+
+.line {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.date-picker {
+    display: flex;
+    flex-direction: column;  
+    align-items: flex-start; 
+    flex: 0 0 auto;
+}
+
+.date-picker label {
+    font-size: 22px;
+    font-family: 'Poppins';
+}
+
+.date-picker input[type="date"],
+.date-picker input[type="week"],
+.date-picker input[type="month"] {
+    font-size: 18px; 
+    padding: 6px 15px; 
+    border: 1px solid #71658b; 
+    border-radius: 5px; 
+    background-color: #ffffff; 
+    color: #333; 
+    width: 250px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s, transform 0.3s;
+}
+
+.date-picker input[type="date"]:focus,
+.date-picker input[type="week"]:focus,
+.date-picker input[type="month"]:focus {
+    outline: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+    transform: scale(1.02); 
+}
+
+.date-picker input[type="date"]::-webkit-calendar-picker-indicator,
+.date-picker input[type="week"]::-webkit-calendar-picker-indicator,
+.date-picker input[type="month"]::-webkit-calendar-picker-indicator {
+    width: 24px;
+    height: 24px;
+    background-color: #aa9cc9;
+    border-radius: 50%;
+    padding: 2px;
+    cursor: pointer;
+}
+
+.date-picker input[type="date"]:focus::-webkit-calendar-picker-indicator,
+.date-picker input[type="week"]:focus::-webkit-calendar-picker-indicator,
+.date-picker input[type="month"]:focus::-webkit-calendar-picker-indicator {
+    background-color: rgb(235, 170, 165); 
+    color: white;
+}
+
+
+.options-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: white;
+    border: 1px solid #ccc;
+    border-top: none;
+    display: none;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 10;
+}
+
+.options-list li {
+    padding: 10px;
+    font-size: 16px;
+    color: #6AA6AC;
+    cursor: pointer;
+    text-align: center;
+    font-family: 'Reddit Sans';
+    font-weight: 600;
+    list-style: none;
+    border-bottom: 1px solid #d4d4d4;
+}
+
+.options-list li:hover {
+    background: #f0f0f0;
+}
+
+.select-wrapper.active .options-list {
+    display: block;
+}
+
+.validate-btn-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.validate-btn-container button {
+    background: #333;
+    color: white;
+    font-size: 20px;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 34px;
+    width: 160px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+}
+.validate-btn-container button:hover{
+    background: #6AA6AC;
+    transform: scale(1.05);
+}
+.gauge-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.gauge-canvas {
+    width: 150px;
+    height: 150px;
+}
+
+.gauge-label {
+    text-align: center;
+    margin-top: -100px;
+    font-weight: bold;
+    color: #444;
+}

@@ -1,0 +1,312 @@
+body {
+    font-family: 'Quicksand', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9fc;
+    color: #333;
+}
+
+.alert-container {
+    max-width: 800px;
+    margin: 50px auto;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px 30px;
+}
+
+.flash {
+    padding: 10px;
+    border-radius: 5px;
+    margin: 20px auto;
+    font-weight: 600;
+    text-align: center;
+    max-width: 800px;
+    width: 100%;
+}
+
+.flash.success {
+    background-color: #d4edda; 
+    color: #155724; 
+    border: 1px solid #c3e6cb; 
+}
+
+.flash-message.error {
+    background-color: #f8d7da; 
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+h1 {
+    max-width: 800px;
+    width: 100%;
+    font-size: 65px;
+    color: #4A4A8A;
+    margin: 0 auto 20px; 
+    margin-top: 30px;
+    font-weight: bold;
+    text-align: center;
+    font-family: 'Signika';
+    text-shadow: 2px 6px 4px rgba(0, 0, 0, 0.2);  
+}
+.subtitle {
+    width: 100%;
+    max-width: 800px;
+    text-align: center;
+    font-size: 19px;
+    color: #555;
+    margin: 0 auto 30px; 
+    font-weight: 500;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+h2 {
+    font-size: 45px;
+    color: #8B0000;
+    margin-top: 20px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #555;
+    font-size: 20px;
+}
+
+select, input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+}
+
+#alert-form button {
+    width: 100%;
+    background-color: #8B0000;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+}
+
+#alert-form button:hover {
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: #71658b;
+}
+
+.historique-container ul {
+    list-style: none;
+    padding: 0;
+}
+
+.historique-container ul li {
+    background-color: #f1f1f1;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.no-alerts {
+    text-align: center;
+    color: #999;
+    font-style: italic;
+}
+
+/* Conteneur principal */
+.dropdown {
+    position: relative;
+    width: 100%;
+    font-family: 'Quicksand', sans-serif;
+}
+
+/* Barre de recherche */
+#dropdown-search {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.seuil {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    padding: 12px;
+    box-sizing: border-box;
+}
+
+/* Conteneur des options */
+#dropdown-options {
+    position: absolute;
+    top: 100%; 
+    left: 0;
+    right: 0;
+    max-height: 200px; 
+    overflow-y: auto;
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    display: none; 
+}
+
+.dropdown-item {
+    padding: 10px;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+    font-weight: 500;
+    border-bottom: 1px solid #ddd; 
+}
+
+.dropdown-item:last-child {
+    border-bottom: none; 
+}
+
+.dropdown-item:hover {
+    background: #f0f0f0;
+    color: #000;
+}
+
+/* Afficher les options quand la liste est active */
+#dropdown-options.visible {
+    display: block;
+}
+
+/* Dropdown customization */
+#station-select, #parameter {
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="%23333" width="20" height="20"><path d="M6 8l4 4 4-4H6z"/></svg>') no-repeat right 10px center;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+#historique-table {
+    max-width: 800px;
+    margin: 20px auto;
+    overflow-x: auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+thead {
+    background-color: #bdb3df;
+}
+
+th, td {
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+th {
+    font-weight: bold;
+    color: white;
+    font-size: 18px;
+}
+
+tr:nth-child(even) {
+    background-color: #ded7f7;
+}
+
+tr:hover {
+    background-color: #8B0000;
+    color: white;
+}
+tr:hover td {
+    color: white;
+}
+
+td {
+    color: #333;
+    font-weight: 500;
+}
+
+.no-alerts {
+    text-align: center;
+    font-style: italic;
+    color: #888;
+}
+.save-btn {
+    display: block;              
+    width: 180px;                
+    margin: 30px auto;        
+    padding: 10px 20px;       
+    font-size: 20px;           
+    text-align: center;    
+    font-family: 'Reddit Sans';      
+    background-color: #8B0000;    
+    color: white;               
+    border: none;                 
+    border-radius: 8px;         
+    cursor: pointer;            
+    transition: background-color 0.3s, transform 0.3s; 
+}
+
+.save-btn:hover{
+    background-color: #71658b; 
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}
+
+.save-btn:active {
+    transform: scale(0.98);       
+}
+
+.hidden {
+    display: none;
+}
+
+.visible {
+    display: block;
+}
+
+.flash-message {
+    padding: 10px;
+    border-radius: 5px;
+    margin: 30px auto;
+    font-weight: 600;
+    text-align: center;
+    max-width: 800px;
+    width: 100%;
+}
+
+.flash-message.success {
+    background-color: #d4edda; 
+    color: #155724; 
+    border: 1px solid #c3e6cb; 
+}
+
+.flash-message.error {
+    background-color: #f8d7da; 
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+

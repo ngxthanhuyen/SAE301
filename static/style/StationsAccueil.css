@@ -1,0 +1,169 @@
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Orelega+One&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Orelega+One&family=Signika:wght@300..700&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Orelega+One&family=Reddit+Sans:ital,wght@0,200..900;1,200..900&family=Signika:wght@300..700&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins");
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Orelega+One&family=Quicksand:wght@300..700&family=Reddit+Sans:ital,wght@0,200..900;1,200..900&family=Signika:wght@300..700&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap');
+/* Styles généraux */
+body {
+    font-family: 'Quicksand', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9fc;
+    color: #333;
+}
+
+.stations-accueil {
+    text-align: center;
+}
+
+h1 {
+    margin-top: -60px;
+    font-size: 60px;
+    color: #4A4A8A;
+    margin-bottom: 20px;
+    font-weight: 700;
+    font-family: 'Signika';
+    text-shadow: 2px 6px 4px rgba(0, 0, 0, 0.2);  
+}
+
+/* Barre de recherche */
+.search-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+    position: relative;
+    width: 350px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.search-input {
+    flex: 1;
+    width: 350px;
+    padding: 12px 15px;
+    font-size: 1rem;
+    border: 2px solid #ccc;
+    border-radius: 25px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #4A4A8A;
+    box-shadow: 0px 2px 8px rgba(74, 74, 138, 0.3);
+}
+
+/* Style pour le bouton qui contient l'icône */
+.search-button {
+    position: absolute;
+    right: 15px;
+    top: 6px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    color: #888;
+    font-size: 26px;
+}
+
+.search-button:hover .search-icon {
+    color: #9999ff;
+}
+
+.search-icon {
+    pointer-events: none;
+}
+
+/* Conteneur des cartes */
+.maps-container {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    max-width: 1300px; 
+}
+
+.map-section {
+    flex: 1;
+    min-width: 450px; 
+    max-width: 650px; 
+    height: 520px;
+    background-color: #f1f5ff;
+    border-radius: 15px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    position: relative;
+    padding: 20px;
+}
+
+/* Boutons des sections */
+.map-button {
+    width: calc(100% - 200px);
+    padding: 15px 0;
+    font-size: 1.2rem;
+    font-weight: bold;
+    background-color: #4A4A8A;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.map-button:hover {
+    background-color: #6a6acb;
+}
+
+/* Icône d'aide */
+.icon-help {
+    position: absolute;
+    left: 40px; 
+    top: 300px; 
+    transform: none;
+    font-size: 1.5rem;
+    color: #fff;
+    cursor: pointer;
+    background-color: #ab90da;
+    border-radius: 50%;
+    padding: 10px;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+}
+
+
+
+/* Menu déroulant des océans */
+.ocean-select {
+    position: absolute;
+    right: 15px; 
+    top: 15px; 
+    padding: 8px 12px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: white;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    z-index: 10;
+}
+
+.ocean-select:hover {
+    border-color: #4A4A8A;
+}
+
+/* Carte Leaflet */
+.map {
+    height: calc(100% - 80px);
+    width: 100%;
+    border-radius: 15px;
+    background-color: white;
+}

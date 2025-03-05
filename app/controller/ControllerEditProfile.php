@@ -1,7 +1,5 @@
 <?php 
 session_start();
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
 include_once __DIR__ . '/../model/ModelUsers.php';
 
 // Vérifier si le formulaire est soumis

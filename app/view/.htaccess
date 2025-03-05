@@ -1,0 +1,7 @@
+require all granted
+
+# Active le module de réécriture
+RewriteEngine On
+
+# Spécifie la page d'erreur 404
+ErrorDocument 404 /SAE3.01/app/view/404.php
