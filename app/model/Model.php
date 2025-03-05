@@ -2,6 +2,7 @@
 class Model {
     //On stocke l'unique instance de la classe Model dans la variable statique 'instance'
     //Elle est initialisée à null pour indiquer qu'aucune instance n'a été créée
+    // cc
     private static $instance = null;
     private $pdo;
     public function __construct() {
