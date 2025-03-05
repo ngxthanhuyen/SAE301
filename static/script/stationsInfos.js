@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
     modalNo.addEventListener('click', closeModal);
 
     modalYes.addEventListener('click', () => {
-        fetch(`http://localhost/SAE3.01/app/view/StationsInfos.php?num_station=${stationId}&action=toggleFavorite`, {
+        fetch(`/app/view/StationsInfos.php?num_station=${stationId}&action=toggleFavorite`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

@@ -30,14 +30,14 @@ stations.forEach(station => {
     if (latitude && longitude) {
         // Définir l'icône personnalisée
         const iconPersonnalise = L.icon({
-            iconUrl: 'http://localhost/SAE3.01/static/images/marqueur_station.png',
+            iconUrl: 'static/images/marqueur_station.png',
             iconSize: [35, 35],
             iconAnchor: [16, 32],
             popupAnchor: [0, -32],
         });
 
         const iconPersonnaliseOutreMer = L.icon({
-            iconUrl: 'http://localhost/SAE3.01/static/images/marqueur.png',
+            iconUrl: 'static/images/marqueur.png',
             iconSize: [35, 35],
             iconAnchor: [16, 32],
             popupAnchor: [0, -32],

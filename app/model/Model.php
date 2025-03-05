@@ -21,7 +21,5 @@ class Model {
         }
         return self::$instance;
     }
-    
-
 }
 ?>
