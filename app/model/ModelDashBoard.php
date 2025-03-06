@@ -524,22 +524,20 @@ class ModelDashBoard {
     }    
 
     public function getMesuresAnneeStation($num_station_recherche, $date_annee) {
+        // Increase the maximum execution time limit
+        set_time_limit(300); // 300 seconds = 5 minutes
+
         try {
             $dateTimeAnnee = DateTime::createFromFormat('Y', $date_annee);
             if (!$dateTimeAnnee) {
                 throw new Exception("Format d'année invalide. Utiliser 'Y'.");
             }
 
-            $startDate = $dateTimeAnnee->format('Y-01-01');
-            $endDate = $dateTimeAnnee->modify('+1 year')->format('Y-01-01');
-
             $mesuresAnnee = [];
-            $currentDate = new DateTime($startDate);
-
-            while ($currentDate->format('Y-m-d') < $endDate) {
-                $mesureJour = $this->getMoyenneMesuresParStationDate($num_station_recherche, $currentDate->format('Y-m-d'));
-                $mesuresAnnee[$currentDate->format('Y-m-d')] = $mesureJour;
-                $currentDate->modify('+1 day');
+            for ($month = 1; $month <= 12; $month++) {
+                $date_mois = $dateTimeAnnee->format('Y') . '-' . str_pad($month, 2, '0', STR_PAD_LEFT);
+                $mesuresMois = $this->getMesuresMoisStation($num_station_recherche, $date_mois);
+                $mesuresAnnee[$date_mois] = $this->calculerMoyenneMois($mesuresMois);
             }
 
             return $mesuresAnnee;
@@ -565,22 +563,22 @@ class ModelDashBoard {
             'pression' => 0
         ];
 
-        foreach ($mesuresAnnee as $jour => $mesureJour) {
-            if ($mesureJour) {
-                if (isset($mesureJour['temperature'])) {
-                    $totaux['temperature'] += $mesureJour['temperature'];
+        foreach ($mesuresAnnee as $mois => $mesureMois) {
+            if ($mesureMois) {
+                if (isset($mesureMois['temperature'])) {
+                    $totaux['temperature'] += $mesureMois['temperature'];
                     $comptes['temperature']++;
                 }
-                if (isset($mesureJour['vent'])) {
-                    $totaux['vent'] += $mesureJour['vent'];
+                if (isset($mesureMois['vent'])) {
+                    $totaux['vent'] += $mesureMois['vent'];
                     $comptes['vent']++;
                 }
-                if (isset($mesureJour['humidite'])) {
-                    $totaux['humidite'] += $mesureJour['humidite'];
+                if (isset($mesureMois['humidite'])) {
+                    $totaux['humidite'] += $mesureMois['humidite'];
                     $comptes['humidite']++;
                 }
-                if (isset($mesureJour['pression'])) {
-                    $totaux['pression'] += $mesureJour['pression'];
+                if (isset($mesureMois['pression'])) {
+                    $totaux['pression'] += $mesureMois['pression'];
                     $comptes['pression']++;
                 }
             }

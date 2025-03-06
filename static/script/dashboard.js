@@ -236,42 +236,50 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (!response.ok) {
                         throw new Error('Erreur HTTP : ' + response.status);
                     }
-                    return response.json(); 
+                    return response.text(); // Get the raw response text
                 })
-                .then(data => {
-                    console.log('Données reçues :', data);
-                    document.getElementById('gauge-container').innerHTML = '';
-                    document.getElementById('graph-container').innerHTML = '';
-                    document.getElementById('table-container').innerHTML = '';
-                    document.getElementById('weather-widget').style.display = 'none';
-
-                    if (data && Object.keys(data).length > 0) {  
-                        if (dataType === 'date') {
-                            // Afficher les éléments de la journée
-                            displayWeatherWidget(data);
-                            displayGaugesJournee(data.moyennes);
-                            displayTable(data.mesures); 
-                            displayGraphsJournee(data.mesures);
-                        } else if (dataType === 'semaine') {
-                            // Afficher la table des moyennes de la semaine
-                            displayGaugesSemaine(data.moyennesSemaine);
-                            afficherTableSemaine(data.mesuresSemaine);
-                            displayTempGraphSemaine(data.mesuresSemaine);
-                            displayPluvioGraphSemaine(data.mesuresSemaine);
-                            displayGraphsSemaine(data.mesuresSemaine);
-                        } else if (dataType === 'mois') {
-                            // Afficher les éléments du mois
-                            displayGaugesMois(data.moyennesMois);
-                            displayTableMois(data.mesuresMois);
-                            displayGraphsMois(data.mesuresMois);
-                        } else if (dataType === 'annee') {
-                            // Afficher les éléments de l'année
-                            displayGaugesAnnee(data.moyennesAnnee);
-                            displayTableAnnee(data.mesuresAnnee);
-                            displayGraphsAnnee(data.mesuresAnnee);
+                .then(text => {
+                    try {
+                        // Check if the response is valid JSON
+                        const data = JSON.parse(text);
+                        console.log('Données reçues :', data);
+                        document.getElementById('gauge-container').innerHTML = '';
+                        document.getElementById('graph-container').innerHTML = '';
+                        document.getElementById('table-container').innerHTML = '';
+                        document.getElementById('weather-widget').style.display = 'none';
+    
+                        if (data && Object.keys(data).length > 0) {  
+                            if (dataType === 'date') {
+                                // Afficher les éléments de la journée
+                                displayWeatherWidget(data);
+                                displayGaugesJournee(data.moyennes);
+                                displayTable(data.mesures); 
+                                displayGraphsJournee(data.mesures);
+                            } else if (dataType === 'semaine') {
+                                // Afficher la table des moyennes de la semaine
+                                displayGaugesSemaine(data.moyennesSemaine);
+                                afficherTableSemaine(data.mesuresSemaine);
+                                displayTempGraphSemaine(data.mesuresSemaine);
+                                displayPluvioGraphSemaine(data.mesuresSemaine);
+                                displayGraphsSemaine(data.mesuresSemaine);
+                            } else if (dataType === 'mois') {
+                                // Afficher les éléments du mois
+                                displayGaugesMois(data.moyennesMois);
+                                displayTableMois(data.mesuresMois);
+                                displayGraphsMois(data.mesuresMois);
+                            } else if (dataType === 'annee') {
+                                // Afficher les éléments de l'année
+                                displayGaugesAnnee(data.moyennesAnnee);
+                                displayTableAnnee(data.mesuresAnnee);
+                                displayGraphsAnnee(data.mesuresAnnee);
+                            }
+                        } else {
+                            console.error("Erreur : Aucune donnée à afficher ou structure de données incorrecte");
                         }
-                    } else {
-                        console.error("Erreur : Aucune donnée à afficher ou structure de données incorrecte");
+                    } catch (error) {
+                        console.error("Erreur lors de l'analyse des données JSON :", error);
+                        console.log("Réponse brute :", text); // Log the raw response text
+                        alert("Erreur lors de la récupération des données. Veuillez réessayer plus tard.");
                     }
                 })
                 .catch(error => {
@@ -1678,11 +1686,11 @@ document.addEventListener('DOMContentLoaded', () => {
         graphContainer.parentNode.insertBefore(graphTitle, graphContainer);
 
         const parameters = ['temperature', 'vent', 'humidite', 'pression'];
-        const dates = Object.keys(mesuresAnnee);
+        const months = Object.keys(mesuresAnnee);
 
         parameters.forEach(parameter => {
-            const labels = dates;
-            const values = labels.map(date => mesuresAnnee[date] ? mesuresAnnee[date][parameter] : null);
+            const labels = months;
+            const values = labels.map(month => mesuresAnnee[month] ? mesuresAnnee[month][parameter] : null);
 
             const graphWrapper = document.createElement('div');
             graphWrapper.classList.add('graph-wrapper');
@@ -1717,7 +1725,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         x: {
                             title: {
                                 display: true,
-                                text: 'Date',
+                                text: 'Mois',
                                 font: {
                                     size: 16,
                                     family: 'Arial'
