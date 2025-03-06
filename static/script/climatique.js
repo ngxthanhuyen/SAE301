@@ -1,4 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
+    //Restreindre les sélection de dates
+    let today = new Date();
+    today.setDate(today.getDate() - 1); 
+    let maxDate = today.toISOString().split("T")[0]; 
+
+    let datesStart = document.getElementById("date-start");
+    let datesEnd = document.getElementById("date-end");
+    if (datesStart && datesEnd) {
+        datesStart.setAttribute("max", maxDate);
+        datesEnd.setAttribute("max", maxDate);
+    }
+    
     const selectInput = document.getElementById('data-type-display');
     const optionsList = document.getElementById('data-type-list');
     const hiddenInput = document.getElementById('data-type-hidden');

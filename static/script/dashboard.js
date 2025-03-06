@@ -1,6 +1,66 @@
 let chartInstances = {}; // Pour stocker les instances des graphiques
 
 document.addEventListener('DOMContentLoaded', () => {
+    //Restreindre les sélection de dates
+    let today = new Date();
+    today.setDate(today.getDate() - 1); 
+    let maxDate = today.toISOString().split("T")[0]; 
+
+    let dateJournee = document.getElementById("date-journee");
+    if (dateJournee) {
+        dateJournee.setAttribute("max", maxDate);
+    }
+    
+    //Restreindre les sélection de semaines
+    let lastWeek = new Date(today);
+    lastWeek.setDate(lastWeek.getDate() - 7);
+
+    // Récupérer l'année et la semaine précédente au format YYYY-Www
+    let firstDayOfYear = new Date(lastWeek.getFullYear(), 0, 1);
+    let pastDaysOfYear = (lastWeek - firstDayOfYear) / 86400000;
+    let weekNumber = Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
+
+    let maxWeek = lastWeek.getFullYear() + "-W" + String(weekNumber).padStart(2, "0");
+
+    let weekInput = document.getElementById("date-semaine");
+    if (weekInput) {
+        weekInput.setAttribute("max", maxWeek);
+
+        // Empêcher la sélection d'une semaine future
+        weekInput.addEventListener("input", function () {
+            if (this.value > maxWeek) {
+                this.value = maxWeek;
+            }
+        });
+    }
+    //Restreindre les sélection de mois
+    let lastMonth = new Date(today.getFullYear(), today.getMonth() - 1);
+
+    // Format YYYY-MM
+    let maxMonth = lastMonth.getFullYear() + "-" + String(lastMonth.getMonth() + 1).padStart(2, "0");
+ 
+    let monthInput = document.getElementById("monthInput");
+    if (monthInput) {
+        monthInput.setAttribute("max", maxMonth);
+ 
+        // Empêcher la sélection d'un mois futur
+        monthInput.addEventListener("input", function () {
+            if (this.value > maxMonth) {
+                this.value = maxMonth;
+            }
+        });
+    }
+    //Afficher le préchargeur et la superposition lorsque le formulaire est soumis
+    function showPreloader() {
+        document.getElementById('preloader').style.display = 'block';
+        document.getElementById('overlay').style.display = 'block';
+    }
+
+    //Masquer le préchargeur et la superposition lorsque la page a fini de se charger
+    function hidePreloader() {
+        document.getElementById('preloader').style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
+    }
     const selectInputDept = document.getElementById('dept-select');
     const optionsListDept = document.getElementById('dept-list');
     const hiddenInputDept = document.getElementById('dept-hidden');
@@ -168,6 +228,8 @@ document.addEventListener('DOMContentLoaded', () => {
             // Afficher l'URL dans la console avant d'envoyer la requête
             console.log('URL envoyée :', url);
 
+            showPreloader();
+
             // Récupération des données via fetch
             fetch(url)
                 .then(response => {
@@ -216,6 +278,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     console.error("Erreur lors de la récupération des données :", error);
                 })
                 .finally(() => {
+                    hidePreloader();
                     // Effacer les champs de date, semaine, mois et année après la requête
                     document.getElementById('date-journee').value = '';
                     document.getElementById('date-semaine').value = '';

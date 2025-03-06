@@ -198,6 +198,15 @@ select, input {
     appearance: none;
 }
 
+.nbAlertes {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-style: 800;
+    font-size: 18px;
+    margin: 20px auto;
+}
 #historique-table {
     max-width: 800px;
     margin: 20px auto;

@@ -137,6 +137,9 @@ if (!empty($regs)) {
 
     <?php require_once 'navbar.php'; ?>
 
+    <div id="overlay" style="display: none;"></div>
+    <div id="preloader" style="display: none;"></div>
+    
     <h1>Tableau de bord</h1>
 
     <div class="data-visualization">

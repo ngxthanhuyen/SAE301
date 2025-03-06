@@ -120,6 +120,15 @@ $formSubmitted = isset($_POST['submit']);
                 </thead>
                 <tbody>
                     <?php if (!empty($alertes)): ?>
+                        <?php
+                        $joursAlertes = [];
+                        foreach ($alertes as $alerte) {
+                            $joursAlertes[$alerte['date']] = true; 
+                        }
+                        // Nombre de jours uniques où des alertes ont été déclenchées
+                        $nbJoursAlertes = count($joursAlertes); 
+                        ?>
+                        <p class="nbAlertes">Nombre de jours où une alerte a été déclenchée : <?= $nbJoursAlertes ?></p>
                         <?php foreach ($alertes as $alerte): ?>
                             <tr>
                                 <td><?= htmlspecialchars($alerte['date']) ?></td>

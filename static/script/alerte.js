@@ -1,4 +1,15 @@
 document.addEventListener('DOMContentLoaded', function () {
+    //Restreindre les sélection de dates
+    let today = new Date();
+    today.setDate(today.getDate() - 1); 
+    let maxDate = today.toISOString().split("T")[0]; 
+
+    let datesStart = document.getElementById("start-date");
+    let datesEnd = document.getElementById("end-date");
+    if (datesStart && datesEnd) {
+        datesStart.setAttribute("max", maxDate);
+        datesEnd.setAttribute("max", maxDate);
+    }
     const searchInput = document.getElementById('dropdown-search');
     const dropdownOptions = document.getElementById('dropdown-options');
     const stationHidden = document.getElementById('station-hidden');
