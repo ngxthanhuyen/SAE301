@@ -18,17 +18,13 @@
     width: 100%;
     height: 100%;
     overflow: hidden;
-    z-index: -3; /* La vidéo est la plus en arrière */
+    z-index: -3; 
 }
 
-.video-background video {
-    min-width: 100%;
-    min-height: 100%;
+#background-video {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
 }
 
 /* Style pour les particules */
@@ -39,9 +35,14 @@
     width: 100%;
     height: 100%;
     background: transparent;
-    z-index: -1; 
+    z-index: -2; 
 }
 
+.typing-effect {
+    color: #3b3b3b;
+    margin-bottom: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+}
 .navbar, .hero, .feature, .button-container {
     position: relative;
     z-index: 1;
@@ -251,191 +252,114 @@
 
 
 
-/* Section de bienvenue */
-#welcome {
+/* Hero Section */
+.hero {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
     text-align: center;
-    color: #32417a;
-    width: 100%;
-    height: 100vh;
-    margin: 0 auto;
-    font-family: 'Signika';
+    height: calc(100vh - 85px);
+    color: #fff;
     position: relative;
     z-index: 1;
-    text-align: center;
-    color: white;
-    top: 50%;
-    transform: translateY(-50%);
 }
 
-#welcome:hover {
-    background-color: transparent;
-}
-#welcome p {
-    font-size: 1.5rem;
-    margin-top: 20px;
-    color: rgb(66, 106, 170);
-}
-
-.welcome-content {
-    text-align: center;
-    max-width: 800px;
-    margin-top: 800px;
-}
-
-.welcome-content h1 {
+.hero h1 {
     font-size: 120px;
     color: #32417a;
-    margin-bottom: -20px;
+    margin-bottom: 50px;
+    width: 800px;
+    font-family: 'Signika';
 }
 
-.btn {
-    display: inline-block;
-    padding: 20px 40px; 
-    font-size: 1.5rem;
-    background-color: rgba(255, 255, 255, 0.2);
+.hero p {
+    max-width: 600px;
+    font-size: 22px;
+    color: #2369cd;
+    font-family: 'Sour Gummy';
+}
+
+/*Features*/
+.feature {
+    padding: 40px 60px;
     color: #32417a;
-    border: 2px solid #32417a;
-    border-radius: 5px;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    margin: 10px;
+    background-color: white;
+}
+.section-title {
+    margin-block-end: 40px;
+    align-items: center;
+    text-align: center;
+    font-size: 80px;
+    font-family: 'Signika';
 }
 
-.btn:hover {
-    background-color: rgba(255, 255, 255, 0.4);
-    transform: scale(1.1);
-}
-@keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-30px); }
-}
-
-.weather-icons {
-    font-size: 5rem;
-    animation: bounce 1s infinite;
-}
-
-.weather-icons {
-    font-size: 5rem;
-    opacity: 0.5;
-    margin-top: 40px;
-    animation: weatherFloat 2s infinite ease-in-out;
-}
-
-@keyframes weatherMove {
-    0% { transform: translateX(-20px); }
-    50% { transform: translateX(20px); }
-    100% { transform: translateX(-20px); }
-}
-
-
-@keyframes weatherFloat {
-    0% { transform: translateY(0); }
-    50% { transform: translateY(-20px); }
-    100% { transform: translateY(0); }
-}
-
-/* Conteneur principal pour les trois sections */
-.container {
+.flex-list {
     display: flex;
     flex-direction: column;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    z-index: 1;
+    text-align: center;
+    gap: 20px;
 }
-.container-content {
-    display: flex;
-    flex-direction: row;
+.feature-container {
+    width: 460px;
 }
-.section {
-    flex: 1;
-    transition: all 0.5s ease;
+
+.feature-row {
     display: flex;
-    align-items: center;
+    justify-content: space-around;
+    gap: 20px;
+}
+
+
+.feature-container .img-row2 {
+    margin-top: 80px;
+}
+.card-title {
+    color: #3b3b3b;
+    font-size: 44px;
+    margin-top: 30px;
+    font-family: 'Quicksand';
+    text-align: center;
+}
+
+.card-icon {
+    width: 120px;
+    height: 120px;
+}
+
+.card-text {
+    margin-top: 60px;
+    font-size: 18px;
+    color: rgb(93, 93, 93);
+    font-family: 'Poppins';
+}
+
+.button-container {
+    display: flex;
     justify-content: center;
-    font-size: 2.5rem; 
-    font-weight: bold;
-    text-transform: uppercase;
-    position: relative;
-    cursor: pointer;
-    overflow: hidden;
-    opacity: 0.9;
-    background: linear-gradient(135deg, #5c5ca4, rgba(250, 221, 221, 0));
-    transition: background 0.5s ease-in-out;
-    animation: zoomIn 1s ease-in-out; 
-    min-height: 100vh; 
-}
-
-.section:hover {
-    transform: scale(1.05);
-    opacity: 1;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.1));
-}
-
-/* Fond avec l'image de la carte */
-.background {
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
-    height: 100%;
-    z-index: -1;
-    background-attachment: fixed;
+    margin-top: auto; 
 }
 
-.background img {
-    width: 100%;
-    object-fit: cover;
-    filter: blur(3px) brightness(0.7);
-    transition: all 0.5s ease-in-out;
+.button {
+    margin-top: 35px;
+    display: inline-block;
+    padding: 12px 26px;
+    background-color: #12769E;
+    color: #fcf6f3;
+    border-color: #fcf6f3;
+    border: solid;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+    font-size: 28px;
 }
 
-.map .background img {
-    transition: transform 0.5s ease-in-out;
-    width: 100%; /* Adjust the width to make the image slightly larger */
-    height: auto; /* Maintain aspect ratio */
-    margin: 0 auto; /* Center the image */
-    display: block; /* Ensure the image is treated as a block element */
-    margin-top: 20%;
-}
-
-.map:hover .background img {
-    transform: scale(1.1);
-}
-
-.search .background img {
-    transition: transform 0.5s ease-in-out;
-    width: 100%; /* Adjust the width to make the image smaller */
-    height: auto; /* Maintain aspect ratio */
-    margin: 0 auto; /* Center the image */
-    display: block; /* Ensure the image is treated as a block element */
-    margin-top: 30%;
-}
-
-/* Emoji en arrière-plan */
-.icon {
-    font-size: 20rem; 
-    opacity: 0.3;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-    transition: transform 0.5s ease-in-out;
-}
-
-.section:hover .icon {
-    transform: translate(-50%, -50%) scale(1.2);
-}
-
-/* Animation de la loupe */
-.search:hover .icon {
-    animation: irregularMove 3s infinite ease-in-out;
+.button:hover {
+    background-color: #fcf6f3;
+    color: #12769E;
+    border-color: #12769E;
 }
 
 /* Animations */
@@ -452,25 +376,6 @@
     100% { transform: translate(-50%, -50%) rotate(0deg); }
 }
 
-
-/* Back-to-top button */
-#back-to-top {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    background: rgba(0, 0, 0, 0.7);
-    color: #fff;
-    padding: 10px 15px;
-    border-radius: 50%;
-    cursor: pointer;
-    display: none;
-    z-index: 1000;
-    transition: background 0.3s ease;
-}
-
-#back-to-top:hover {
-    background: rgba(0, 0, 0, 0.9);
-}
 
 /* Responsive */
 @media (max-width: 768px) {
@@ -515,173 +420,6 @@
 .stats p {
     font-size: 1.2rem;
     font-weight: 300;
-}
-
-.dark-mode {
-    background: linear-gradient(to right, #333333, #000000); /* Dark mode gradient */
-    color: #e0e0e0;
-}
-
-.dark-mode header {
-    background: rgb(39, 38, 38);
-}
-
-.graph-bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-}
-
-.graph-bg::before {
-    content: "";
-    position: absolute;
-    width: 150%;
-    height: 150%;
-    background: url('https://upload.wikimedia.org/wikipedia/commons/2/2d/Sine_wave.svg');
-    background-size: cover;
-    animation: moveWave 10s infinite linear;
-    opacity: 0.3;
-}
-
-@keyframes moveWave {
-    from { transform: translateX(0%); }
-    to { transform: translateX(-50%); }
-}
-
-.graph-bars {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-around;
-    opacity: 0.4;
-}
-
-.bar {
-    width: 20px;
-    height: 10%;
-    background: linear-gradient(to top, #f39c12, #f1c40f);
-    transition: transform 0.3s ease-in-out;
-}
-
-.chart:hover .bar {
-    animation: growBar 3s infinite ease-in-out;
-}
-
-.bar:nth-child(2) {
-    height: 30%;
-    animation-delay: 0.2s;
-}
-
-.bar:nth-child(3) {
-    height: 50%;
-    animation-delay: 0.4s;
-}
-
-.bar:nth-child(4) {
-    height: 70%;
-    animation-delay: 0.6s;
-}
-
-@keyframes growBar {
-    0%, 100% { transform: scaleY(1); }
-    50% { transform: scaleY(1.5); }
-}
-
-.toggle-dark-mode {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: rgba(0, 0, 0, 0.7);
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-    z-index: 1001;
-}
-
-.toggle-dark-mode:hover {
-    background: rgba(0, 0, 0, 0.9);
-}
-
-.back-button {
-    padding: 10px 20px;
-    font-size: 1rem;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    position: absolute;
-    top: 20px;
-    right: 20px;
-}
-
-.back-button:hover {
-    background-color: #218838;
-}
-
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.dropbtn {
-    all: unset;
-    background-color: transparent !important;
-    color: white;
-    padding: 10px 20px;
-    font-size: 1.2rem;
-    border: none;
-    cursor: pointer;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: rgba(43, 42, 42, 0.8); /* Match the color of other menu items */
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-}
-
-.dropdown-content a {
-    color: white;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-}
-
-.dropdown-content a:hover {
-    background-color: rgba(255, 255, 255, 0.2); /* Match the hover color of other menu items */
-}
-
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-.dropdown:hover .dropbtn {
-    background-color: rgba(43, 42, 42, 0.8); /* Match the color of other menu items */
-}
-
-@keyframes slideDown {
-    from { transform: translateY(-100%); }
-    to { transform: translateY(0); }
-}
-
-@keyframes zoomIn {
-    from { transform: scale(0.5); }
-    to { transform: scale(1); }
 }
 
 footer {

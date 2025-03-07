@@ -200,103 +200,185 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('valider').addEventListener('click', function() {
         const stationSelection = document.getElementById('station-hidden').value;
+        const deptSelection = document.getElementById('dept-hidden').value;
         let dateSelection = document.getElementById('date-journee').value;
         let semaineSelection = document.getElementById('date-semaine').value;
         let moisSelection = document.getElementById('monthInput').value;
         let anneeSelection = document.getElementById('annee-hidden').value;
-
-        clearExistingElements(); 
-        // Vérifier si une station est sélectionnée et qu'une date, une semaine, un mois ou une année est choisi
-        if (stationSelection && (dateSelection || semaineSelection || moisSelection || anneeSelection)) {
+    
+        clearExistingElements();
+    
+        if (deptSelection || (stationSelection && (dateSelection || semaineSelection || moisSelection || anneeSelection))) {
             let url = '';
-            let dataType = ''; // Indiquer si on a une date, une semaine, un mois ou une année
-
-            if (semaineSelection) {
-                url = `dashboard.php?station=${stationSelection}&semaine_selection=${semaineSelection}`;
-                dataType = 'semaine';  
-            } else if (dateSelection) {
-                url = `dashboard.php?station=${stationSelection}&date_selection=${dateSelection}`;
-                dataType = 'date'; 
-            } else if (moisSelection) {
-                url = `dashboard.php?station=${stationSelection}&mois_selection=${moisSelection}`;
-                dataType = 'mois';
-            } else if (anneeSelection) {
-                url = `dashboard.php?station=${stationSelection}&annee_selection=${anneeSelection}`;
-                dataType = 'annee';
+            let dataType = '';
+    
+            if (stationSelection) {
+                if (semaineSelection) {
+                    url = `dashboard.php?station=${stationSelection}&semaine_selection=${semaineSelection}`;
+                    dataType = 'semaine';
+                } else if (dateSelection) {
+                    url = `dashboard.php?station=${stationSelection}&date_selection=${dateSelection}`;
+                    dataType = 'date';
+                } else if (moisSelection) {
+                    url = `dashboard.php?station=${stationSelection}&mois_selection=${moisSelection}`;
+                    dataType = 'mois';
+                } else if (anneeSelection) {
+                    url = `dashboard.php?station=${stationSelection}&annee_selection=${anneeSelection}`;
+                    dataType = 'annee';
+                }
             }
-
-            // Afficher l'URL dans la console avant d'envoyer la requête
+    
+            if (deptSelection) {
+                if (semaineSelection) {
+                    url = `dashboard.php?dept=${deptSelection}&semaine_selection=${semaineSelection}`;
+                    dataType = 'semaine';
+                } else if (dateSelection) {
+                    url = `dashboard.php?dept=${deptSelection}&date_selection=${dateSelection}`;
+                    dataType = 'date';
+                } else if (moisSelection) {
+                    url = `dashboard.php?dept=${deptSelection}&mois_selection=${moisSelection}`;
+                    dataType = 'mois';
+                } else if (anneeSelection) {
+                    url = `dashboard.php?dept=${deptSelection}&annee_selection=${anneeSelection}`;
+                    dataType = 'annee';
+                }
+            }
+    
             console.log('URL envoyée :', url);
-
             showPreloader();
-
-            // Récupération des données via fetch
+    
             fetch(url)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Erreur HTTP : ' + response.status);
                     }
-                    return response.text(); // Get the raw response text
+                    return response.json();
                 })
-                .then(text => {
-                    try {
-                        // Check if the response is valid JSON
-                        const data = JSON.parse(text);
-                        console.log('Données reçues :', data);
-                        document.getElementById('gauge-container').innerHTML = '';
-                        document.getElementById('graph-container').innerHTML = '';
-                        document.getElementById('table-container').innerHTML = '';
-                        document.getElementById('weather-widget').style.display = 'none';
+                .then(data => {
+                    console.log('Données reçues :', data);
+                    document.getElementById('gauge-container').innerHTML = '';
+                    document.getElementById('graph-container').innerHTML = '';
+                    document.getElementById('table-container').innerHTML = '';
+                    document.getElementById('weather-widget').style.display = 'none';
     
-                        if (data && Object.keys(data).length > 0) {  
+                    if (data && Object.keys(data).length > 0) {
+                        if (deptSelection) {
                             if (dataType === 'date') {
-                                // Afficher les éléments de la journée
-                                displayWeatherWidget(data);
                                 displayGaugesJournee(data.moyennes);
-                                displayTable(data.mesures); 
+                                displayTableDept(data.stations);
                                 displayGraphsJournee(data.mesures);
                             } else if (dataType === 'semaine') {
-                                // Afficher la table des moyennes de la semaine
+                                displayGaugesSemaine(data.moyennesSemaine);
+                                afficherTableSemaineDept(data.stations);
+                                displayTempGraphSemaine(data.mesuresSemaine);
+                                displayPluvioGraphSemaine(data.mesuresSemaine);
+                                displayGraphsSemaine(data.mesuresSemaine);
+                            } else if (dataType === 'mois') {
+                                displayGaugesMois(data.moyennesMois);
+                                displayTableMois(data.mesuresMois);
+                                displayGraphsMois(data.mesuresMois);
+                            } else if (dataType === 'annee') {
+                                displayGaugesAnnee(data.moyennesAnnee);
+                                displayTableAnnee(data.mesuresAnnee);
+                                displayGraphsAnnee(data.mesuresAnnee);
+                            }
+                        } else if (stationSelection) {
+                            if (dataType === 'date') {
+                                displayWeatherWidget(data);
+                                displayGaugesJournee(data.moyennes);
+                                displayTable(data.mesures);
+                                displayGraphsJournee(data.mesures);
+                            } else if (dataType === 'semaine') {
                                 displayGaugesSemaine(data.moyennesSemaine);
                                 afficherTableSemaine(data.mesuresSemaine);
                                 displayTempGraphSemaine(data.mesuresSemaine);
                                 displayPluvioGraphSemaine(data.mesuresSemaine);
                                 displayGraphsSemaine(data.mesuresSemaine);
                             } else if (dataType === 'mois') {
-                                // Afficher les éléments du mois
                                 displayGaugesMois(data.moyennesMois);
                                 displayTableMois(data.mesuresMois);
                                 displayGraphsMois(data.mesuresMois);
+                                displayTempGraphMois(data.mesuresMois);
+                                displayPluvioGraphMois(data.mesuresMois);
                             } else if (dataType === 'annee') {
-                                // Afficher les éléments de l'année
                                 displayGaugesAnnee(data.moyennesAnnee);
                                 displayTableAnnee(data.mesuresAnnee);
                                 displayGraphsAnnee(data.mesuresAnnee);
                             }
-                        } else {
-                            console.error("Erreur : Aucune donnée à afficher ou structure de données incorrecte");
                         }
-                    } catch (error) {
-                        console.error("Erreur lors de l'analyse des données JSON :", error);
-                        console.log("Réponse brute :", text); // Log the raw response text
-                        alert("Erreur lors de la récupération des données. Veuillez réessayer plus tard.");
+                    } else {
+                        console.error('Erreur : Aucune donnée à afficher ou structure de données incorrecte');
                     }
                 })
                 .catch(error => {
-                    console.error("Erreur lors de la récupération des données :", error);
+                    console.error('Erreur lors de la récupération des données :', error);
                 })
                 .finally(() => {
                     hidePreloader();
-                    // Effacer les champs de date, semaine, mois et année après la requête
                     document.getElementById('date-journee').value = '';
                     document.getElementById('date-semaine').value = '';
                     document.getElementById('monthInput').value = '';
                     document.getElementById('annee-hidden').value = '';
                 });
-            } else {
-                alert("Veuillez sélectionner une station et une date, une semaine, un mois ou une année.");
-            }
-        });       
+        } else {
+            alert('Veuillez sélectionner un département, une station et une date, une semaine, un mois ou une année.');
+        }
+    });
+
+    // Gestionnaires d'événements pour la granularité spatiale
+    const stationSelect = document.getElementById('station-select');
+    const deptSelect = document.getElementById('dept-select');
+
+    stationSelect.addEventListener('click', () => {
+        deptSelect.textContent = 'Sélectionnez un département';
+        regionSelect.textContent = 'Sélectionnez une région';
+        document.getElementById('dept-hidden').value = '';
+        document.getElementById('region-hidden').value = '';
+    });
+
+    deptSelect.addEventListener('click', () => {
+        stationSelect.textContent = 'Sélectionnez une station';
+        regionSelect.textContent = 'Sélectionnez une région';
+        document.getElementById('station-hidden').value = '';
+        document.getElementById('region-hidden').value = '';
+    });
+
+    regionSelect.addEventListener('click', () => {
+        stationSelect.textContent = 'Sélectionnez une station';
+        deptSelect.textContent = 'Sélectionnez un département';
+        document.getElementById('station-hidden').value = '';
+        document.getElementById('dept-hidden').value = '';
+    });
+
+    // Gestionnaires d'événements pour la granularité temporelle
+    const dateSemaine = document.getElementById('date-semaine');
+
+    dateJournee.addEventListener('change', () => {
+        dateSemaine.value = '';
+        monthInput.value = '';
+        anneeSelect.textContent = 'Sélectionnez une année';
+        document.getElementById('annee-hidden').value = '';
+    });
+
+    dateSemaine.addEventListener('change', () => {
+        dateJournee.value = '';
+        monthInput.value = '';
+        anneeSelect.textContent = 'Sélectionnez une année';
+        document.getElementById('annee-hidden').value = '';
+    });
+
+    monthInput.addEventListener('change', () => {
+        dateJournee.value = '';
+        dateSemaine.value = '';
+        anneeSelect.textContent = 'Sélectionnez une année';
+        document.getElementById('annee-hidden').value = '';
+    });
+
+    anneeSelect.addEventListener('click', () => {
+        dateJournee.value = '';
+        dateSemaine.value = '';
+        monthInput.value = '';
+    });
        
    
     function clearExistingElements() {
@@ -457,6 +539,52 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
+    function displayTableDept(mesuresDept) { 
+        const tableContainer = document.getElementById('table-container');
+        tableContainer.innerHTML = ''; // On vide le conteneur avant d'ajouter le nouveau tableau
+    
+        if (!mesuresDept || mesuresDept.length === 0) {
+            console.warn('Avertissement : Aucune donnée à afficher dans le tableau.');
+            tableContainer.textContent = 'Aucune donnée disponible pour le tableau.';
+            return;
+        }
+    
+        console.log(mesuresDept);
+    
+        // Création du tableau
+        const table = document.createElement('table');
+        table.classList.add('mesures-table');
+    
+        // Création de l'en-tête
+        const thead = document.createElement('thead');
+        const headerRow = document.createElement('tr');
+        const headers = ['Station', 'Température moyenne (°C)', 'Vent moyen (m/s)', 'Humidité moyenne (%)', 'Pression moyenne (Pa)'];
+        headers.forEach(headerText => {
+            const th = document.createElement('th');
+            th.textContent = headerText;
+            headerRow.appendChild(th);
+        });
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
+    
+        // Création du corps du tableau
+        const tbody = document.createElement('tbody');
+        mesuresDept.forEach(mesure => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${mesure.station}</td>
+                <td>${mesure.moyenne.temperature}</td>
+                <td>${mesure.moyenne.vent}</td>
+                <td>${mesure.moyenne.humidite}</td>
+                <td>${mesure.moyenne.pression}</td>
+            `;
+            tbody.appendChild(row);
+        });
+        table.appendChild(tbody);
+    
+        tableContainer.appendChild(table);
+    }
+    
     
     function displayTable(mesures) {
         const tableContainer = document.getElementById('table-container');
@@ -514,7 +642,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
         tableContainer.appendChild(table);
     }
-    
+
+
     function displayGraphsJournee(mesures) {
         const graphContainer = document.getElementById('graph-container');
     
@@ -678,7 +807,53 @@ document.addEventListener('DOMContentLoaded', () => {
                 chart.update();
             });
         });
-    }       
+    }
+    
+    function afficherTableSemaineDept(mesuresSemaine) {
+        const tableContainer = document.getElementById('table-container');
+        tableContainer.innerHTML = ''; // On vide le conteneur avant d'ajouter le nouveau tableau
+    
+        if (!mesuresSemaine || mesuresSemaine.length === 0) {
+            console.warn('Avertissement : Aucune donnée à afficher dans le tableau.');
+            tableContainer.textContent = 'Aucune donnée disponible pour le tableau.';
+            return;
+        }
+    
+        // Création du tableau
+        let tableHtml = `
+            <table class="mesures-table">
+                <thead>
+                    <tr>
+                        <th>Station</th>
+                        <th>Température moyenne (°C)</th>
+                        <th>Vent moyen (m/s)</th>
+                        <th>Humidité moyenne (%)</th>
+                        <th>Pression moyenne (Pa)</th>
+                        <th>Visibilité moyenne (m)</th>
+                        <th>Précipitation moyenne (mm)</th>
+                    </tr>
+                </thead>
+                <tbody>
+        `;
+    
+        mesuresSemaine.forEach(mesure => {
+            tableHtml += `
+                <tr>
+                    <td>${mesure.station}</td>
+                    <td>${mesure.moyenne.temperature}</td>
+                    <td>${mesure.moyenne.vent}</td>
+                    <td>${mesure.moyenne.humidite}</td>
+                    <td>${mesure.moyenne.pression}</td>
+                    <td>${mesure.moyenne.visibilite}</td>
+                    <td>${mesure.moyenne.precipitation}</td>
+                </tr>
+            `;
+        });
+    
+        tableHtml += `</tbody></table>`;
+        tableContainer.innerHTML = tableHtml;
+    }
+    
     function displayGaugesSemaine(moyennesSemaine) {
         const gaugeContainer = document.getElementById('gauge-container');
         gaugeContainer.innerHTML = ''; // On vide le conteneur avant d'ajouter les nouvelles jauges
@@ -832,7 +1007,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Créer un canvas pour le graphique
         const canvas = document.createElement('canvas');
         canvas.id = 'chart-temperature-week';
-        graphContainer.appendChild(canvas); // Ajoutez directement le canvas au conteneur existant
+        graphContainer.appendChild(canvas); 
     
       
         const ctx = canvas.getContext('2d');
@@ -1524,6 +1699,181 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+
+    function displayTempGraphMois(mesuresMois) {
+        const graphContainer = document.getElementById('graph-temp');
+        graphContainer.innerHTML = '';
+    
+        if (!mesuresMois || Object.keys(mesuresMois).length === 0) {
+            console.warn('Aucune donnée à afficher pour les graphiques.');
+            graphContainer.textContent = 'Aucune donnée disponible pour les graphiques.';
+            return;
+        }
+        
+        document.getElementById('graphContainer').style.display = 'flex';
+        // Supprimer le titre existant s'il y en a un
+        const existingTitle = graphContainer.previousElementSibling;
+        if (existingTitle && existingTitle.classList.contains('graph-title')) {
+            existingTitle.remove();
+        }
+    
+        const graphTitle = document.createElement('h1');
+        graphTitle.classList.add('graph-title');
+        graphTitle.textContent = 'Graphique des températures du mois';
+        graphContainer.parentNode.insertBefore(graphTitle, graphContainer);
+    
+        const jours = Object.keys(mesuresMois);
+        const tempMax = jours.map(jour => mesuresMois[jour]?.tempMax ?? null);
+        const tempMin = jours.map(jour => mesuresMois[jour]?.tempMin ?? null);
+        const temperature = jours.map(jour => mesuresMois[jour]?.temperature ?? null);
+    
+        const canvas = document.createElement('canvas');
+        canvas.id = 'chart-temperature-month';
+        graphContainer.appendChild(canvas);
+    
+        const ctx = canvas.getContext('2d');
+        canvas.width = graphContainer.offsetWidth;
+        canvas.height = graphContainer.offsetHeight;
+    
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: jours,
+                datasets: [
+                    {
+                        label: 'Température Maximale (°C)',
+                        data: tempMax,
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'red',
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.1
+                    },
+                    {
+                        label: 'Température Minimale (°C)',
+                        data: tempMin,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.1
+                    },
+                    {
+                        label: 'Température Moyenne (°C)',
+                        data: temperature,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',   
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        grid: {
+                            display: false 
+                        }
+                    },
+                    y: {
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.1)'
+                        }
+                    }
+                }
+            }
+        });
+    }
+    
+    function displayPluvioGraphMois(mesuresMois) {
+        const graphContainer = document.getElementById('graph-pluvio');
+        graphContainer.innerHTML = '';
+    
+        if (!mesuresMois || Object.keys(mesuresMois).length === 0) {
+            console.warn('Aucune donnée à afficher pour le graphique des pluviométries.');
+            graphContainer.textContent = 'Aucune donnée disponible pour les graphiques.';
+            return;
+        }
+    
+        // Supprimer le titre existant s'il y en a un
+        const existingTitle = graphContainer.previousElementSibling;
+        if (existingTitle && existingTitle.classList.contains('graph-title')) {
+            existingTitle.remove();
+        }
+        const graphTitle = document.createElement('h1');
+        graphTitle.classList.add('graph-title');
+        graphTitle.textContent = 'Graphique des pluviométries du mois';
+        graphContainer.parentNode.insertBefore(graphTitle, graphContainer);
+    
+        const jours = Object.keys(mesuresMois);
+        const pluMax = jours.map(jour => mesuresMois[jour]?.pluMax ?? null);
+        const pluMin = jours.map(jour => mesuresMois[jour]?.pluMin ?? null);
+        const precipitation = jours.map(jour => mesuresMois[jour]?.precipitation ?? null);
+    
+        const canvas = document.createElement('canvas');
+        canvas.id = 'chart-pluvio-month';
+        graphContainer.appendChild(canvas);
+    
+        const ctx = canvas.getContext('2d');
+        canvas.width = graphContainer.offsetWidth;
+        canvas.height = graphContainer.offsetHeight;
+    
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: jours,
+                datasets: [
+                    {
+                        label: 'Pluviométrie Maximale (mm)',
+                        data: pluMax,
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'red',
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.1
+                    },
+                    {
+                        label: 'Pluviométrie Minimale (mm)',
+                        data: pluMin,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.1
+                    },
+                    {
+                        label: 'Pluviométrie Moyenne (mm)',
+                        data: precipitation,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)', 
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        grid: {
+                            display: false 
+                        }
+                    },
+                    y: {
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.1)'
+                        }
+                    }
+                }
+            }
+        });
+    }
+    
 
     function displayGaugesAnnee(moyennesAnnee) {
         const gaugeContainer = document.getElementById('gauge-container');

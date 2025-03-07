@@ -96,6 +96,75 @@ if (isset($_GET['station']) || isset($_GET['region'])) {
 }
 
 
+if (isset($_GET['dept'])) {
+    // Extraire uniquement le code du département (avant le "|")
+    $code_dept = explode('|', $_GET['dept'])[0];
+
+    // Si une date est sélectionnée
+    if (isset($_GET['date_selection'])) {
+        $date_selection = $_GET['date_selection'];
+        $data = $controllerDashboard->getMesuresEtMoyennesParDeptEtDate($code_dept, $date_selection);
+        
+        if ($data) {
+            header('Content-Type: application/json');
+            echo json_encode($data);
+            exit;
+        } else {
+            echo json_encode(['error' => 'Aucune donnée trouvée pour cette journée.']);
+            exit;
+        }
+    }
+
+    // Si une semaine est sélectionnée
+    if (isset($_GET['semaine_selection'])) {
+        $date_semaine = $_GET['semaine_selection'];
+        $data = $controllerDashboard->getMesuresEtMoyennesSemaineDept($code_dept, $date_semaine);
+        
+        if ($data) {
+            header('Content-Type: application/json');
+            echo json_encode($data);
+            exit;
+        } else {
+            echo json_encode(['error' => 'Aucune donnée trouvée pour cette semaine.']);
+            exit;
+        }
+    }
+
+    // Si un mois est sélectionné
+    if (isset($_GET['mois_selection'])) {
+        $date_mois = $_GET['mois_selection'];
+        $data = $controllerDashboard->getMesuresEtMoyennesMoisDept($code_dept, $date_mois);
+        
+        if ($data) {
+            header('Content-Type: application/json');
+            echo json_encode($data);
+            exit;
+        } else {
+            echo json_encode(['error' => 'Aucune donnée trouvée pour ce mois.']);
+            exit;
+        }
+    }
+
+    // Si une année est sélectionnée
+    if (isset($_GET['annee_selection'])) {
+        $date_annee = $_GET['annee_selection'];
+        $data = $controllerDashboard->getMesuresEtMoyennesAnneeDept($code_dept, $date_annee);
+        
+        if ($data) {
+            header('Content-Type: application/json');
+            echo json_encode($data);
+            exit;
+        } else {
+            echo json_encode(['error' => 'Aucune donnée trouvée pour cette année.']);
+            exit;
+        }
+    }
+
+    // Si aucune date, semaine, mois ou année n'est spécifiée
+    echo json_encode(['error' => 'Veuillez spécifier une date, une semaine, un mois ou une année pour le département.']);
+    exit;
+}
+
 // Récupération des stations
 $stations = $controllerStations->afficherOptionsStations();
 $depts = $controllerDashboard->getDepts();

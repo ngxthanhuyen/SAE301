@@ -236,5 +236,211 @@ class ControllerDashBoard {
         
         return $response;
     }
+
+    public function getMesuresEtMoyennesParDeptEtDate($code_dept, $date_selectionnee) {
+        $response = [];
+        
+        try {
+            // Récupérer les stations du département
+            $stations = $this->modelDashBoard->getStationsByDept($code_dept);
+            
+            $mesures = [];
+            $moyennes = [];
+            $stationsAvecMoyennes = []; // Liste des stations avec leurs moyennes
+    
+            foreach ($stations as $station) {
+                $num_station = $station['num_station'];
+                $mesuresStation = $this->modelDashBoard->getMesuresParStationEtDate($num_station, $date_selectionnee);
+                $moyennesStation = $this->modelDashBoard->getMoyenneMesuresParStationDate($num_station, $date_selectionnee);
+    
+                if ($mesuresStation) {
+                    $mesures = array_merge($mesures, $mesuresStation);
+                }
+                if ($moyennesStation) {
+                    $moyennes[] = $moyennesStation;
+                    // Ajouter la station avec sa moyenne dans la liste
+                    $stationsAvecMoyennes[] = [
+                        'station' => $this->modelDashBoard->getNomStation($num_station),
+                        'moyenne' => $moyennesStation
+                    ];
+                }
+            }
+    
+            // Calculer les moyennes globales pour le département
+            if (!empty($moyennes)) {
+                $moyennesGlobales = $this->calculerMoyennesGlobales($moyennes);
+                $response['moyennes'] = $moyennesGlobales;
+            }
+    
+            $response['mesures'] = $mesures;
+            $response['stations'] = $stationsAvecMoyennes; // Ajouter la liste des stations avec moyennes
+        } catch (Exception $e) {
+            $response = ['error' => $e->getMessage()];
+        }
+        
+        return $response;
+    }
+    
+
+    private function calculerMoyennesGlobales($moyennes) {
+        $totaux = [
+            'temperature' => 0,
+            'vent' => 0,
+            'humidite' => 0,
+            'pression' => 0
+        ];
+    
+        $comptes = [
+            'temperature' => 0,
+            'vent' => 0,
+            'humidite' => 0,
+            'pression' => 0
+        ];
+    
+        foreach ($moyennes as $moyenne) {
+            if (isset($moyenne['temperature'])) {
+                $totaux['temperature'] += $moyenne['temperature'];
+                $comptes['temperature']++;
+            }
+            if (isset($moyenne['vent'])) {
+                $totaux['vent'] += $moyenne['vent'];
+                $comptes['vent']++;
+            }
+            if (isset($moyenne['humidite'])) {
+                $totaux['humidite'] += $moyenne['humidite'];
+                $comptes['humidite']++;
+            }
+            if (isset($moyenne['pression'])) {
+                $totaux['pression'] += $moyenne['pression'];
+                $comptes['pression']++;
+            }
+        }
+    
+        $moyennesGlobales = [];
+        foreach ($totaux as $parametre => $total) {
+            $moyennesGlobales[$parametre] = ($comptes[$parametre] > 0) ? round($total / $comptes[$parametre], 2) : null;
+        }
+    
+        return $moyennesGlobales;
+    }
+
+    public function getMesuresEtMoyennesSemaineDept($code_dept, $date_semaine) {
+        $response = [];
+        
+        try {
+            // Récupérer les stations du département
+            $stations = $this->modelDashBoard->getStationsByDept($code_dept);
+            
+            $mesuresSemaine = [];
+            $moyennesSemaine = [];
+            $stationsAvecMoyennes = []; // Liste des stations avec leurs moyennes
+    
+            foreach ($stations as $station) {
+                $num_station = $station['num_station'];
+                $mesuresStation = $this->modelDashBoard->getMesuresSemaineStation($num_station, $date_semaine);
+                $moyennesStation = $this->modelDashBoard->calculerMoyenneSemaine($mesuresStation);
+    
+                if ($mesuresStation) {
+                    $mesuresSemaine = array_merge($mesuresSemaine, $mesuresStation);
+                }
+                if ($moyennesStation) {
+                    $moyennesSemaine[] = $moyennesStation;
+                    // Ajouter la station avec sa moyenne dans la liste
+                    $stationsAvecMoyennes[] = [
+                        'station' => $this->modelDashBoard->getNomStation($num_station),
+                        'moyenne' => $moyennesStation
+                    ];
+                }
+            }
+    
+            // Calculer les moyennes globales pour la semaine
+            if (!empty($moyennesSemaine)) {
+                $moyennesGlobales = $this->calculerMoyennesGlobales($moyennesSemaine);
+                $response['moyennesSemaine'] = $moyennesGlobales;
+            }
+    
+            $response['mesuresSemaine'] = $mesuresSemaine;
+            $response['stations'] = $stationsAvecMoyennes; // Ajouter la liste des stations avec moyennes
+        } catch (Exception $e) {
+            $response = ['error' => $e->getMessage()];
+        }
+        
+        return $response;
+    }
+    
+    
+    public function getMesuresEtMoyennesMoisDept($code_dept, $date_mois) {
+        $response = [];
+        
+        try {
+            // Récupérer les stations du département
+            $stations = $this->modelDashBoard->getStationsByDept($code_dept);
+            
+            $mesuresMois = [];
+            $moyennesMois = [];
+    
+            foreach ($stations as $station) {
+                $num_station = $station['num_station'];
+                $mesuresStation = $this->modelDashBoard->getMesuresMoisStation($num_station, $date_mois);
+                $moyennesStation = $this->modelDashBoard->calculerMoyenneMois($mesuresStation);
+    
+                if ($mesuresStation) {
+                    $mesuresMois = array_merge($mesuresMois, $mesuresStation);
+                }
+                if ($moyennesStation) {
+                    $moyennesMois[] = $moyennesStation;
+                }
+            }
+    
+            // Calculer les moyennes globales pour le mois
+            if (!empty($moyennesMois)) {
+                $moyennesGlobales = $this->calculerMoyennesGlobales($moyennesMois);
+                $response['moyennesMois'] = $moyennesGlobales;
+            }
+    
+            $response['mesuresMois'] = $mesuresMois;
+        } catch (Exception $e) {
+            $response = ['error' => $e->getMessage()];
+        }
+        
+        return $response;
+    }
+    
+    public function getMesuresEtMoyennesAnneeDept($code_dept, $date_annee) {
+        $response = [];
+        
+        try {
+            // Récupérer les stations du département
+            $stations = $this->modelDashBoard->getStationsByDept($code_dept);
+            
+            $mesuresAnnee = [];
+            $moyennesAnnee = [];
+    
+            foreach ($stations as $station) {
+                $num_station = $station['num_station'];
+                $mesuresStation = $this->modelDashBoard->getMesuresAnneeStation($num_station, $date_annee);
+                $moyennesStation = $this->modelDashBoard->calculerMoyenneAnnee($mesuresStation);
+    
+                if ($mesuresStation) {
+                    $mesuresAnnee = array_merge($mesuresAnnee, $mesuresStation);
+                }
+                if ($moyennesStation) {
+                    $moyennesAnnee[] = $moyennesStation;
+                }
+            }
+    
+            // Calculer les moyennes globales pour l'année
+            if (!empty($moyennesAnnee)) {
+                $moyennesGlobales = $this->calculerMoyennesGlobales($moyennesAnnee);
+                $response['moyennesAnnee'] = $moyennesGlobales;
+            }
+    
+            $response['mesuresAnnee'] = $mesuresAnnee;
+        } catch (Exception $e) {
+            $response = ['error' => $e->getMessage()];
+        }
+        
+        return $response;
+    }
 }
 ?>
