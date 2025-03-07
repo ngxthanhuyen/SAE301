@@ -82,8 +82,6 @@ if (isset($_GET['station'])) {
 }
 
 
-
-
 // Récupération des stations
 $stations = $controllerStations->afficherOptionsStations();
 $depts = $controllerDashboard->getDepts();
@@ -139,7 +137,7 @@ if (!empty($regs)) {
 
     <div id="overlay" style="display: none;"></div>
     <div id="preloader" style="display: none;"></div>
-    
+
     <h1>Tableau de bord</h1>
 
     <div class="data-visualization">

@@ -264,6 +264,8 @@ document.addEventListener('DOMContentLoaded', () => {
                             displayGaugesMois(data.moyennesMois);
                             displayTableMois(data.mesuresMois);
                             displayGraphsMois(data.mesuresMois);
+                            displayTempGraphMois(data.mesuresMois);
+                            displayPluvioGraphMois(data.mesuresMois);
                         } else if (dataType === 'annee') {
                             // Afficher les éléments de l'année
                             displayGaugesAnnee(data.moyennesAnnee);
@@ -824,7 +826,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Créer un canvas pour le graphique
         const canvas = document.createElement('canvas');
         canvas.id = 'chart-temperature-week';
-        graphContainer.appendChild(canvas); // Ajoutez directement le canvas au conteneur existant
+        graphContainer.appendChild(canvas); 
     
       
         const ctx = canvas.getContext('2d');
@@ -1516,6 +1518,181 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+
+    function displayTempGraphMois(mesuresMois) {
+        const graphContainer = document.getElementById('graph-temp');
+        graphContainer.innerHTML = '';
+    
+        if (!mesuresMois || Object.keys(mesuresMois).length === 0) {
+            console.warn('Aucune donnée à afficher pour les graphiques.');
+            graphContainer.textContent = 'Aucune donnée disponible pour les graphiques.';
+            return;
+        }
+        
+        document.getElementById('graphContainer').style.display = 'flex';
+        // Supprimer le titre existant s'il y en a un
+        const existingTitle = graphContainer.previousElementSibling;
+        if (existingTitle && existingTitle.classList.contains('graph-title')) {
+            existingTitle.remove();
+        }
+    
+        const graphTitle = document.createElement('h1');
+        graphTitle.classList.add('graph-title');
+        graphTitle.textContent = 'Graphique des températures du mois';
+        graphContainer.parentNode.insertBefore(graphTitle, graphContainer);
+    
+        const jours = Object.keys(mesuresMois);
+        const tempMax = jours.map(jour => mesuresMois[jour]?.tempMax ?? null);
+        const tempMin = jours.map(jour => mesuresMois[jour]?.tempMin ?? null);
+        const temperature = jours.map(jour => mesuresMois[jour]?.temperature ?? null);
+    
+        const canvas = document.createElement('canvas');
+        canvas.id = 'chart-temperature-month';
+        graphContainer.appendChild(canvas);
+    
+        const ctx = canvas.getContext('2d');
+        canvas.width = graphContainer.offsetWidth;
+        canvas.height = graphContainer.offsetHeight;
+    
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: jours,
+                datasets: [
+                    {
+                        label: 'Température Maximale (°C)',
+                        data: tempMax,
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'red',
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.1
+                    },
+                    {
+                        label: 'Température Minimale (°C)',
+                        data: tempMin,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.1
+                    },
+                    {
+                        label: 'Température Moyenne (°C)',
+                        data: temperature,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',   
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        grid: {
+                            display: false 
+                        }
+                    },
+                    y: {
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.1)'
+                        }
+                    }
+                }
+            }
+        });
+    }
+    
+    function displayPluvioGraphMois(mesuresMois) {
+        const graphContainer = document.getElementById('graph-pluvio');
+        graphContainer.innerHTML = '';
+    
+        if (!mesuresMois || Object.keys(mesuresMois).length === 0) {
+            console.warn('Aucune donnée à afficher pour le graphique des pluviométries.');
+            graphContainer.textContent = 'Aucune donnée disponible pour les graphiques.';
+            return;
+        }
+    
+        // Supprimer le titre existant s'il y en a un
+        const existingTitle = graphContainer.previousElementSibling;
+        if (existingTitle && existingTitle.classList.contains('graph-title')) {
+            existingTitle.remove();
+        }
+        const graphTitle = document.createElement('h1');
+        graphTitle.classList.add('graph-title');
+        graphTitle.textContent = 'Graphique des pluviométries du mois';
+        graphContainer.parentNode.insertBefore(graphTitle, graphContainer);
+    
+        const jours = Object.keys(mesuresMois);
+        const pluMax = jours.map(jour => mesuresMois[jour]?.pluMax ?? null);
+        const pluMin = jours.map(jour => mesuresMois[jour]?.pluMin ?? null);
+        const precipitation = jours.map(jour => mesuresMois[jour]?.precipitation ?? null);
+    
+        const canvas = document.createElement('canvas');
+        canvas.id = 'chart-pluvio-month';
+        graphContainer.appendChild(canvas);
+    
+        const ctx = canvas.getContext('2d');
+        canvas.width = graphContainer.offsetWidth;
+        canvas.height = graphContainer.offsetHeight;
+    
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: jours,
+                datasets: [
+                    {
+                        label: 'Pluviométrie Maximale (mm)',
+                        data: pluMax,
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'red',
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.1
+                    },
+                    {
+                        label: 'Pluviométrie Minimale (mm)',
+                        data: pluMin,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.1
+                    },
+                    {
+                        label: 'Pluviométrie Moyenne (mm)',
+                        data: precipitation,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)', 
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        grid: {
+                            display: false 
+                        }
+                    },
+                    y: {
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.1)'
+                        }
+                    }
+                }
+            }
+        });
+    }
+    
 
     function displayGaugesAnnee(moyennesAnnee) {
         const gaugeContainer = document.getElementById('gauge-container');
