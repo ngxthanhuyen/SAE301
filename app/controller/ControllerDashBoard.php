@@ -16,6 +16,7 @@ class ControllerDashBoard {
     public function getReg() {
         return $this->modelDashBoard->getReg();
     }
+
     public function getMesuresEtMoyennesParStationEtDate($num_station_recherche, $date_selectionnee) {
         $response = [];
         
@@ -153,6 +154,86 @@ class ControllerDashBoard {
             $response = ['error' => $e->getMessage()];
         }
 
+        return $response;
+    }
+
+    public function getMesuresEtMoyennesParRegionEtDate($code_region, $date_selectionnee) {
+        $response = [];
+        
+        try {
+            $mesures = $this->modelDashBoard->getMesuresParRegionEtDate($code_region, $date_selectionnee);
+            $moyennes = $this->modelDashBoard->getMoyenneMesuresParRegionDate($code_region, $date_selectionnee);
+            
+            $date = new DateTime($date_selectionnee);
+
+            $jours = [
+                'Monday' => 'Lundi',
+                'Tuesday' => 'Mardi',
+                'Wednesday' => 'Mercredi',
+                'Thursday' => 'Jeudi',
+                'Friday' => 'Vendredi',
+                'Saturday' => 'Samedi',
+                'Sunday' => 'Dimanche'
+            ];
+
+            $mois = [
+                'January' => 'Janvier',
+                'February' => 'Février',
+                'March' => 'Mars',
+                'April' => 'Avril',
+                'May' => 'Mai',
+                'June' => 'Juin',
+                'July' => 'Juillet',
+                'August' => 'Août',
+                'September' => 'Septembre',
+                'October' => 'Octobre',
+                'November' => 'Novembre',
+                'December' => 'Décembre'
+            ];
+
+            $jour_anglais = $date->format('l'); 
+            $mois_anglais = $date->format('F'); 
+            
+            $jour_fr = $jours[$jour_anglais];
+            $mois_fr = $mois[$mois_anglais];
+            
+            $date_formatee = $date->format('d') . ' ' . $mois_fr . ' ' . $date->format('Y');
+
+            $response['mesures'] = $mesures;
+            $response['moyennes'] = $moyennes;
+            $response['date_selectionnee'] = $date_formatee;
+            $response['jour'] = $jour_fr;
+
+            $weatherData = $mesures[0]['weatherIcon']; 
+            $weatherInfo = $this->modelDashBoard->getWeatherIcon($weatherData);
+            $response['weatherIcon'] = $weatherInfo['icon']; 
+            $response['weatherDescription'] = $weatherInfo['description']; 
+        } catch (Exception $e) {
+            $response = ['error' => $e->getMessage()];
+        }
+        
+        return $response;
+    }
+    
+    public function getMesuresEtMoyennesSemaineRegion($code_region, $date_semaine) {
+        $response = [];
+        
+        try {
+            $mesuresSemaine = $this->modelDashBoard->getMesuresSemaineRegion($code_region, $date_semaine);
+            
+            if (empty($mesuresSemaine)) {
+                throw new Exception("Aucune donnée disponible pour cette semaine.");
+            }
+
+            $moyennesSemaine = $this->modelDashBoard->calculerMoyenneSemaineRegion($mesuresSemaine);
+            
+            $response['mesuresSemaine'] = $mesuresSemaine;
+            $response['moyennesSemaine'] = $moyennesSemaine;
+            
+        } catch (Exception $e) {
+            $response = ['error' => $e->getMessage()];
+        }
+        
         return $response;
     }
 }

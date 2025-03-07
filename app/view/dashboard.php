@@ -6,14 +6,18 @@ error_reporting(E_ALL);
 $controllerDashboard = new ControllerDashBoard();
 $controllerStations = new ControllerStations();
 
-if (isset($_GET['station'])) {
-    $num_station = $_GET['station'];
+if (isset($_GET['station']) || isset($_GET['region'])) {
+    $num_station = $_GET['station'] ?? null;
+    $code_region = $_GET['region'] ?? null;
 
     // Si une date est sélectionnée
     if (isset($_GET['date_selection'])) {
         $date_selection = $_GET['date_selection'];
-        // Appeler la méthode pour récupérer les données de la journée
-        $data = $controllerDashboard->getMesuresEtMoyennesParStationEtDate($num_station, $date_selection);
+        if ($num_station) {
+            $data = $controllerDashboard->getMesuresEtMoyennesParStationEtDate($num_station, $date_selection);
+        } elseif ($code_region) {
+            $data = $controllerDashboard->getMesuresEtMoyennesParRegionEtDate($code_region, $date_selection);
+        }
         
         // Si des données sont trouvées, renvoyer en JSON
         if ($data) {
@@ -30,9 +34,11 @@ if (isset($_GET['station'])) {
     // Si une semaine est sélectionnée
     if (isset($_GET['semaine_selection'])) {
         $date_semaine = $_GET['semaine_selection'];
-        // Appeler la méthode pour récupérer les moyennes de la semaine
-        $controllerDashBoard = new ControllerDashBoard();
-        $resultatsSemaines = $controllerDashBoard->getMesuresEtMoyennesSemaine($num_station, $date_semaine);
+        if ($num_station) {
+            $resultatsSemaines = $controllerDashboard->getMesuresEtMoyennesSemaine($num_station, $date_semaine);
+        } elseif ($code_region) {
+            $resultatsSemaines = $controllerDashboard->getMesuresEtMoyennesSemaineRegion($code_region, $date_semaine);
+        }
 
         // Si des mesures et moyennes sont trouvées, renvoyer en JSON
         if ($resultatsSemaines) {
@@ -49,7 +55,11 @@ if (isset($_GET['station'])) {
     // Si un mois est sélectionné
     if (isset($_GET['mois_selection'])) {
         $date_mois = $_GET['mois_selection'];
-        $data = $controllerDashboard->getMesuresEtMoyennesMois($num_station, $date_mois);
+        if ($num_station) {
+            $data = $controllerDashboard->getMesuresEtMoyennesMois($num_station, $date_mois);
+        } elseif ($code_region) {
+            $data = $controllerDashboard->getMesuresEtMoyennesParRegionEtDate($code_region, $date_mois);
+        }
 
         if ($data) {
             header('Content-Type: application/json');
@@ -64,7 +74,11 @@ if (isset($_GET['station'])) {
     // Si une année est sélectionnée
     if (isset($_GET['annee_selection'])) {
         $date_annee = $_GET['annee_selection'];
-        $data = $controllerDashboard->getMesuresEtMoyennesAnnee($num_station, $date_annee);
+        if ($num_station) {
+            $data = $controllerDashboard->getMesuresEtMoyennesAnnee($num_station, $date_annee);
+        } elseif ($code_region) {
+            $data = $controllerDashboard->getMesuresEtMoyennesParRegionEtDate($code_region, $date_annee);
+        }
 
         if ($data) {
             header('Content-Type: application/json');
@@ -80,8 +94,6 @@ if (isset($_GET['station'])) {
     echo json_encode(['error' => 'Veuillez spécifier une date, une semaine, un mois ou une année pour la station.']);
     exit;
 }
-
-
 
 
 // Récupération des stations
@@ -139,7 +151,7 @@ if (!empty($regs)) {
 
     <div id="overlay" style="display: none;"></div>
     <div id="preloader" style="display: none;"></div>
-    
+
     <h1>Tableau de bord</h1>
 
     <div class="data-visualization">
