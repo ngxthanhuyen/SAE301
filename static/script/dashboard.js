@@ -200,7 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('valider').addEventListener('click', function() {
         const stationSelection = document.getElementById('station-hidden').value;
-        const deptSelection = document.getElementById('dept-hidden').value; // Récupérer la sélection du département
+        const deptSelection = document.getElementById('dept-hidden').value;
         let dateSelection = document.getElementById('date-journee').value;
         let semaineSelection = document.getElementById('date-semaine').value;
         let moisSelection = document.getElementById('monthInput').value;
@@ -208,18 +208,17 @@ document.addEventListener('DOMContentLoaded', () => {
     
         clearExistingElements();
     
-        // Vérifier si un département est sélectionné OU si une station est sélectionnée avec une date/semaine/mois/année
         if (deptSelection || (stationSelection && (dateSelection || semaineSelection || moisSelection || anneeSelection))) {
             let url = '';
-            let dataType = ''; // Indiquer si on a une date, une semaine, un mois ou une année
+            let dataType = '';
     
             if (stationSelection) {
                 if (semaineSelection) {
                     url = `dashboard.php?station=${stationSelection}&semaine_selection=${semaineSelection}`;
-                    dataType = 'semaine';  
+                    dataType = 'semaine';
                 } else if (dateSelection) {
                     url = `dashboard.php?station=${stationSelection}&date_selection=${dateSelection}`;
-                    dataType = 'date'; 
+                    dataType = 'date';
                 } else if (moisSelection) {
                     url = `dashboard.php?station=${stationSelection}&mois_selection=${moisSelection}`;
                     dataType = 'mois';
@@ -228,14 +227,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     dataType = 'annee';
                 }
             }
-
+    
             if (deptSelection) {
                 if (semaineSelection) {
                     url = `dashboard.php?dept=${deptSelection}&semaine_selection=${semaineSelection}`;
-                    dataType = 'semaine';  
+                    dataType = 'semaine';
                 } else if (dateSelection) {
                     url = `dashboard.php?dept=${deptSelection}&date_selection=${dateSelection}`;
-                    dataType = 'date'; 
+                    dataType = 'date';
                 } else if (moisSelection) {
                     url = `dashboard.php?dept=${deptSelection}&mois_selection=${moisSelection}`;
                     dataType = 'mois';
@@ -244,20 +243,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     dataType = 'annee';
                 }
             }
-
-
-            // Afficher l'URL dans la console avant d'envoyer la requête
-            console.log('URL envoyée :', url);
     
+            console.log('URL envoyée :', url);
             showPreloader();
     
-            // Récupération des données via fetch
             fetch(url)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Erreur HTTP : ' + response.status);
                     }
-                    return response.json(); 
+                    return response.json();
                 })
                 .then(data => {
                     console.log('Données reçues :', data);
@@ -265,12 +260,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     document.getElementById('graph-container').innerHTML = '';
                     document.getElementById('table-container').innerHTML = '';
                     document.getElementById('weather-widget').style.display = 'none';
-
-                    
+    
                     if (data && Object.keys(data).length > 0) {
                         if (deptSelection) {
-                            // Logique pour les départements
-                            if (dataType === 'date') {   
+                            if (dataType === 'date') {
                                 displayGaugesJournee(data.moyennes);
                                 displayTableDept(data.stations);
                                 displayGraphsJournee(data.mesures);
@@ -290,7 +283,6 @@ document.addEventListener('DOMContentLoaded', () => {
                                 displayGraphsAnnee(data.mesuresAnnee);
                             }
                         } else if (stationSelection) {
-                            // Logique pour les stations
                             if (dataType === 'date') {
                                 displayWeatherWidget(data);
                                 displayGaugesJournee(data.moyennes);
@@ -306,56 +298,30 @@ document.addEventListener('DOMContentLoaded', () => {
                                 displayGaugesMois(data.moyennesMois);
                                 displayTableMois(data.mesuresMois);
                                 displayGraphsMois(data.mesuresMois);
+                                displayTempGraphMois(data.mesuresMois);
+                                displayPluvioGraphMois(data.mesuresMois);
                             } else if (dataType === 'annee') {
                                 displayGaugesAnnee(data.moyennesAnnee);
                                 displayTableAnnee(data.mesuresAnnee);
                                 displayGraphsAnnee(data.mesuresAnnee);
                             }
-
-                    if (data && Object.keys(data).length > 0) {  
-                        if (dataType === 'date') {
-                            // Afficher les éléments de la journée
-                            displayWeatherWidget(data);
-                            displayGaugesJournee(data.moyennes);
-                            displayTable(data.mesures); 
-                            displayGraphsJournee(data.mesures);
-                        } else if (dataType === 'semaine') {
-                            // Afficher la table des moyennes de la semaine
-                            displayGaugesSemaine(data.moyennesSemaine);
-                            afficherTableSemaine(data.mesuresSemaine);
-                            displayTempGraphSemaine(data.mesuresSemaine);
-                            displayPluvioGraphSemaine(data.mesuresSemaine);
-                            displayGraphsSemaine(data.mesuresSemaine);
-                        } else if (dataType === 'mois') {
-                            // Afficher les éléments du mois
-                            displayGaugesMois(data.moyennesMois);
-                            displayTableMois(data.mesuresMois);
-                            displayGraphsMois(data.mesuresMois);
-                            displayTempGraphMois(data.mesuresMois);
-                            displayPluvioGraphMois(data.mesuresMois);
-                        } else if (dataType === 'annee') {
-                            // Afficher les éléments de l'année
-                            displayGaugesAnnee(data.moyennesAnnee);
-                            displayTableAnnee(data.mesuresAnnee);
-                            displayGraphsAnnee(data.mesuresAnnee);
                         }
                     } else {
-                        console.error("Erreur : Aucune donnée à afficher ou structure de données incorrecte");
+                        console.error('Erreur : Aucune donnée à afficher ou structure de données incorrecte');
                     }
                 })
                 .catch(error => {
-                    console.error("Erreur lors de la récupération des données :", error);
+                    console.error('Erreur lors de la récupération des données :', error);
                 })
                 .finally(() => {
                     hidePreloader();
-                    // Effacer les champs de date, semaine, mois et année après la requête
                     document.getElementById('date-journee').value = '';
                     document.getElementById('date-semaine').value = '';
                     document.getElementById('monthInput').value = '';
                     document.getElementById('annee-hidden').value = '';
                 });
         } else {
-            alert("Veuillez sélectionner un département, une station et une date, une semaine, un mois ou une année.");
+            alert('Veuillez sélectionner un département, une station et une date, une semaine, un mois ou une année.');
         }
     });
 
