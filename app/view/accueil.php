@@ -1,26 +1,12 @@
-<?php
-
-session_start(); // Démarrer la session
-?>
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Données Météorologiques SYNOP</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap">
+    <title>Our'Atmos</title>
     <link rel="stylesheet" href="../../static/style/accueil.css">
 </head>
 <body>
-    <div id="particles-js"></div> <!-- Conteneur pour l'effet de particules -->
-
-    <!-- Video Background -->
-    <div class="video-background">
-        <video autoplay muted loop id="background-video">
-            <source src="../../static/images/accueil_background.mp4" type="video/mp4">
-        </video>
-    </div>
-    
     <!--Barre de navigation-->
     <nav class="navbar">
         <div class="navbar-left">
@@ -70,122 +56,111 @@ session_start(); // Démarrer la session
             </ul>
         </div>
     </nav>
-    <main>
-        <section id="welcome">
-            <div class="welcome-content">
-                <h1>Bienvenue à Our'Atmos</h1>
-                <p class="typing-effect"></p> 
-                <div class="stats">
-                <div>
-                    <span id="stations-count">0</span> 
-                    <p>Stations Météo</p>
-                </div>
-                <div>
-                    <span id="reports-count">0</span> 
-                    <p>Relevés</p>
-                </div>
-            </div>
-                <p>Bienvenue sur OUR'ATMOS, votre portail dédié aux observations météorologiques en France métropolitaine et Outre-mer. Plongez dans l'univers fascinant de la météo à travers une interface simple et accessible !</p>
-                <p>Faites défiler pour découvrir nos fonctionnalités.</p>
-                <div class="welcome-buttons">
-                    <a href="StationsAccueil.php" class="btn">Découvrir la carte</a>
-                    <a href="alerte.php" class="btn">Déclencher des alertes</a>
-                </div>
-            </div>
-        </section>
 
-        <div class="container">
-            <div class="container-content">
-                <div class="section map" onclick="window.location.href='../web/frontController.php?page=carte'">
-                    <div class="background">
-                        <img src="../../static/images/home.png" alt="Carte Météo"> <!-- Image de la carte météo -->
-                    </div>
-                    <span class="icon">🏠</span>
-                    Accueil
+    <!-- Video Background -->
+      <div class="video-background">
+        <video autoplay muted loop id="background-video">
+            <source src="../../static/images/accueil_background.mp4" type="video/mp4">
+        </video>
+    </div>
+    <div id="particles-js"></div>
+    <section class="hero">
+        <h1>Bienvenue à Our'Atmos</h1>
+        <p class="typing-effect"></p> 
+        <p>Bienvenue sur OUR'ATMOS, votre portail dédié aux observations météorologiques en France métropolitaine et Outre-mer. Explorez nos données et analyses pour comprendre les phénomènes climatiques et suivre les conditions en temps réel. Plongez dans l'univers fascinant de la météo à travers une interface simple et accessible !</p>
+    </section>
+
+    <!-- Contenu de la page -->
+    <section class="feature">
+    <h2 class="section-title">Contenu</h2>
+
+    <div class="flex-list">
+        <div class="feature-row">
+            <div class="feature-container">
+                <img src="../../static/images/home-page.png" width="150" height="150" class="card-icon">
+                <div class="feature-content">
+                    <h4 class="card-title">Accueil</h4>
+                    <p class='card-text'>Cette page d'accueil sert de point d'entrée essentiel pour les utilisateurs et les visiteurs de l'application, en mettant en avant une vue d'ensemble claire et engageante de ce que l'application a à offrir. Elle présente les différentes sections accessibles, notamment la carte interactive des stations, le tableau de bord, les cartes climatiques, la page d’alerte, et la météothèque.</p>
                 </div>
-                <div class="section search" onclick="window.location.href='../web/frontController.php?page=recherche'">
-                    <div class="background">
-                        <img src="../../static/images/carte_france.png" alt="Recherche Météo"> <!-- Image de recherche météo -->
-                    </div>
-                    <span class="icon">🗺️</span>
-                    Stations
+                <div class="button-container">
+                    <a href="accueil.php" class="button">Découvrir</a>
                 </div>
-                <div class="section chart" onclick="window.location.href='../web/frontController.php?page=all_meteotheques'">
-                    <div class="background graph-bg"></div>
-                    <div class="background graph-bars">
-                        <div class="bar"></div>
-                        <div class="bar"></div>
-                        <div class="bar"></div>
-                    </div>
-                    <span class="icon">🗃️</span>
-                    Tableau de bord
+            </div>
+            
+            <div class="feature-container">
+                <img src="../../static/images/stations.png" width="150" height="150" alt="Stations" class="card-icon">
+                <div class="feature-content">
+                    <h4 class="card-title">Stations</h4>
+                    <p class='card-text'>Cette page affiche une carte géolocalisée avec des marqueurs de station et offre des options de filtrage par région, département et commune. En cliquant sur un marqueur, l'utilisateur accède à une présentation détaillée de la station sélectionnée, incluant des informations géographiques et des graphiques de données personnalisables en fonction des préférences de l'utilisateur.</p>
+                </div>
+                <div class="button-container">
+                    <a href="StationsAccueil.php" class="button">Découvrir</a>
                 </div>
             </div>
 
-            <div class="container-content">
-                <div class="section map" onclick="window.location.href='../web/frontController.php?page=carte'">
-                    <div class="background">
-                        <img src="../../static/images/undraw_world_bdnk.svg" alt="Carte Météo"> <!-- Image de la carte météo -->
-                    </div>
-                    <span class="icon">🗺️</span>
-                    Cartes climatiques
+            <div class="feature-container">
+                <img src="../../static/images/dashboard.png" width="150" height="120" alt="Tableau de bord" class="card-icon">
+                <div class="feature-content">
+                    <h4 class="card-title">Tableau de bord</h4>
+                    <p class='card-text'>Cette page propose des visualisations interactives(courbes, histogrammes) et des statistiques basées sur des paramètres choisis. Les utilisateurs peuvent appliquer des filtres par date, espace et type de graphique pour une analyse approfondie des données météorologiques, permettant de lire les données de manière quantitative, ordinaire, voire nominale.</p>
                 </div>
-                <div class="section search" onclick="window.location.href='../web/frontController.php?page=recherche'">
-                    <div class="background">
-                        <img src="../../static/images/alert.png" alt="Recherche Météo"> <!-- Image de recherche météo -->
-                    </div>
-                    <span class="icon">⚠️</span>
-                    Alerte
-                </div>
-                <div class="section search" onclick="window.location.href='../web/frontController.php?page=recherche'">
-                    <div class="background">
-                        <img src="../../static/images/star.png" alt="Recherche Météo"> <!-- Image de recherche météo -->
-                    </div>
-                    <span class="icon">💌</span>
-                    Météothèque
+                <div class="button-container">
+                    <a href="dashboard.php" class="button">Découvrir</a>
                 </div>
             </div>
         </div>
-    </main>
 
-    <!-- Bouton retour en haut -->
-    <div id="back-to-top" onclick="scrollToTop()">↑</div>
+        <div class="feature-row">
+            <div class="feature-container">
+                <img class="img-row2" src="../../static/images/climat.png" width="150" height="150" class="card-icon">
+                <div class="feature-content">
+                    <h4 class="card-title">Cartes climatiques</h4>
+                    <p class="card-text">Cette page permet aux utilisateurs de générer des cartes climatiques basées sur divers critères, comme la température, les précipitations ou l’humidité, pour une période donnée. Les filtres de date et de type de mesure sélectionnés permettent de visualiser les conditions météorologiques d'une manière géographique et temporelle pour mieux comprendre les variations climatiques.</p>
+                </div>
+                <div class="button-container">
+                    <a href="climatique.php" class="button">Découvrir</a>
+                </div>
+            </div>
 
-     <!-- Inclusion du footer -->
-     <?php
+            <div class="feature-container">
+                <img class="img-row2" src="../../static/images/danger.png" width="150" height="150" alt="Stations" class="card-icon">
+                <div class="feature-content">
+                    <h4 class="card-title">Alerte</h4>
+                    <p class="card-text">Cette page d'alerte informe les utilisateurs des événements météorologiques extrêmes en fournissant des notifications en temps réel. Les utilisateurs peuvent configurer leurs alertes selon leurs préférences et suivre un historique des alertes déclenchées chaque fois qu’une station dépasse un seuil prédéfini. Cela permet de garantir un suivi proactif des conditions à risque.</p>
+                </div>
+                <div class="button-container">
+                    <a href="alerte.php" class="button">Découvrir</a>
+                </div>
+            </div>
+
+            <div class="feature-container">
+                <img class="img-row2" src="../../static/images/star.png" width="150" height="150" alt="Tableau de bord" class="card-icon">
+                <div class="feature-content">
+                    <h4 class="card-title">Météothèque</h4>
+                    <p class="card-text">Cette page météothèque permet aux utilisateurs de gérer leurs données météorologiques avec plusieurs fonctionnalités : gestion des stations favorites, affichage des dernières mesures, sélection des types de données et génération de statistiques sur les 7 derniers jours. Elle inclut également un historique de recherches et une fonctionnalité de comparaison entre deux stations.</p>
+                </div>
+                <div class="button-container">
+                    <a href="meteotheque.php" class="button">Découvrir</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    </section>
+
+    <!-- Inclusion du footer -->
+    <?php
         require_once 'footer.php';
     ?>
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const menuToggle = document.querySelector(".menu-toggle");
-            const navbarMenu = document.querySelector(".navbar-menu");
 
-            menuToggle.addEventListener("click", () => {
-                navbarMenu.classList.toggle("active");
-            });
+<script src="../../static/js/particles.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const menuToggle = document.querySelector(".menu-toggle");
+        const navbarMenu = document.querySelector(".navbar-menu");
+
+        menuToggle.addEventListener("click", () => {
+            navbarMenu.classList.toggle("active");
         });
-
-        particlesJS("particles-js", {
-            "particles": {
-                "number": {
-                    "value": 80,
-                    "density": { "enable": true, "value_area": 800 }
-                },
-                "color": { "value": "#ffffff" },
-                "shape": { "type": "circle" },
-                "opacity": { "value": 0.5, "random": false },
-                "size": { "value": 3, "random": true },
-                "line_linked": { "enable": true, "distance": 150, "color": "#ffffff", "opacity": 0.4, "width": 1 },
-                "move": { "enable": true, "speed": 3, "direction": "none", "random": false, "straight": false }
-            },
-            "interactivity": {
-                "events": {
-                    "onhover": { "enable": true, "mode": "repulse" }
-                }
-            }
-        });
-
         const textArray = ["Explorez l'historique météo...", "Analysez les tendances passées...", "Revivez les données climatiques..."];
         let textIndex = 0;
         let charIndex = 0;
@@ -207,120 +182,112 @@ session_start(); // Démarrer la session
         }
 
         typeText();
-
-        function animateCounter(elementId, endValue, duration) {
-            let startValue = 0;
-            let increment = Math.ceil(endValue / duration);
-            let counter = setInterval(() => {
-                startValue += increment;
-                if (startValue >= endValue) {
-                    startValue = endValue;
-                    clearInterval(counter);
+    });
+    particlesJS("particles-js", {
+        "particles": {
+            "number": {
+                "value": 100, // Nombre de particules
+                "density": {
+                    "enable": true,
+                    "value_area": 800
                 }
-                document.getElementById(elementId).textContent = startValue;
-            }, 50);
-        }
-
-        window.onload = function () {
-            animateCounter("stations-count", 62, 100); // Animer le compteur des stations météo
-            animateCounter("reports-count", 29200, 100); // Animer le compteur des relevés
-        };
-
-        function setThemeByTime() {
-            const hours = new Date().getHours();
-            if (hours >= 18 || hours < 6) {
-                document.body.classList.add('dark-mode'); // Activer le mode sombre le soir et la nuit
-            } else {
-                document.body.classList.remove('dark-mode'); // Désactiver le mode sombre le jour
-            }
-        }
-        setThemeByTime();
-
-        function toggleDarkMode() {
-            document.body.classList.toggle('dark-mode'); // Basculer le mode sombre
-            document.documentElement.classList.toggle('dark-mode');
-            const darkModeButton = document.getElementById('darkModeButton');
-            if (document.body.classList.contains('dark-mode')) {
-                darkModeButton.innerHTML = '☀️ Mode clair'; // Changer le texte du bouton en fonction du mode
-            } else {
-                darkModeButton.innerHTML = '🌙 Mode sombre';
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const darkModeButton = document.getElementById('darkModeButton');
-            if (document.body.classList.contains('dark-mode')) {
-                darkModeButton.innerHTML = '☀️ Mode clair'; // Initialiser le texte du bouton en fonction du mode
-            } else {
-                darkModeButton.innerHTML = '🌙 Mode sombre';
-            }
-        });
-
-        function toggleNav() {
-            const navList = document.getElementById('nav-list');
-            navList.classList.toggle('active'); // Basculer l'affichage du menu de navigation
-        }
-
-        // Défilement fluide pour les liens internes
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth' // Défilement fluide
-                });
-            });
-        });
-
-        // Ajout d'un effet d'entrée pour les sections au scroll
-        const sections = document.querySelectorAll('.section');
-        window.addEventListener('scroll', () => {
-            sections.forEach(section => {
-                const position = section.getBoundingClientRect().top;
-                const windowHeight = window.innerHeight;
-                if (position < windowHeight - 100) {
-                    section.style.opacity = '1'; // Rendre la section visible
-                    section.style.transform = 'translateY(0)'; // Réinitialiser la position
+            },
+            "color": {
+                "value": "#ffffff" // Couleur des particules
+            },
+            "shape": {
+                "type": "circle",
+                "stroke": {
+                    "width": 0,
+                    "color": "#000000"
+                },
+                "polygon": {
+                    "nb_sides": 5
                 }
-            });
-        });
-
-        // Animation du header au scroll
-        window.addEventListener('scroll', () => {
-            const header = document.querySelector('header');
-            if (window.scrollY > 50) {
-                header.style.background = "rgba(0, 0, 0, 0.9)"; // Changer la couleur de fond du header
-            } else {
-                header.style.background = "rgba(0, 0, 0, 0.8)";
+            },
+            "opacity": {
+                "value": 0.5,
+                "random": false,
+                "anim": {
+                    "enable": false,
+                    "speed": 1,
+                    "opacity_min": 0.1,
+                    "sync": false
+                }
+            },
+            "size": {
+                "value": 3,
+                "random": true,
+                "anim": {
+                    "enable": false,
+                    "speed": 40,
+                    "size_min": 0.1,
+                    "sync": false
+                }
+            },
+            "line_linked": {
+                "enable": true,
+                "distance": 150,
+                "color": "#ffffff",
+                "opacity": 0.4,
+                "width": 1
+            },
+            "move": {
+                "enable": true,
+                "speed": 6,
+                "direction": "none",
+                "random": false,
+                "straight": false,
+                "out_mode": "out",
+                "bounce": false,
+                "attract": {
+                    "enable": false,
+                    "rotateX": 600,
+                    "rotateY": 1200
+                }
             }
-        });
-
-        function scrollToTop() {
-            window.scrollTo({ top: 0, behavior: 'smooth' }); // Défilement fluide vers le haut
-        }
-
-        window.addEventListener('scroll', () => {
-            const backToTop = document.getElementById('back-to-top');   
-            if (window.scrollY > 200) {
-                backToTop.style.display = 'block'; // Afficher le bouton retour en haut
-            } else {
-                backToTop.style.display = 'none'; // Masquer le bouton retour en haut
+        },
+        "interactivity": {
+            "detect_on": "canvas",
+            "events": {
+                "onhover": {
+                    "enable": true,
+                    "mode": "repulse"
+                },
+                "onclick": {
+                    "enable": true,
+                    "mode": "push"
+                },
+                "resize": true
+            },
+            "modes": {
+                "grab": {
+                    "distance": 400,
+                    "line_linked": {
+                        "opacity": 1
+                    }
+                },
+                "bubble": {
+                    "distance": 400,
+                    "size": 40,
+                    "duration": 2,
+                    "opacity": 8,
+                    "speed": 3
+                },
+                "repulse": {
+                    "distance": 100,
+                    "duration": 0.4
+                },
+                "push": {
+                    "particles_nb": 4
+                },
+                "remove": {
+                    "particles_nb": 2
+                }
             }
-        });
-
-        window.addEventListener('scroll', () => {
-            document.querySelectorAll('.background img').forEach(img => {
-                const speed = img.getAttribute('data-speed');
-                const yPos = -(window.scrollY * speed / 100);
-                img.style.transform = `translateY(${yPos}px)`; // Déplacer l'image en fonction du défilement
-            });
-        });
-
-        document.addEventListener('mousemove', (e) => {
-            const icons = document.querySelector('.weather-icons');
-            const x = (e.clientX / window.innerWidth) * 100 - 50;
-            const y = (e.clientY / window.innerHeight) * 100 - 50;
-            icons.style.transform = `translate(${x}px, ${y}px)`; // Déplacer les icônes en fonction de la souris
-        });
+        },
+        "retina_detect": true
+    });
     </script>
 </body>
 </html>

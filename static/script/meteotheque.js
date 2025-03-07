@@ -1,4 +1,13 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", function() {
+    //Restreindre les sélections de dates
+    let today = new Date();
+    today.setDate(today.getDate() - 1);
+    let maxDate = today.toISOString().split("T")[0];
+
+    document.querySelectorAll("input[type='date']").forEach(dateInput => {
+        dateInput.setAttribute("max", maxDate);
+    });
+
     const favoriteButtons = document.querySelectorAll('.favorite-button');
     const modal = document.getElementById('confirmModal');
     const confirmYes = document.getElementById('confirmYes');
