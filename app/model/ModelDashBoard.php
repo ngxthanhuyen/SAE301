@@ -36,6 +36,16 @@ class ModelDashBoard {
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return $result['nom'] ?? 'Station inconnue';
     }
+
+    public function getStationsByDept($code_dept) {
+        $query = "SELECT num_station FROM stations WHERE code_dept = :code_dept";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam(':code_dept', $code_dept, PDO::PARAM_STR);
+        $stmt->execute();
+        
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
     
 
     public function getMesuresParStationEtDate($num_station_recherche, $date_selectionnee) {
