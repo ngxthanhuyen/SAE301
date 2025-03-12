@@ -201,6 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('valider').addEventListener('click', function() {
         const stationSelection = document.getElementById('station-hidden').value;
         const deptSelection = document.getElementById('dept-hidden').value;
+        const regionSelection = document.getElementById('region-hidden').value;
         let dateSelection = document.getElementById('date-journee').value;
         let semaineSelection = document.getElementById('date-semaine').value;
         let moisSelection = document.getElementById('monthInput').value;
@@ -208,7 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
         clearExistingElements();
     
-        if (deptSelection || (stationSelection && (dateSelection || semaineSelection || moisSelection || anneeSelection))) {
+        if (deptSelection || regionSelection || (stationSelection && (dateSelection || semaineSelection || moisSelection || anneeSelection))) {
             let url = '';
             let dataType = '';
     
@@ -243,6 +244,22 @@ document.addEventListener('DOMContentLoaded', () => {
                     dataType = 'annee';
                 }
             }
+
+            if (regionSelection) {
+                if (semaineSelection) {
+                    url = `dashboard.php?region=${regionSelection}&semaine_selection=${semaineSelection}`;
+                    dataType = 'semaine';
+                } else if (dateSelection) {
+                    url = `dashboard.php?region=${regionSelection}&date_selection=${dateSelection}`;
+                    dataType = 'date';
+                } else if (moisSelection) {
+                    url = `dashboard.php?region=${regionSelection}&mois_selection=${moisSelection}`;
+                    dataType = 'mois';
+                } else if (anneeSelection) {
+                    url = `dashboard.php?region=${regionSelection}&annee_selection=${anneeSelection}`;
+                    dataType = 'annee';
+                }
+            }
     
             console.log('URL envoyée :', url);
             showPreloader();
@@ -263,6 +280,26 @@ document.addEventListener('DOMContentLoaded', () => {
     
                     if (data && Object.keys(data).length > 0) {
                         if (deptSelection) {
+                            if (dataType === 'date') {
+                                displayGaugesJournee(data.moyennes);
+                                displayTableDept(data.stations);
+                                displayGraphsJournee(data.mesures);
+                            } else if (dataType === 'semaine') {
+                                displayGaugesSemaine(data.moyennesSemaine);
+                                afficherTableSemaineDept(data.stations);
+                                displayTempGraphSemaine(data.mesuresSemaine);
+                                displayPluvioGraphSemaine(data.mesuresSemaine);
+                                displayGraphsSemaine(data.mesuresSemaine);
+                            } else if (dataType === 'mois') {
+                                displayGaugesMois(data.moyennesMois);
+                                displayTableMois(data.mesuresMois);
+                                displayGraphsMois(data.mesuresMois);
+                            } else if (dataType === 'annee') {
+                                displayGaugesAnnee(data.moyennesAnnee);
+                                displayTableAnnee(data.mesuresAnnee);
+                                displayGraphsAnnee(data.mesuresAnnee);
+                            }
+                        } else if (regionSelection) {
                             if (dataType === 'date') {
                                 displayGaugesJournee(data.moyennes);
                                 displayTableDept(data.stations);
@@ -321,7 +358,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     document.getElementById('annee-hidden').value = '';
                 });
         } else {
-            alert('Veuillez sélectionner un département, une station et une date, une semaine, un mois ou une année.');
+            alert('Veuillez sélectionner un département, une région, une station et une date, une semaine, un mois ou une année.');
         }
     });
 
