@@ -1,7 +1,7 @@
 <?php
-include_once __DIR__ . '/../controller/ControllerMeteothequeVisiteur.php';
-include_once __DIR__ . '/../controller/ControllerStations.php';
-include_once __DIR__ . '/../controller/ControllerMeteotheque.php';
+require_once __DIR__ . '/../controller/ControllerMeteothequeVisiteur.php';
+require_once __DIR__ . '/../controller/ControllerStations.php';
+require_once __DIR__ . '/../controller/ControllerMeteotheque.php';
 
 $controller = new ControllerMeteothequeVisiteur();
 $controllerStations = new ControllerStations();
@@ -52,7 +52,7 @@ $alertesSauvegardees = $controller->getAlertesSauvegardeesParUtilisateur($userId
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../static/style/meteotheque.css">
+    <link rel="stylesheet" href="/SAE301/static/style/meteotheque.css">
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <title>Détails de la Météothèque</title>
@@ -275,7 +275,7 @@ $alertesSauvegardees = $controller->getAlertesSauvegardeesParUtilisateur($userId
         <?php endif; ?>
     </div>
 
-    <script src="../../static/script/detailsMeteotheque.js"></script>
+    <script src="/SAE301/static/script/detailsMeteotheque.js"></script>
     <script src="//cdn.jsdelivr.net/npm/chart.js"></script>
     
 </body>

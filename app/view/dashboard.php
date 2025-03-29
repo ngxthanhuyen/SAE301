@@ -15,7 +15,10 @@ if (isset($_GET['station']) || isset($_GET['region'])) {
         $date_selection = $_GET['date_selection'];
         if ($num_station) {
             $data = $controllerDashboard->getMesuresEtMoyennesParStationEtDate($num_station, $date_selection);
-        } 
+        } elseif ($code_region) {
+            $data = $controllerDashboard->getMesuresEtMoyennesParRegionEtDate($code_region, $date_selection);
+        }
+        
         // Si des données sont trouvées, renvoyer en JSON
         if ($data) {
             header('Content-Type: application/json');
@@ -69,7 +72,10 @@ if (isset($_GET['station']) || isset($_GET['region'])) {
         $date_annee = $_GET['annee_selection'];
         if ($num_station) {
             $data = $controllerDashboard->getMesuresEtMoyennesAnnee($num_station, $date_annee);
-        } 
+        } elseif ($code_region) {
+            $data = $controllerDashboard->getMesuresEtMoyennesParRegionEtDate($code_region, $date_annee);
+        }
+
         if ($data) {
             header('Content-Type: application/json');
             echo json_encode($data);
@@ -200,13 +206,13 @@ if (!empty($regs)) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tableau de bord</title>
-    <link rel="stylesheet" href="../../static/style/dashboard.css"/>
+    <link rel="stylesheet" href="/SAE301/static/style/dashboard.css"/>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 
-    <?php require_once 'navbar.php'; ?>
+    <?php require_once __DIR__ . '/../view/navbar.php'; ?>
 
     <div id="overlay" style="display: none;"></div>
     <div id="preloader" style="display: none;"></div>
@@ -335,7 +341,7 @@ if (!empty($regs)) {
     </div>
 
 
-    <script src="../../static/script/dashboard.js"></script>
+    <script src="/SAE301/static/script/dashboard.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
 </body>

@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
     modalNo.addEventListener('click', closeModal);
 
     modalYes.addEventListener('click', () => {
-        fetch(`/app/view/StationsInfos.php?num_station=${stationId}&action=toggleFavorite`, {
+        fetch(`?page=StationsInfos&num_station=${stationId}&action=toggleFavorite`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -157,7 +157,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const stationId = document.getElementById('favorite-button').getAttribute('data-num-station');
 
-        fetch(`StationsInfos.php?num_station=${stationId}`, { 
+        fetch(`?page=StationsInfos&num_station=${stationId}`, { 
             method: 'POST',
             body: formData, 
         })

@@ -30,14 +30,14 @@ stations.forEach(station => {
     if (latitude && longitude) {
         // Définir l'icône personnalisée
         const iconPersonnalise = L.icon({
-            iconUrl: '../../static/images/marqueur_station.png',
+            iconUrl: '/SAE301/static/images/marqueur_station.png',
             iconSize: [35, 35],
             iconAnchor: [16, 32],
             popupAnchor: [0, -32],
         });
 
         const iconPersonnaliseOutreMer = L.icon({
-            iconUrl: '../../static/images/marqueur.png',
+            iconUrl: '/SAE301/static/images/marqueur.png',
             iconSize: [35, 35],
             iconAnchor: [16, 32],
             popupAnchor: [0, -32],
@@ -47,7 +47,7 @@ stations.forEach(station => {
         if (regionsMetropolitaines.includes(nom_reg)) {
             const marker = L.marker([latitude, longitude], { icon: iconPersonnalise }).addTo(mapMetropole);
             marker.on('click', function () {
-                window.location.href = "StationsInfos.php?num_station=" + num_station;
+                window.location.href = "?page=StationsInfos&num_station=" + num_station;
             });
             markersMetropole.push(marker); // Stocker le marqueur
         } 
@@ -55,7 +55,7 @@ stations.forEach(station => {
         else {
             const marker = L.marker([latitude, longitude], { icon: iconPersonnaliseOutreMer }).addTo(mapOutreMer);
             marker.on('click', function () {
-                window.location.href = "StationsInfos.php?num_station=" + num_station;
+                window.location.href = "?page=StationsInfos&num_station=" + num_station;
             });
             markersOutreMer.push({ marker, zone }); 
         }

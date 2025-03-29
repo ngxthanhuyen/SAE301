@@ -201,6 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('valider').addEventListener('click', function() {
         const stationSelection = document.getElementById('station-hidden').value;
         const deptSelection = document.getElementById('dept-hidden').value;
+        const regionSelection = document.getElementById('region-hidden').value;
         let dateSelection = document.getElementById('date-journee').value;
         let semaineSelection = document.getElementById('date-semaine').value;
         let moisSelection = document.getElementById('monthInput').value;
@@ -208,38 +209,54 @@ document.addEventListener('DOMContentLoaded', () => {
     
         clearExistingElements();
     
-        if (deptSelection || (stationSelection && (dateSelection || semaineSelection || moisSelection || anneeSelection))) {
+        if (deptSelection || regionSelection || (stationSelection && (dateSelection || semaineSelection || moisSelection || anneeSelection))) {
             let url = '';
             let dataType = '';
     
             if (stationSelection) {
                 if (semaineSelection) {
-                    url = `dashboard.php?station=${stationSelection}&semaine_selection=${semaineSelection}`;
+                    url = ` ?page=dashboard&station=${stationSelection}&semaine_selection=${semaineSelection}`;
                     dataType = 'semaine';
                 } else if (dateSelection) {
-                    url = `dashboard.php?station=${stationSelection}&date_selection=${dateSelection}`;
+                    url = `?page=dashboard&station=${stationSelection}&date_selection=${dateSelection}`;
                     dataType = 'date';
                 } else if (moisSelection) {
-                    url = `dashboard.php?station=${stationSelection}&mois_selection=${moisSelection}`;
+                    url = `?page=dashboard&station=${stationSelection}&mois_selection=${moisSelection}`;
                     dataType = 'mois';
                 } else if (anneeSelection) {
-                    url = `dashboard.php?station=${stationSelection}&annee_selection=${anneeSelection}`;
+                    url = `?page=dashboard&station=${stationSelection}&annee_selection=${anneeSelection}`;
                     dataType = 'annee';
                 }
             }
     
             if (deptSelection) {
                 if (semaineSelection) {
-                    url = `dashboard.php?dept=${deptSelection}&semaine_selection=${semaineSelection}`;
+                    url = `?page=dashboard&dept=${deptSelection}&semaine_selection=${semaineSelection}`;
                     dataType = 'semaine';
                 } else if (dateSelection) {
-                    url = `dashboard.php?dept=${deptSelection}&date_selection=${dateSelection}`;
+                    url = `?page=dashboard&dept=${deptSelection}&date_selection=${dateSelection}`;
                     dataType = 'date';
                 } else if (moisSelection) {
-                    url = `dashboard.php?dept=${deptSelection}&mois_selection=${moisSelection}`;
+                    url = `?page=dashboard&dept=${deptSelection}&mois_selection=${moisSelection}`;
                     dataType = 'mois';
                 } else if (anneeSelection) {
-                    url = `dashboard.php?dept=${deptSelection}&annee_selection=${anneeSelection}`;
+                    url = `?page=dashboard&dept=${deptSelection}&annee_selection=${anneeSelection}`;
+                    dataType = 'annee';
+                }
+            }
+
+            if (regionSelection) {
+                if (semaineSelection) {
+                    url = `dashboard.php?region=${regionSelection}&semaine_selection=${semaineSelection}`;
+                    dataType = 'semaine';
+                } else if (dateSelection) {
+                    url = `dashboard.php?region=${regionSelection}&date_selection=${dateSelection}`;
+                    dataType = 'date';
+                } else if (moisSelection) {
+                    url = `dashboard.php?region=${regionSelection}&mois_selection=${moisSelection}`;
+                    dataType = 'mois';
+                } else if (anneeSelection) {
+                    url = `dashboard.php?region=${regionSelection}&annee_selection=${anneeSelection}`;
                     dataType = 'annee';
                 }
             }
@@ -263,6 +280,26 @@ document.addEventListener('DOMContentLoaded', () => {
     
                     if (data && Object.keys(data).length > 0) {
                         if (deptSelection) {
+                            if (dataType === 'date') {
+                                displayGaugesJournee(data.moyennes);
+                                displayTableDept(data.stations);
+                                displayGraphsJournee(data.mesures);
+                            } else if (dataType === 'semaine') {
+                                displayGaugesSemaine(data.moyennesSemaine);
+                                afficherTableSemaineDept(data.stations);
+                                displayTempGraphSemaine(data.mesuresSemaine);
+                                displayPluvioGraphSemaine(data.mesuresSemaine);
+                                displayGraphsSemaine(data.mesuresSemaine);
+                            } else if (dataType === 'mois') {
+                                displayGaugesMois(data.moyennesMois);
+                                displayTableMois(data.mesuresMois);
+                                displayGraphsMois(data.mesuresMois);
+                            } else if (dataType === 'annee') {
+                                displayGaugesAnnee(data.moyennesAnnee);
+                                displayTableAnnee(data.mesuresAnnee);
+                                displayGraphsAnnee(data.mesuresAnnee);
+                            }
+                        } else if (regionSelection) {
                             if (dataType === 'date') {
                                 displayGaugesJournee(data.moyennes);
                                 displayTableDept(data.stations);
@@ -323,7 +360,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     document.getElementById('annee-hidden').value = '';
                 });
         } else {
-            alert('Veuillez sélectionner un département, une station et une date, une semaine, un mois ou une année.');
+            alert('Veuillez sélectionner un département, une région, une station et une date, une semaine, un mois ou une année.');
         }
     });
 
@@ -1010,7 +1047,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const canvas = document.createElement('canvas');
         canvas.id = 'chart-temperature-week';
         graphContainer.appendChild(canvas); 
-    
       
         const ctx = canvas.getContext('2d');
     

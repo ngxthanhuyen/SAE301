@@ -1,9 +1,8 @@
 <?php
-include_once __DIR__ . '/../controller/ControllerMeteotheque.php';
-include_once __DIR__ . '/../controller/ControllerStations.php';
-include_once __DIR__ . '/../controller/ControllerUser.php';
-include_once __DIR__ . '/../controller/ControllerComparaisons.php';
-
+require_once __DIR__ . '/../controller/ControllerMeteotheque.php';
+require_once __DIR__ . '/../controller/ControllerStations.php';
+require_once __DIR__ . '/../controller/ControllerUser.php';
+require_once __DIR__ . '/../controller/ControllerComparaisons.php';
 
 $userController = new ControllerUser();
 $userData = $userController->index();
@@ -21,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['num_station']) && !is
     $result = $controllerMeteotheque->removeFavorite($num_station);
 
     if ($result['success']) {
-        header('Location: meteotheque.php?success=1');
+        header('Location: ?page=meteotheque&success=1');
         exit;
     } else {
         echo "<p>Erreur : {$result['message']}</p>";
@@ -58,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
     $result = $controllerComparaison->deleteComparison($comparisonId); 
 
     if ($result['success']) {
-        header('Location: meteotheque.php?success=1');
+        header('Location: ?page=meteotheque&success=1');
         exit;
     } else {
         echo "<p>Erreur : {$result['message']}</p>";
@@ -103,7 +102,7 @@ $publication = $controllerMeteotheque->getPublicationStatus($userId);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Météothèque</title>
-    <link rel="stylesheet" href="../../static/style/meteotheque.css">
+    <link rel="stylesheet" href="/SAE301/static/style/meteotheque.css">
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
@@ -134,9 +133,9 @@ $publication = $controllerMeteotheque->getPublicationStatus($userId);
                 <p class="decouvrir-stations">Découvrez nos stations et ajoutez-en à vos favoris :</p>
                 <div class="lien">
                     <div class="fleche-container">
-                        <img src="../../static/images/fleche_bas.png" height="70px" width="70px">
+                        <img src="/SAE301/static/images/fleche_bas.png" height="70px" width="70px">
                     </div>
-                    <a href="http://localhost/SAE3.01/app/view/StationsAccueil.php" class="lien-stations">Découvrir les stations
+                    <a href="?page=StationsAccueil" class="lien-stations">Découvrir les stations
                         <i class="lni lni-arrow-right"></i>
                     </a>
                 </div>
@@ -146,7 +145,7 @@ $publication = $controllerMeteotheque->getPublicationStatus($userId);
             <?php foreach ($favoriteStations as $station): ?>
                 <div class="station-section">
                     <h2 class="station-name">Station préférée: <span><?= htmlspecialchars($station['nom']) ?></span></h2>
-                    <form method="POST" action="meteotheque.php" class="form">
+                    <form method="POST" action="?page=meteotheque" class="form">
                         <label for="dateInput-<?= htmlspecialchars($station['num_station']) ?>" class="form-label">Sélectionnez une date</label>
                         <input type="date" name="date" id="datePicker-<?= htmlspecialchars($station['num_station']) ?>" class="form-input" value="<?= isset($_POST['date']) && $_POST['num_station'] == $station['num_station'] ? htmlspecialchars($_POST['date']) : '' ?>">
                         <input type="hidden" name="num_station" value="<?= htmlspecialchars($station['num_station']) ?>">
@@ -204,11 +203,11 @@ $publication = $controllerMeteotheque->getPublicationStatus($userId);
                             </div>
                         </div>
 
-                        <form class="remove-favorite-form" method="POST" action="meteotheque.php">
+                        <form class="remove-favorite-form" method="POST" action="?page=meteotheque">
                             <input type="hidden" name="num_station" value="<?= htmlspecialchars($station['num_station']) ?>">
                             <!-- Bouton cœur -->
                             <button type="button" class="favorite-button" data-num_station="<?= htmlspecialchars($station['num_station']) ?>">
-                                <img src="../../static/images/coeur.png" alt="Icône cœur" class="heart-icon" height="58px" width="60px">
+                                <img src="/SAE301/static/images/coeur.png" alt="Icône cœur" class="heart-icon" height="58px" width="60px">
                             </button>
                         </form>
 
@@ -368,7 +367,7 @@ $publication = $controllerMeteotheque->getPublicationStatus($userId);
                 <div id="confirmTableModal-<?= $index ?>" class="modal hidden">
                     <div class="modal-content">
                         <p>Voulez-vous supprimer ce tableau de comparaison de votre météothèque ?</p>
-                        <form id="confirmTableForm-<?= $index ?>" method="POST" action="meteotheque.php">
+                        <form id="confirmTableForm-<?= $index ?>" method="POST" action="?page=meteotheque">
                             <input type="hidden" name="id" value="<?= htmlspecialchars($comparison['id']) ?>">
                             <button type="button" class="tableConfirmNo" data-index="<?= $index ?>">Non</button>
                             <button type="submit" class="tableConfirmYes" data-index="<?= $index ?>">Oui</button>
@@ -402,7 +401,7 @@ $publication = $controllerMeteotheque->getPublicationStatus($userId);
                         <td style="position: relative;">
                             <?= htmlspecialchars($alert['valeur'] ?? '') ?>
                             <!-- Formulaire pour supprimer l'alerte -->
-                            <form method="POST" action="meteotheque.php" style="display: inline; position: absolute; top: 0; right: 0;">
+                            <form method="POST" action="?page=meteotheque" style="display: inline; position: absolute; top: 0; right: 0;">
                                 <input type="hidden" name="alert_id" value="<?= htmlspecialchars($alert['alert_id']) ?>">
                                 <button class="delete-button" name="supprimer_alerte" type="submit">×</button>
                             </form>
@@ -451,15 +450,15 @@ $publication = $controllerMeteotheque->getPublicationStatus($userId);
         <p class="info">Vous souhaitez visualiser les météothèques des autres utilisateurs ?</p>
         <div class="lien">
             <div class="fleche-container">
-                <img src="../../static/images/flecheBas.png" height="90px" width="90px">
+                <img src="/SAE301/static/images/flecheBas.png" height="90px" width="90px">
             </div>
-            <a href="http://localhost/SAE3.01/app/view/meteothequeVisiteur.php" class="lien-inscription">Découvrir toutes les météothèques publiées
+            <a href="?page=meteothequeVisiteur" class="lien-inscription">Découvrir toutes les météothèques publiées
                 <i class="lni lni-arrow-right"></i>
             </a>
         </div>
     </div>
 
-    <script src="../../static/script/meteotheque.js"></script>
+    <script src="/SAE301/static/script/meteotheque.js"></script>
     <script src="//cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 </html>

@@ -157,6 +157,10 @@ class ControllerDashBoard {
         return $response;
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> ea6dc043ee065782200480b3797f06109f103e15
     public function getMesuresEtMoyennesParDeptEtDate($code_dept, $date_selectionnee) {
         $response = [];
         

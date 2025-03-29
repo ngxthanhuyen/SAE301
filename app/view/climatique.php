@@ -18,11 +18,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 include_once __DIR__ . '/../controller/ControllerStations.php';
 
-    $controller = new ControllerStations();
-    $stations = $controller->getStations();
-    $stationsJson = json_encode($stations); 
+$controller = new ControllerStations();
+$stations = $controller->getStations();
+$stationsJson = json_encode($stations); 
 ?>
-
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -30,7 +29,7 @@ include_once __DIR__ . '/../controller/ControllerStations.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cartes Climatiques</title>
-    <link rel="stylesheet" href="../../static/style/climatique.css"/>
+    <link rel="stylesheet" href="/SAE301/static/style/climatique.css"/>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
 </head>
 <body>
@@ -45,7 +44,7 @@ include_once __DIR__ . '/../controller/ControllerStations.php';
         <div class="sidebar">
             <h1>Cartes climatiques</h1>
             <div class="sidebar-container">
-                <form action="climatique.php" method="POST">
+                <form action="?page=climatique" method="POST">
                     <div class="form-group">
                         <label for="date-start">Période de début</label>
                         <input type="date" id="date-start" name="date_start" value="<?php echo date('Y-m-d'); ?>">
@@ -92,7 +91,7 @@ include_once __DIR__ . '/../controller/ControllerStations.php';
         var stations = <?php echo $stationsJson; ?>;
     </script>
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script src="../../static/script/climatique.js"></script>
+    <script src="/SAE301/static/script/climatique.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6.5.0"></script>
 </body>
 </html>

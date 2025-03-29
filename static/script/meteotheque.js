@@ -170,7 +170,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             const formData = new FormData();
             formData.append('publication', publicationStatus.value);
-            fetch('meteotheque.php', {
+            fetch('?page=meteotheque', { // Correct the URL
                 method: 'POST',
                 body: formData
             })
@@ -214,8 +214,9 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 });
+
 function fetchDataAndDisplayChart(parameter, numStation, date = null) {
-    let url = `meteotheque.php?parameter=${parameter}&num_station=${numStation}`;
+    let url = `?page=meteotheque&parameter=${parameter}&num_station=${numStation}`;
     if (date) {
         url += `&date=${date}`;
     }

@@ -1,5 +1,5 @@
 <?php
-include_once '../model/ModelStations.php';
+include_once __DIR__ . '/../model/ModelStations.php';
 
 class ControllerStations {
     private $modelStations;

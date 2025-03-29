@@ -1,14 +1,10 @@
-<?php
-session_start();
-?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Édition du Profil</title>
-    <link rel="stylesheet" href="../../static/style/edit.css"/>
+    <link rel="stylesheet" href="/SAE301/static/style/edit.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
@@ -30,7 +26,7 @@ session_start();
                 <?php unset($_SESSION['success']); ?>
             <?php endif; ?>
 
-            <form action="../controller/ControllerEditProfile.php" method="POST" enctype="multipart/form-data">
+            <form action="/SAE301/app/controller/ControllerEditProfile.php" method="POST" enctype="multipart/form-data">
                 <div class="form-container">
                     <div class="form-content">
                         <label for="nom">Nom :</label>
@@ -71,9 +67,9 @@ session_start();
                 <button type="submit" name="update_profile" class="btn">Mettre à jour le profil</button>
             </form>
 
-            <p><a href="user_page.php">Retour à mon profil</a></p>
+            <p><a href="?page=user_page">Retour à mon profil</a></p>
         </div>
     </div>
-    <script src="../../static/script/edit.js"></script>
+    <script src="/SAE301/static/script/edit.js"></script>
 </body>
 </html>

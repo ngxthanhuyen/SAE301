@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../static/style/footer.css">
+    <link rel="stylesheet" href="/SAE301/static/style/footer.css">
     <title>Footer</title>
 </head>
 <body>
     <footer>
         <div class="footer-container">
             <div class="logo">
-                <a href="accueil.php" class="logo-link">
-                    <img src="../../static/images/logo.png" alt="Our'Atmos Logo">
+                <a href="?page=accueil.php" class="logo-link">
+                    <img src="/SAE301/static/images/logo.png" alt="Our'Atmos Logo">
                     <span class="title">Our'Atmos</span>
                 </a>
             </div>

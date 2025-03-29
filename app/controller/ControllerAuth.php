@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once __DIR__ . '/../model/Model.php';
 require_once __DIR__ . '/../model/ModelUsers.php';
 
@@ -31,7 +30,7 @@ class ControllerAuth {
                     $_SESSION['email'] = $row['email'];
                     $_SESSION['creation_date'] = $row['creation_date'];
                     $_SESSION['photo_profil'] = $row['photo_profil'];
-                    header('Location: ../view/user_page.php');
+                    header('Location: ?page=user_page');
                     exit();
                 } else {
                 $error[] = "Identifiant ou mot de passe invalide!";
@@ -102,7 +101,7 @@ class ControllerAuth {
             // Création de l'utilisateur
             if (empty($errors)) {
                 if ($this->user->create($username, $nom, $prenom, $email, $password, $photo_profil)) {
-                    header('Location: ../view/login_form.php');
+                    header('Location: ?page=login_form');
                     exit();
                 } else {
                     $errors[] = 'Erreur lors de la création de l\'utilisateur.';

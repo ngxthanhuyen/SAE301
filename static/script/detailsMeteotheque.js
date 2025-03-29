@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Fonction pour récupérer les données et afficher le graphique
 function fetchDataAndDisplayChart(parameter, numStation) {
-    const url = `detailsMeteotheque.php?parameter=${parameter}&num_station=${numStation}`;
+    const url = `?page=detailsMeteotheque&parameter=${parameter}&num_station=${numStation}`;
 
     fetch(url)
         .then(response => {

@@ -1,5 +1,5 @@
 <?php 
-require_once 'navbar.php'; 
+require_once __DIR__ . '/../view/navbar.php'; 
 include_once __DIR__ . '/../controller/ControllerStations.php';
 
 $controller = new ControllerStations();
@@ -12,7 +12,7 @@ $stationsJson = json_encode($stations);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stations Accueil</title>
-    <link rel="stylesheet" href="../../static/style/StationsAccueil.css">
+    <link rel="stylesheet" href="/SAE301/static/style/StationsAccueil.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
 </head>
@@ -20,7 +20,8 @@ $stationsJson = json_encode($stations);
     <main class="stations-accueil" style="margin-top: 100px;">
         <h1>Bienvenue à la page Station !</h1>
         <div class="search-bar">
-            <form method="GET" action="StationsInfos.php" id="searchForm">
+            <form method="GET" action="?page=StationsInfos" id="searchForm">
+                <input type="hidden" name="page" value="StationsInfos">
                 <input type="text" name="station_name" placeholder="Nom de la station" class="search-input" id="searchInput">
                 <button type="submit" class="search-button" id="searchButton">
                     <i class="fas fa-search search-icon"></i>
@@ -46,12 +47,12 @@ $stationsJson = json_encode($stations);
 
     <!-- Inclusion du footer -->
     <?php
-        require_once 'footer.php';
+        require_once __DIR__ . '/../view/footer.php';
     ?>
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
         var stations = <?php echo $stationsJson; ?>;
     </script>
-    <script src="../../static/script/stations.js"></script>
+    <script src="/SAE301/static/script/stations.js"></script>
 </body>
 </html>

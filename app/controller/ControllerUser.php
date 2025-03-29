@@ -1,5 +1,4 @@
 <?php
-session_start();
 
 class ControllerUser {
     public function index() {
@@ -44,14 +43,14 @@ class ControllerUser {
             // Traitement de la photo de profil
             $target_file = '';
             if ($photo_profil && $photo_profil['error'] === 0) {
-                $target_dir = "../upload/";
+                $target_dir = __DIR__ . '/../upload/'; // Ensure the path is correct
 
                 // Vérifier l'extension du fichier
                 $allowedExtensions = ['jpg', 'jpeg', 'png'];
                 $extension = strtolower(pathinfo($photo_profil['name'], PATHINFO_EXTENSION));
                 if (!in_array($extension, $allowedExtensions)) {
                     $_SESSION['error'] = "L'extension du fichier doit être jpg, jpeg ou png.";
-                    header("Location: ../view/user_page.php");
+                    header("Location: ?page=user_page");
                     exit;
                 }
 
@@ -59,7 +58,7 @@ class ControllerUser {
                 $maxSize = 2 * 1024 * 1024; 
                 if ($photo_profil['size'] > $maxSize) {
                     $_SESSION['error'] = "Le fichier ne doit pas dépasser 2 Mo.";
-                    header("Location: ../view/user_page.php");
+                    header("Location: ?page=user_page");
                     exit;
                 }
 
@@ -74,7 +73,7 @@ class ControllerUser {
                 //On déplace le fichier vers le répertoire de téléchargement
                 if (!move_uploaded_file($photo_profil['tmp_name'], $target_file)) {
                     $_SESSION['error'] = "Erreur lors de l'upload de la photo.";
-                    header("Location: ../view/user_page.php");
+                    header("Location: ?page=user_page");
                     exit;
                 }
             } else {
@@ -101,7 +100,7 @@ class ControllerUser {
             }
 
             // Redirection vers la page de l'utilisateur
-            header("Location: ../view/user_page.php");
+            header("Location: ?page=user_page");
             exit;
         }
     }
