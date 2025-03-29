@@ -15,10 +15,7 @@ if (isset($_GET['station']) || isset($_GET['region'])) {
         $date_selection = $_GET['date_selection'];
         if ($num_station) {
             $data = $controllerDashboard->getMesuresEtMoyennesParStationEtDate($num_station, $date_selection);
-        } elseif ($code_region) {
-            $data = $controllerDashboard->getMesuresEtMoyennesParRegionEtDate($code_region, $date_selection);
-        }
-        
+        } 
         // Si des données sont trouvées, renvoyer en JSON
         if ($data) {
             header('Content-Type: application/json');
@@ -36,8 +33,6 @@ if (isset($_GET['station']) || isset($_GET['region'])) {
         $date_semaine = $_GET['semaine_selection'];
         if ($num_station) {
             $resultatsSemaines = $controllerDashboard->getMesuresEtMoyennesSemaine($num_station, $date_semaine);
-        } elseif ($code_region) {
-            $resultatsSemaines = $controllerDashboard->getMesuresEtMoyennesSemaineRegion($code_region, $date_semaine);
         }
 
         // Si des mesures et moyennes sont trouvées, renvoyer en JSON
@@ -57,8 +52,6 @@ if (isset($_GET['station']) || isset($_GET['region'])) {
         $date_mois = $_GET['mois_selection'];
         if ($num_station) {
             $data = $controllerDashboard->getMesuresEtMoyennesMois($num_station, $date_mois);
-        } elseif ($code_region) {
-            $data = $controllerDashboard->getMesuresEtMoyennesParRegionEtDate($code_region, $date_mois);
         }
 
         if ($data) {
@@ -76,10 +69,7 @@ if (isset($_GET['station']) || isset($_GET['region'])) {
         $date_annee = $_GET['annee_selection'];
         if ($num_station) {
             $data = $controllerDashboard->getMesuresEtMoyennesAnnee($num_station, $date_annee);
-        } elseif ($code_region) {
-            $data = $controllerDashboard->getMesuresEtMoyennesParRegionEtDate($code_region, $date_annee);
-        }
-
+        } 
         if ($data) {
             header('Content-Type: application/json');
             echo json_encode($data);

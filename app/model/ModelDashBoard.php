@@ -367,21 +367,38 @@ class ModelDashBoard {
             'temperature' => 0,
             'vent' => 0,
             'humidite' => 0,
-            'pression' => 0
+            'pression' => 0,
+            'visibilite' => 0,
+            'precipitation' => 0
         ];
-
         $comptes = [
             'temperature' => 0,
             'vent' => 0,
             'humidite' => 0,
-            'pression' => 0
+            'pression' => 0,
+            'visibilite' => 0,
+            'precipitation' => 0
         ];
-
+    
+        // Variables pour les valeurs min et max
+        $tempMax = null;
+        $tempMin = null;
+        $pluMax = null;
+        $pluMin = null;
+    
         foreach ($mesuresMois as $jour => $mesureJour) {
             if ($mesureJour) {
                 if (isset($mesureJour['temperature'])) {
                     $totaux['temperature'] += $mesureJour['temperature'];
                     $comptes['temperature']++;
+    
+                    // Mise à jour des températures max et min
+                    if ($tempMax === null || $mesureJour['temperature'] > $tempMax) {
+                        $tempMax = $mesureJour['temperature'];
+                    }
+                    if ($tempMin === null || $mesureJour['temperature'] < $tempMin) {
+                        $tempMin = $mesureJour['temperature'];
+                    }
                 }
                 if (isset($mesureJour['vent'])) {
                     $totaux['vent'] += $mesureJour['vent'];
@@ -395,16 +412,39 @@ class ModelDashBoard {
                     $totaux['pression'] += $mesureJour['pression'];
                     $comptes['pression']++;
                 }
+                if (isset($mesureJour['visibilite'])) {
+                    $totaux['visibilite'] += $mesureJour['visibilite'];
+                    $comptes['visibilite']++;
+                }
+                if (isset($mesureJour['precipitation'])) {
+                    $totaux['precipitation'] += $mesureJour['precipitation'];
+                    $comptes['precipitation']++;
+    
+                    // Mise à jour des précipitations max et min
+                    if ($pluMax === null || $mesureJour['precipitation'] > $pluMax) {
+                        $pluMax = $mesureJour['precipitation'];
+                    }
+                    if ($pluMin === null || $mesureJour['precipitation'] < $pluMin) {
+                        $pluMin = $mesureJour['precipitation'];
+                    }
+                }
             }
         }
-
+    
         $moyennesMois = [];
         foreach ($totaux as $parametre => $total) {
             $moyennesMois[$parametre] = ($comptes[$parametre] > 0) ? round($total / $comptes[$parametre], 2) : null;
         }
-
+    
+        // Ajouter les valeurs max et min
+        $moyennesMois['temperature_max'] = $tempMax;
+        $moyennesMois['temperature_min'] = $tempMin;
+        $moyennesMois['precipitation_max'] = $pluMax;
+        $moyennesMois['precipitation_min'] = $pluMin;
+    
         return $moyennesMois;
     }
+    
       
     public function getWeatherIcon($weatherCode) {
         switch ($weatherCode) {
@@ -534,22 +574,35 @@ class ModelDashBoard {
     }    
 
     public function getMesuresAnneeStation($num_station_recherche, $date_annee) {
-        // Increase the maximum execution time limit
-        set_time_limit(300); // 300 seconds = 5 minutes
-
+        set_time_limit(300); // 300 secondes = 5 minutes
+    
         try {
             $dateTimeAnnee = DateTime::createFromFormat('Y', $date_annee);
             if (!$dateTimeAnnee) {
                 throw new Exception("Format d'année invalide. Utiliser 'Y'.");
             }
-
+    
             $mesuresAnnee = [];
+    
             for ($month = 1; $month <= 12; $month++) {
                 $date_mois = $dateTimeAnnee->format('Y') . '-' . str_pad($month, 2, '0', STR_PAD_LEFT);
                 $mesuresMois = $this->getMesuresMoisStation($num_station_recherche, $date_mois);
-                $mesuresAnnee[$date_mois] = $this->calculerMoyenneMois($mesuresMois);
+                $moyennesMois = $this->calculerMoyenneMois($mesuresMois);
+    
+                $mesuresAnnee[$date_mois] = [
+                    'temperature' => $moyennesMois['temperature'],
+                    'vent' => $moyennesMois['vent'],
+                    'humidite' => $moyennesMois['humidite'],
+                    'pression' => $moyennesMois['pression'],
+                    'visibilite' => $moyennesMois['visibilite'],
+                    'precipitation' => $moyennesMois['precipitation'],
+                    'temperature_max' => $moyennesMois['temperature_max'],
+                    'temperature_min' => $moyennesMois['temperature_min'],
+                    'precipitation_max' => $moyennesMois['precipitation_max'],
+                    'precipitation_min' => $moyennesMois['precipitation_min'],
+                ];
             }
-
+    
             return $mesuresAnnee;
         } catch (Exception $e) {
             header('Content-Type: application/json');
@@ -557,6 +610,7 @@ class ModelDashBoard {
             exit;
         }
     }
+    
 
     public function calculerMoyenneAnnee($mesuresAnnee) {
         $totaux = [
@@ -593,6 +647,7 @@ class ModelDashBoard {
                 }
             }
         }
+        
 
         $moyennesAnnee = [];
         foreach ($totaux as $parametre => $total) {
