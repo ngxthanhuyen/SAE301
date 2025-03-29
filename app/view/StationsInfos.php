@@ -1,5 +1,4 @@
 <?php
-session_start();
 
 require_once __DIR__ . '/../controller/ControllerStations.php';
 require_once __DIR__ . '/../controller/ControllerMeteotheque.php';
@@ -112,8 +111,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Station Infos</title>
-    <link rel="stylesheet" href="../../static/style/StationsInfos.css">
-    <link rel="stylesheet" href="../../static/style/navbar.css">
+    <link rel="stylesheet" href="/SAE301/static/style/StationsInfos.css">
+    <link rel="stylesheet" href="/SAE301/static/style/navbar.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/odometer.js/0.4.8/themes/odometer-theme-default.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
@@ -131,7 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <!-- Conteneur principal -->
     <div class="station-container">
         <div class="station-header">
-            <h1><img src="../../static/images/marqueur_station.png">Station : <span><?php echo htmlspecialchars($station['nom'] ?? ''); ?></span></h1>
+            <h1><img src="/SAE301/static/images/marqueur_station.png">Station : <span><?php echo htmlspecialchars($station['nom'] ?? ''); ?></span></h1>
             <h2 class="station-subtitle"><?php echo htmlspecialchars($station['libgeo'] ?? ''); ?> - <?php echo htmlspecialchars($station['codegeo'] ?? ''); ?>, <?php echo htmlspecialchars($station['nom_dept'] ?? ''); ?> - <?php echo htmlspecialchars($station['code_dept'] ?? ''); ?>, <?php echo htmlspecialchars($station['nom_reg'] ?? ''); ?> - <?php echo htmlspecialchars($station['code_reg'] ?? ''); ?></h2>
             <button id="favorite-button" 
                 data-num-station="<?php echo htmlspecialchars($station['num_station']); ?>" 
@@ -386,10 +385,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <!-- Inclusion du footer -->
     <?php
-        require_once 'footer.php';
+        require_once __DIR__ . '/../view/footer.php';
     ?>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="../../static/script/stationsInfos.js"></script>
+    <script src="/sAE301/static/script/stationsInfos.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/odometer.js/0.4.8/odometer.min.js"></script>
 </body>
 </html>

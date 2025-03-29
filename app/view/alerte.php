@@ -1,5 +1,4 @@
 <?php
-session_start();
 
 require_once __DIR__ . '/../controller/ControllerAlerte.php';
 require_once __DIR__ . '/../controller/ControllerStations.php';
@@ -29,7 +28,7 @@ $formSubmitted = isset($_POST['submit']);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Page Alerte</title>
-    <link rel="stylesheet" href="../../static/style/alerte.css">
+    <link rel="stylesheet" href="/SAE301/static/style/alerte.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
 <body>
@@ -40,7 +39,7 @@ $formSubmitted = isset($_POST['submit']);
 
     <div class="alert-container">
         <h2>Configurer une alerte</h2>
-        <form id="alert-form" action="alerte.php" method="POST">
+        <form id="alert-form" action="?page=alerte" method="POST">
             <!-- Sélection de la station -->
             <div class="dropdown">
                 <label for="dropdown-search">Station :</label>
@@ -154,6 +153,6 @@ $formSubmitted = isset($_POST['submit']);
             </button>
         </div>
     </form>
-    <script src="../../static/script/alerte.js"></script>
+    <script src="/SAE301/static/script/alerte.js"></script>
 </body>
 </html>

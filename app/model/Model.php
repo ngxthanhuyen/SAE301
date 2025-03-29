@@ -7,7 +7,7 @@ class Model {
     private $pdo;
     public function __construct() {
         try {
-            $this->pdo = new PDO('mysql:host=localhost;dbname=SAE3_01', 'root', '123');
+            $this->pdo = new PDO('mysql:host=localhost;dbname=sae301', 'root', '');
             $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
             die("Échec de la connexion à la base de données : " . $e->getMessage());

@@ -1,7 +1,6 @@
 <?php
 require_once __DIR__ . '/../controller/ControllerMeteothequeVisiteur.php';
 require_once __DIR__ . '/../controller/ControllerStations.php';
-session_start();
 
 $userId = isset($_SESSION['user_id']) ? intval($_SESSION['user_id']) : null;
 
@@ -40,19 +39,19 @@ if (!empty($stations)) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../static/style/meteothequeVisiteur.css"/>
+    <link rel="stylesheet" href="/SAE301/static/style/meteothequeVisiteur.css"/>
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <title>Météothèque Visiteur</title>
 </head>
 <body>
     <?php if ($userId) {
-            require_once 'navbar.php';
+            include_once __DIR__ . '/navbar.php';
     } else {
         echo '<nav class="navbar">
             <div class="navbar-logo">
                 <a class="logo-link">
-                    <img src="../../static/images/logo.png" alt="Our\'Atmos Logo">
+                    <img src="/SAE301/static/images/logo.png" alt="Our\'Atmos Logo">
                     <span class="navbar-title">Our\'Atmos</span>
                 </a>
             </div>
@@ -81,7 +80,7 @@ if (!empty($stations)) {
                 <div class="meteotheque-block">
                     <span class="user-name top-right"><?= htmlspecialchars($meteotheque['username']); ?></span>
                     <p>Visualisez la météothèque de <?= htmlspecialchars($meteotheque['prenom']) . ' ' . htmlspecialchars($meteotheque['nom']); ?></p>               
-                    <a class="ghost" href="detailsMeteotheque.php?meteotheque_id=<?= htmlspecialchars($meteotheque['meteotheque_id']); ?>&user_id=<?= htmlspecialchars($meteotheque['user_id']); ?>">Découvrir</a>
+                    <a class="ghost" href="?page=detailsMeteotheque&meteotheque_id=<?= htmlspecialchars($meteotheque['meteotheque_id']); ?>&user_id=<?= htmlspecialchars($meteotheque['user_id']); ?>">Découvrir</a>
                 </div>
             <?php endforeach; ?>
         <?php else: ?>
@@ -95,9 +94,9 @@ if (!empty($stations)) {
         <p class="creer-compte">Créez votre compte maintenant pour accéder à des fonctionnalités exclusives<br> et débloquer tout le potentiel de notre application météorologique !</p>
         <div class="lien">
             <div class="fleche-container">
-                <img src="../../static/images/flecheBas.png" height="90px" width="90px">
+                <img src="/SAE301/static/images/flecheBas.png" height="90px" width="90px">
             </div>
-            <a href="http://localhost/SAE3.01/app/view/register_form.php" class="lien-inscription">Inscrivez-vous
+            <a href="/SAE301/web/frontController.php?page=register_form" class="lien-inscription">Inscrivez-vous
                 <i class="lni lni-arrow-right"></i>
             </a>
         </div>
@@ -105,6 +104,6 @@ if (!empty($stations)) {
 <?php endif; ?>
 
 
-    <script src="../../static/script/meteothequeVisiteur.js"></script>
+    <script src="/SAE301/static/script/meteothequeVisiteur.js"></script>
 </body>
 </html>

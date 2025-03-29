@@ -415,7 +415,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
         const formData = new FormData(this);
     
-        fetch('climatique.php', {
+        fetch('?page=climatique', {
             method: 'POST',
             body: formData
         })

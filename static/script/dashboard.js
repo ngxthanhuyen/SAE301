@@ -214,32 +214,32 @@ document.addEventListener('DOMContentLoaded', () => {
     
             if (stationSelection) {
                 if (semaineSelection) {
-                    url = `dashboard.php?station=${stationSelection}&semaine_selection=${semaineSelection}`;
+                    url = ` ?page=dashboard&station=${stationSelection}&semaine_selection=${semaineSelection}`;
                     dataType = 'semaine';
                 } else if (dateSelection) {
-                    url = `dashboard.php?station=${stationSelection}&date_selection=${dateSelection}`;
+                    url = `?page=dashboard&station=${stationSelection}&date_selection=${dateSelection}`;
                     dataType = 'date';
                 } else if (moisSelection) {
-                    url = `dashboard.php?station=${stationSelection}&mois_selection=${moisSelection}`;
+                    url = `?page=dashboard&station=${stationSelection}&mois_selection=${moisSelection}`;
                     dataType = 'mois';
                 } else if (anneeSelection) {
-                    url = `dashboard.php?station=${stationSelection}&annee_selection=${anneeSelection}`;
+                    url = `?page=dashboard&station=${stationSelection}&annee_selection=${anneeSelection}`;
                     dataType = 'annee';
                 }
             }
     
             if (deptSelection) {
                 if (semaineSelection) {
-                    url = `dashboard.php?dept=${deptSelection}&semaine_selection=${semaineSelection}`;
+                    url = `?page=dashboard&dept=${deptSelection}&semaine_selection=${semaineSelection}`;
                     dataType = 'semaine';
                 } else if (dateSelection) {
-                    url = `dashboard.php?dept=${deptSelection}&date_selection=${dateSelection}`;
+                    url = `?page=dashboard&dept=${deptSelection}&date_selection=${dateSelection}`;
                     dataType = 'date';
                 } else if (moisSelection) {
-                    url = `dashboard.php?dept=${deptSelection}&mois_selection=${moisSelection}`;
+                    url = `?page=dashboard&dept=${deptSelection}&mois_selection=${moisSelection}`;
                     dataType = 'mois';
                 } else if (anneeSelection) {
-                    url = `dashboard.php?dept=${deptSelection}&annee_selection=${anneeSelection}`;
+                    url = `?page=dashboard&dept=${deptSelection}&annee_selection=${anneeSelection}`;
                     dataType = 'annee';
                 }
             }
@@ -1008,7 +1008,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const canvas = document.createElement('canvas');
         canvas.id = 'chart-temperature-week';
         graphContainer.appendChild(canvas); 
-    
       
         const ctx = canvas.getContext('2d');
     

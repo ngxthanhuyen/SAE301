@@ -41,12 +41,12 @@ if (isset($_POST['update_profile'])) {
                     $photo_profil = basename($filePath);
                 } else {
                     $_SESSION['error'] = 'Erreur lors du téléchargement de la photo.';
-                    header('Location: ../view/edit.php');
+                    header('Location: /SAE301/web/frontController.php?page=edit');
                     exit();
                 }
             } else {
                 $_SESSION['error'] = 'Le fichier doit être une image valide (jpg, jpeg, png) et ne doit pas dépasser 2 Mo.';
-                header('Location: ../view/edit.php');
+                header('Location: /SAE301/web/frontController.php?page=edit');
                 exit();
             }
         } else {
@@ -65,7 +65,7 @@ if (isset($_POST['update_profile'])) {
         $_SESSION['error'] = 'Erreur lors de la mise à jour du profil.';
     }
     
-    header('Location: ../view/edit.php');
+    header('Location: /SAE301/web/frontController.php?page=edit');
     exit();
 }
 ?>

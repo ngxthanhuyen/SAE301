@@ -47,7 +47,7 @@ class ControllerMeteotheque {
     public function afficherMeteotheque() {
         $user_id = $_SESSION['user_id'] ?? null;
         if (!$user_id) {
-            header('Location: ../view/login_form.php');
+            header('Location: ?page=login_form');
             exit;
         }
         return $this->model->getFavoriteStations($user_id);
@@ -167,7 +167,7 @@ class ControllerMeteotheque {
             }
         
             // Rediriger pour éviter que le formulaire soit renvoyé si l'utilisateur actualise la page
-            header('Location: meteotheque.php');
+            header('Location: ?page=meteotheque');
             exit;
         }
     }    

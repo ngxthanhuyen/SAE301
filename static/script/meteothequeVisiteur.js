@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function fetchMeteothequesParStation(query) {
-        fetch(`meteothequeVisiteur.php?query=${encodeURIComponent(query)}`)
+        fetch(`?page=meteothequeVisiteur&query=${encodeURIComponent(query)}`)
             .then(response => response.json())
             .then(data => {
                 if (Array.isArray(data)) {
@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 block.innerHTML = `
                     <span class="user-name top-right">${m.username}</span>
                     <p>Visualisez la météothèque de ${m.prenom} ${m.nom}</p>               
-                    <a class="ghost" href="detailsMeteotheque.php?meteotheque_id=${m.meteotheque_id}&user_id=${m.user_id}">Découvrir</a>`;
+                    <a class="ghost" href="?page=detailsMeteotheque&meteotheque_id=${m.meteotheque_id}&user_id=${m.user_id}">Découvrir</a>`;
                 meteothequeContainer.appendChild(block);
             });
         }
