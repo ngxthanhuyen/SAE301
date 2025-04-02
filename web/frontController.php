@@ -20,6 +20,9 @@ switch ($page) {
     case 'dashboard':
         require(ROOT . '/app/view/dashboard.php');
         break;
+    case 'admin_page': // Ajout du tableau de bord admin
+        require(ROOT . '/app/view/admin_page.php');
+        break;
     case 'detailsMeteotheque':
         require(ROOT . '/app/view/detailsMeteotheque.php');
         break;
@@ -75,5 +78,23 @@ switch ($page) {
     default:
         require(ROOT . '/app/view/404.php');
         break;
+
+    case 'edit_user':
+        require(ROOT . '/app/view/edit_user.php');
+        break;
+    case 'deleted_user':
+        require(ROOT . '/app/view/deleted_user.php');
+        break;
+    case 'update_user':
+        require(ROOT . '/app/controller/ControllerUser.php');
+        $controller = new ControllerUser();
+        $controller->updateUser();
+        break;
+    case 'delete_user':
+        require(ROOT . '/app/controller/ControllerUser.php');
+        $controller = new ControllerUser();
+        $controller->deleteUser();
+        break;
+        
 }
 ?>

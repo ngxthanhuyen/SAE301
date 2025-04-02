@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/../model/Model.php';
+require_once __DIR__ . '/../model/ModelUsers.php';
 
 class ControllerUser {
     public function index() {
@@ -24,11 +26,78 @@ class ControllerUser {
                 'username' => $_SESSION['username'],
                 'email' => $_SESSION['email'],
                 'creation_date' => $_SESSION['creation_date'],
-                'role' => 'utilisateur',
+                'role' => $_SESSION['role'],
             ];
         }
         return null; 
     }
+
+    // Méthode pour récupérer tous les utilisateurs
+    public function getAllUsers() {
+        $model = new ModelUsers();  // Assurez-vous que ModelUsers est bien défini pour interagir avec la base de données
+        return $model->getAllUsers();  // Récupérer tous les utilisateurs
+    }
+
+    public function updateUser() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['id'] ?? null;
+            $nom = $_POST['nom'] ?? null;
+            $prenom = $_POST['prenom'] ?? null;
+            $username = $_POST['username'] ?? null;
+            $email = $_POST['email'] ?? null;
+    
+            if (!$id) {
+                echo json_encode(['message' => 'ID utilisateur manquant', 'success' => false]);
+                exit;
+            }
+    
+            $model = new ModelUsers();
+            $result = $model->updateUser($id, $nom, $prenom, $username, $email);
+    
+            // Redirection après mise à jour
+            if ($result) {
+                // Utilisation d'une session pour afficher un message de succès
+                $_SESSION['success'] = 'Utilisateur mis à jour avec succès.';
+                header("Location: ?page=admin_page");
+                exit;
+            } else {
+                echo json_encode(['message' => 'Erreur lors de la mise à jour', 'success' => false]);
+                exit;
+            }
+        }
+    }
+    
+    
+
+    public function getUserById($id) {
+        $model = new ModelUsers();
+        return $model->getUserById($id);
+    }
+    
+    
+    public function deleteUser() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['id'] ?? null;
+            
+            if (!$id) {
+                echo json_encode(['success' => false, 'message' => 'ID utilisateur manquant']);
+                exit;
+            }
+    
+            $model = new ModelUsers();
+            $result = $model->deleteUser($id);
+            
+            // Retourne directement le résultat du modèle
+            header('Content-Type: application/json');
+            echo json_encode($result);
+            exit;
+        }
+        
+        // Si la méthode n'est pas POST
+        echo json_encode(['success' => false, 'message' => 'Méthode non autorisée']);
+        exit;
+    }
+    
 
     //Méthode pour gérer la mise à jour du profil
     public function updateProfile() {
