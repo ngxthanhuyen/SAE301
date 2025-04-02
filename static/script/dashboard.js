@@ -215,7 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
             if (stationSelection) {
                 if (semaineSelection) {
-                    url = ` ?page=dashboard&station=${stationSelection}&semaine_selection=${semaineSelection}`;
+                    url = `?page=dashboard&station=${stationSelection}&semaine_selection=${semaineSelection}`;
                     dataType = 'semaine';
                 } else if (dateSelection) {
                     url = `?page=dashboard&station=${stationSelection}&date_selection=${dateSelection}`;

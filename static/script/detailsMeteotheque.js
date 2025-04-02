@@ -112,20 +112,19 @@ function displayChart(data, parameter, numStation) {
 
     if (!window.chart) window.chart = {};
 
-    // Création du graphique
     window.chart[numStation] = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: Object.keys(data),
+            labels: Object.keys(data), 
             datasets: [{
-                data: Object.values(data),
-                borderColor: '#12769E',
-                backgroundColor: 'rgba(18, 118, 158, 0.1)',
-                borderWidth: 2,
-                tension: 0.4,
-                pointRadius: 0,
-                pointHoverRadius: 0,
-                fill: true,
+                data: Object.values(data), 
+                borderColor: '#12769E', 
+                backgroundColor: 'rgba(18, 118, 158, 0.1)', 
+                borderWidth: 2, 
+                tension: 0.4, 
+                pointRadius: 0, 
+                pointHoverRadius: 5, 
+                fill: true, 
             }]
         },
         options: {
@@ -133,43 +132,36 @@ function displayChart(data, parameter, numStation) {
             maintainAspectRatio: false,
             plugins: {
                 legend: {
-                    display: false,
+                    display: false, 
                 },
                 tooltip: {
-                    enabled: true,
-                    mode: 'index',
-                    intersect: false,
+                    enabled: true, 
+                    mode: 'index', 
+                    intersect: false, 
                     callbacks: {
                         label: function(context) {
                             let label = context.dataset.label || '';
                             if (label) {
                                 label += ': ';
                             }
-                            label += context.raw + getUnitForParameter(parameter); // Afficher la valeur avec l'unité
+                            label += context.raw + getUnitForParameter(parameter);
                             return label;
                         }
                     }
-                },
-                annotation: {
-                    annotations: Object.entries(data).map(([key, value], index) => ({
-                        type: 'label',
-                        xValue: key,
-                        yValue: value,
-                        backgroundColor: 'rgba(0, 0, 0, 0)',
-                        borderRadius: 4,
-                        color: '#12769E',
-                        font: {
-                            size: 12,
-                            weight: 'bold',
-                        }
-                    })),
-                },
+                }
             },
             scales: {
                 y: {
-                    display: false,
-                },
-                x: {
+                    display: true, 
+                    title: {
+                        display: true,
+                        text: getUnitForParameter(parameter), 
+                        color: '#12769E',
+                        font: {
+                            size: 14,
+                            weight: 'bold'
+                        }
+                    },
                     ticks: {
                         color: '#787878',
                         font: {
@@ -177,12 +169,30 @@ function displayChart(data, parameter, numStation) {
                             weight: 'bold',
                         },
                     },
-                    padding: 0,
                     grid: {
-                        display: false,
+                        display: false, 
+                    }
+                },
+                x: {
+                    display: true, 
+                    title: {
+                        display: true,
+                        text: 'Heures', 
+                        color: '#12769E',
+                        font: {
+                            size: 14,
+                            weight: 'bold'
+                        }
                     },
-                    border: {
-                        display: false,
+                    ticks: {
+                        color: '#787878',
+                        font: {
+                            size: 12,
+                            weight: 'bold',
+                        },
+                    },
+                    grid: {
+                        display: false, 
                     }
                 }
             }
@@ -190,9 +200,9 @@ function displayChart(data, parameter, numStation) {
     });
 
     // Appliquer un style au conteneur pour le fond bleu
-    chartContainer.style.borderRadius = '10px';
-    chartContainer.style.padding = '15px';
-    chartContainer.style.display = 'block';
+    chartContainer.style.borderRadius = '10px'; 
+    chartContainer.style.padding = '15px'; 
+    chartContainer.style.display = 'block'; 
 }
 
 // Fonction pour obtenir l'unité du paramètre

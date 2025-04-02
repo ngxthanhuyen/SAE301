@@ -38,19 +38,7 @@ switch ($page) {
         require(ROOT . '/app/view/logout.php');
         break;
     case 'meteotheque':
-        if (isset($_GET['parameter']) && isset($_GET['num_station'])) {
-            require(ROOT . '/app/controller/ControllerMeteotheque.php');
-            $controller = new ControllerMeteotheque();
-            $parameter = htmlspecialchars($_GET['parameter']);
-            $num_station = htmlspecialchars($_GET['num_station']);
-            $date = isset($_GET['date']) ? htmlspecialchars($_GET['date']) : null;
-            $data = $controller->getMesuresParStation($num_station, $date);
-            header('Content-Type: application/json');
-            echo json_encode($data);
-            exit;
-        } else {
-            require(ROOT . '/app/view/meteotheque.php');
-        }
+        require(ROOT . '/app/view/meteotheque.php');
         break;
     case 'meteothequeVisiteur':
         require(ROOT . '/app/view/meteothequeVisiteur.php');

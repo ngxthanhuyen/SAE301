@@ -170,7 +170,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             const formData = new FormData();
             formData.append('publication', publicationStatus.value);
-            fetch('?page=meteotheque', { // Correct the URL
+            fetch('?page=meteotheque', { 
                 method: 'POST',
                 body: formData
             })
