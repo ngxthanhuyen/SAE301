@@ -44,9 +44,21 @@ switch ($page) {
             $parameter = htmlspecialchars($_GET['parameter']);
             $num_station = htmlspecialchars($_GET['num_station']);
             $date = isset($_GET['date']) ? htmlspecialchars($_GET['date']) : null;
+
+            // Récupérer les mesures pour la station et la date spécifiées
             $data = $controller->getMesuresParStation($num_station, $date);
+
+            // Filtrer les données pour inclure uniquement le paramètre demandé
+            $filteredData = [];
+            foreach ($data as $time => $measure) {
+                if (isset($measure[$parameter])) {
+                    $filteredData[$time] = $measure[$parameter];
+                }
+            }
+
+            // Retourner les données filtrées en JSON
             header('Content-Type: application/json');
-            echo json_encode($data);
+            echo json_encode($filteredData);
             exit;
         } else {
             require(ROOT . '/app/view/meteotheque.php');
