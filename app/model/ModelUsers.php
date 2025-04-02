@@ -6,6 +6,7 @@ class ModelUsers {
 
     public function __construct() {
         $this->pdo = Model::getInstance()->getPdo();
+        $this->checkAndAddRoleColumn();
     }
 
     public function findUser($email_or_username) {
@@ -34,11 +35,114 @@ class ModelUsers {
         }
     }
 
+    public function updateUser($id, $nom, $prenom, $username, $email) {
+        $stmt = $this->pdo->prepare("UPDATE users SET nom = ?, prenom = ?, username = ?, email = ? WHERE user_id = ?");
+        return $stmt->execute([$nom, $prenom, $username, $email, $id]);
+    }
+    
+    public function deleteUser($id) {
+        try {
+            // Désactiver temporairement les contraintes de clé étrangère
+            $this->pdo->exec('SET FOREIGN_KEY_CHECKS = 0');
+            
+            // Supprimer d'abord les enregistrements liés dans les autres tables
+            $tablesLiees = ['alertes', 'comparaisons', 'meteotheque'];
+            foreach ($tablesLiees as $table) {
+                $stmt = $this->pdo->prepare("DELETE FROM $table WHERE user_id = ?");
+                $stmt->execute([$id]);
+            }
+            
+            // Ensuite supprimer l'utilisateur
+            $stmt = $this->pdo->prepare("DELETE FROM users WHERE user_id = ?");
+            $success = $stmt->execute([$id]);
+            
+            // Réactiver les contraintes
+            $this->pdo->exec('SET FOREIGN_KEY_CHECKS = 1');
+            
+            return [
+                'success' => $success, 
+                'message' => $success ? 'Utilisateur et données associées supprimés' : 'Aucun utilisateur trouvé avec cet ID'
+            ];
+        } catch (PDOException $e) {
+            // S'assurer que les contraintes sont réactivées même en cas d'erreur
+            $this->pdo->exec('SET FOREIGN_KEY_CHECKS = 1');
+            error_log("Erreur suppression utilisateur : " . $e->getMessage());
+            return [
+                'success' => false, 
+                'message' => 'Erreur base de données : ' . $e->getMessage()
+            ];
+        }
+    }
+    
+
     public function exists($username, $email) {
         $stmt = $this->pdo->prepare("SELECT * FROM users WHERE username = :username OR email = :email");
         $stmt->execute(['username' => $username, 'email' => $email]);
         return $stmt->rowCount() > 0;
     }
+
+    public function checkAndAddRoleColumn() {
+        try {
+            // Vérifier si la colonne existe déjà
+            $stmt = $this->pdo->prepare("SHOW COLUMNS FROM users LIKE 'role'");
+            $stmt->execute();
+            $columnExists = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+            if (!$columnExists) {
+                // Ajouter la colonne si elle n'existe pas
+                $sql = "ALTER TABLE users 
+                        ADD COLUMN role ENUM('user', 'admin') 
+                        CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci 
+                        DEFAULT 'user' 
+                        AFTER photo_profil"; // ou à la position que vous souhaitez
+                
+                $this->pdo->exec($sql);
+                error_log("Colonne 'role' ajoutée à la table users");
+                return true;
+            }
+            
+            return false; // La colonne existait déjà
+        } catch (PDOException $e) {
+            error_log("Erreur lors de l'ajout de la colonne role: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function createAdminIfNotExists() {
+        $this->checkAndAddRoleColumn();
+        $adminEmail = "admin@admin.com"; 
+        $adminUsername = "admin";
+        $adminPassword = "wiwi49"; // Mot de passe par défaut pour l'admin
+    
+        // Vérifie si l'admin existe déjà
+        $stmt = $this->pdo->prepare("SELECT * FROM users WHERE role = 'admin'");
+        $stmt->execute();
+        
+        if (!$stmt->fetch()) { 
+            $hashedPassword = password_hash($adminPassword, PASSWORD_DEFAULT);
+            $stmt = $this->pdo->prepare("INSERT INTO users (username, nom, prenom, email, password, role) 
+                                        VALUES (:username, 'Admin', 'Super', :email, :password, 'admin')");
+            $stmt->execute([
+                'username' => $adminUsername,
+                'email' => $adminEmail,
+                'password' => $hashedPassword
+            ]);
+        }
+    }
+
+    public function getUserById($id) {
+        $stmt = $this->pdo->prepare("SELECT * FROM users WHERE user_id = :id");
+        $stmt->execute(['id' => $id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    
+
+    public function getAllUsers() {
+        $stmt = $this->pdo->prepare("SELECT * FROM users");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
 
     public function updateProfile($nom, $prenom, $username, $email, $photo_profil) {
         try {

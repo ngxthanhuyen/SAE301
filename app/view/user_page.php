@@ -56,7 +56,9 @@ $userData = $userController->index();
                 <p><span>Pseudo:</span> <?php echo isset($_SESSION['username']) ? htmlspecialchars($_SESSION['username']) : 'Non défini'; ?></p>
                 <p><span>Email:</span> <?php echo isset($_SESSION['email']) ? htmlspecialchars($_SESSION['email']) : 'Non défini'; ?></p>
                 <p><span>Date de création:</span> <?php echo isset($_SESSION['creation_date']) ? htmlspecialchars($_SESSION['creation_date']) : 'Non définie'; ?></p>
-                <a href="?page=edit" class="btn btn-primary">Modifier profil</a>
+                <a href="<?php echo (isset($userData['role']) && $userData['role'] === 'admin') ? '?page=admin_page' : '?page=edit'; ?>" class="btn btn-primary">
+                    <?php echo (isset($userData['role']) && $userData['role'] === 'admin') ? 'Page Admin' : 'Modifier profil'; ?>
+                </a>
                 <a href="?page=logout" class="btn btn-secondary">Se déconnecter</a>
             </div>
         </div>
