@@ -156,8 +156,6 @@ class ControllerDashBoard {
 
         return $response;
     }
-
-
     public function getMesuresEtMoyennesParDeptEtDate($code_dept, $date_selectionnee) {
         $response = [];
         
@@ -194,7 +192,7 @@ class ControllerDashBoard {
             }
     
             $response['mesures'] = $mesures;
-            $response['stations'] = $stationsAvecMoyennes; // Ajouter la liste des stations avec moyennes
+            $response['stations'] = $stationsAvecMoyennes; 
         } catch (Exception $e) {
             $response = ['error' => $e->getMessage()];
         }

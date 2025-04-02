@@ -13,9 +13,7 @@
 }
 
 body {
-    background-image: url('../images/sky.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
+    background-color: #a9adca;
     margin: 0;
     padding: 0;
 }

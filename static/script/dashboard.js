@@ -341,6 +341,8 @@ document.addEventListener('DOMContentLoaded', () => {
                                 displayGaugesAnnee(data.moyennesAnnee);
                                 displayTableAnnee(data.mesuresAnnee);
                                 displayGraphsAnnee(data.mesuresAnnee);
+                                displayTempGraphAnnee(data.mesuresAnnee);
+                                displayPluvioGraphAnnee(data.mesuresAnnee);
                             }
                         }
                     } else {
@@ -1464,61 +1466,66 @@ document.addEventListener('DOMContentLoaded', () => {
     function displayGaugesMois(moyennesMois) {
         const gaugeContainer = document.getElementById('gauge-container');
         gaugeContainer.innerHTML = '';
-
+    
         if (moyennesMois && Object.keys(moyennesMois).length > 0) {
             const title = document.createElement('h1');
             title.classList.add('dashboard-title');
             title.textContent = 'Observations moyennes du mois';
             gaugeContainer.appendChild(title);
-
+    
             const parameterLabels = {
                 'temperature': 'Température',
                 'vent': 'Vent',
                 'humidite': 'Humidité',
                 'pression': 'Pression'
             };
-
+    
             const units = {
                 'temperature': '°C',
                 'vent': 'm/s',
                 'humidite': '%',
                 'pression': 'Pa'
             };
-
-            Object.keys(moyennesMois).forEach(parameter => {
+    
+            // Exclure visibilite et precipitation
+            const filteredParams = Object.keys(moyennesMois).filter(param => 
+                ['temperature', 'vent', 'humidite', 'pression'].includes(param)
+            );
+    
+            filteredParams.forEach(parameter => {
                 const value = moyennesMois[parameter];
                 const label = parameterLabels[parameter] || parameter;
                 const unit = units[parameter] || '';
-
+    
                 const gaugeDiv = document.createElement('div');
                 gaugeDiv.classList.add('gauge');
-
+    
                 const canvas = document.createElement('canvas');
                 canvas.classList.add('gauge-canvas');
                 gaugeDiv.appendChild(canvas);
-
+    
                 const valueContainer = document.createElement('div');
                 valueContainer.classList.add('gauge-value');
-
+    
                 const valueSpan = document.createElement('span');
                 valueSpan.classList.add('value');
                 valueSpan.textContent = value;
-
+    
                 const unitSpan = document.createElement('span');
                 unitSpan.classList.add('unit');
                 unitSpan.textContent = unit;
-
+    
                 valueContainer.appendChild(valueSpan);
                 valueContainer.appendChild(unitSpan);
                 gaugeDiv.appendChild(valueContainer);
-
+    
                 const labelDiv = document.createElement('div');
                 labelDiv.classList.add('gauge-label');
                 labelDiv.textContent = label;
                 gaugeDiv.appendChild(labelDiv);
-
+    
                 gaugeContainer.appendChild(gaugeDiv);
-
+    
                 const ctx = canvas.getContext('2d');
                 new Chart(ctx, {
                     type: 'doughnut',
@@ -1548,7 +1555,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             });
         }
-    }
+    }    
 
     function displayTableMois(mesuresMois) {
         const tableContainer = document.getElementById('table-container');
@@ -2183,6 +2190,256 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 chart.update();
             });
+        });
+    }
+    function displayTempGraphAnnee(mesuresAnnee) {
+        const graphContainer = document.getElementById('graph-temp');
+        graphContainer.innerHTML = '';
+    
+        if (!mesuresAnnee || Object.keys(mesuresAnnee).length === 0) {
+            console.warn('Aucune donnée à afficher pour le graphique des températures.');
+            graphContainer.textContent = 'Aucune donnée disponible.';
+            return;
+        }
+        document.getElementById('graphContainer').style.display = 'flex';
+    
+        const graphTitle = document.createElement('h1');
+        graphTitle.classList.add('graph-title');
+        graphTitle.textContent = "Graphique des températures de l'année";
+        graphContainer.parentNode.insertBefore(graphTitle, graphContainer);
+    
+        const mois = Object.keys(mesuresAnnee);
+        const tempMax = mois.map(m => mesuresAnnee[m]?.temperature_max ?? null);
+        const tempMin = mois.map(m => mesuresAnnee[m]?.temperature_min ?? null);
+        const tempMoy = mois.map(m => mesuresAnnee[m]?.temperature ?? null);
+    
+        const canvas = document.createElement('canvas');
+        canvas.id = 'chart-temperature-annee';
+        graphContainer.appendChild(canvas);
+        const ctx = canvas.getContext('2d');
+    
+        // Créer le graphique avec 3 datasets : TempMax, TempMin et TempMoy
+        const chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: mois,  // Mois de l'année
+                datasets: [
+                    {
+                        label: 'Température Maximale (°C)',
+                        data: tempMax,  // Températures maximales
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'red',
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.1
+                    },
+                    {
+                        label: 'Température Minimale (°C)',
+                        data: tempMin,  // Températures minimales
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.1
+                    },
+                    {
+                        label: 'Température Moyenne (°C)',
+                        data: tempMoy,  // Températures moyennes
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Mois',
+                            font: {
+                                size: 18,
+                                family: 'Arial'
+                            }
+                        },
+                        grid: {
+                            display: false
+                        }
+                    },
+                    y: {
+                        beginAtZero: false,
+                        title: {
+                            display: true,
+                            text: 'Température (°C)',
+                            font: {
+                                size: 16,
+                                family: 'Arial'
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.1)'
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        titleColor: '#fff',
+                        bodyColor: '#fff',
+                        borderColor: '#fff',
+                        borderWidth: 1,
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed.y !== null) {
+                                    label += context.parsed.y;
+                                }
+                                return label;
+                            }
+                        }
+                    },
+                    legend: {
+                        labels: {
+                            font: {
+                                size: 14,
+                                family: 'Arial'
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+    
+    function displayPluvioGraphAnnee(mesuresAnnee) {
+        const graphContainer = document.getElementById('graph-pluvio');
+        graphContainer.innerHTML = '';
+    
+        if (!mesuresAnnee || Object.keys(mesuresAnnee).length === 0) {
+            console.warn('Aucune donnée pour le graphique des pluviométries.');
+            graphContainer.textContent = 'Aucune donnée disponible.';
+            return;
+        }
+    
+        const graphTitle = document.createElement('h1');
+        graphTitle.classList.add('graph-title');
+        graphTitle.textContent = "Graphique des pluviométries de l'année";
+        graphContainer.parentNode.insertBefore(graphTitle, graphContainer);
+    
+        const mois = Object.keys(mesuresAnnee);
+        const pluMax = mois.map(m => mesuresAnnee[m]?.precipitation_max ?? null);
+        const pluMin = mois.map(m => mesuresAnnee[m]?.precipitation_min ?? null);
+        const pluMoy = mois.map(m => mesuresAnnee[m]?.precipitation ?? null);
+    
+        const canvas = document.createElement('canvas');
+        canvas.id = 'chart-pluvio-annee';
+        graphContainer.appendChild(canvas);
+        const ctx = canvas.getContext('2d');
+    
+        // Créer le graphique avec 3 datasets : pluMax, pluMin et moyenne des pluviométries
+        const chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: mois,  // Jours de la semaine
+                datasets: [
+                    {
+                        label: 'Pluviométrie Maximale (mm)',
+                        data: pluMax,  // Pluviométries maximales
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'red',
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.1
+                    },
+                    {
+                        label: 'Pluviométrie Minimale (mm)',
+                        data: pluMin,  // Pluviométries minimales
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.1
+                    },
+                    {
+                        label: 'Pluviométrie Moyenne (mm)',
+                        data: pluMoy,  // Moyenne des pluviométries
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Mois',
+                            font: {
+                                size: 18,
+                                family: 'Arial'
+                            }
+                        },
+                        grid: {
+                            display: false
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Pluviométrie (mm)',
+                            font: {
+                                size: 16,
+                                family: 'Arial'
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.1)'
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        titleColor: '#fff',
+                        bodyColor: '#fff',
+                        borderColor: '#fff',
+                        borderWidth: 1,
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed.y !== null) {
+                                    label += context.parsed.y;
+                                }
+                                return label;
+                            }
+                        }
+                    },
+                    legend: {
+                        labels: {
+                            font: {
+                                size: 14,
+                                family: 'Arial'
+                            }
+                        }
+                    }
+                }
+            }
         });
     }
 });

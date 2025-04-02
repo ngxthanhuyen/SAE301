@@ -15,6 +15,8 @@ if (isset($_GET['station']) || isset($_GET['region'])) {
         $date_selection = $_GET['date_selection'];
         if ($num_station) {
             $data = $controllerDashboard->getMesuresEtMoyennesParStationEtDate($num_station, $date_selection);
+        } elseif ($code_region) {
+            //$data = $controllerDashboard->getMesuresEtMoyennesParRegionEtDate($code_region, $date_selection);
         }
         
         // Si des données sont trouvées, renvoyer en JSON
@@ -70,6 +72,8 @@ if (isset($_GET['station']) || isset($_GET['region'])) {
         $date_annee = $_GET['annee_selection'];
         if ($num_station) {
             $data = $controllerDashboard->getMesuresEtMoyennesAnnee($num_station, $date_annee);
+        } elseif ($code_region) {
+           // $data = $controllerDashboard->getMesuresEtMoyennesParRegionEtDate($code_region, $date_annee);
         }
 
         if ($data) {
