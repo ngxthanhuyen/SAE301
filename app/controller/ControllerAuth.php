@@ -8,15 +8,17 @@ class ControllerAuth {
     public function __construct() {
         $pdo = Model::getInstance()->getPdo();
         $this->user = new ModelUsers($pdo);
+        // Vérifier et créer un administrateur s'il n'existe pas
+        $this->user->createAdminIfNotExists();
     }
 
     public function login() {
         $error = [];
-
+    
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
             $email_or_username = trim($_POST['email_or_username']);
             $password = trim($_POST['password']);
-
+    
             if (empty($email_or_username) || empty($password)) {
                 $error[] = 'Veuillez remplir tous les champs!';
             } else {
@@ -30,15 +32,23 @@ class ControllerAuth {
                     $_SESSION['email'] = $row['email'];
                     $_SESSION['creation_date'] = $row['creation_date'];
                     $_SESSION['photo_profil'] = $row['photo_profil'];
-                    header('Location: ?page=user_page');
+                    $_SESSION['role'] = $row['role']; // Ajout du rôle
+    
+                    // Redirection en fonction du rôle
+                    if ($row['role'] === 'admin') {
+                        header('Location: ?page=admin_page');
+                    } else {
+                        header('Location: ?page=user_page');
+                    }
                     exit();
                 } else {
-                $error[] = "Identifiant ou mot de passe invalide!";
+                    $error[] = "Identifiant ou mot de passe invalide!";
                 }
             }
         }
         return $error;
     }
+    
 
     public function register() {
         $errors = [];

@@ -215,48 +215,48 @@ document.addEventListener('DOMContentLoaded', () => {
     
             if (stationSelection) {
                 if (semaineSelection) {
-                    url = `?page=dashboard&station=${stationSelection}&semaine_selection=${semaineSelection}`;
+                    url = `frontController.php?page=dashboard&station=${stationSelection}&semaine_selection=${semaineSelection}`;
                     dataType = 'semaine';
                 } else if (dateSelection) {
-                    url = `?page=dashboard&station=${stationSelection}&date_selection=${dateSelection}`;
+                    url = `frontController.php?page=dashboard&station=${stationSelection}&date_selection=${dateSelection}`;
                     dataType = 'date';
                 } else if (moisSelection) {
-                    url = `?page=dashboard&station=${stationSelection}&mois_selection=${moisSelection}`;
+                    url = `frontController.php?page=dashboard&station=${stationSelection}&mois_selection=${moisSelection}`;
                     dataType = 'mois';
                 } else if (anneeSelection) {
-                    url = `?page=dashboard&station=${stationSelection}&annee_selection=${anneeSelection}`;
+                    url = `frontController.php?page=dashboard&station=${stationSelection}&annee_selection=${anneeSelection}`;
                     dataType = 'annee';
                 }
             }
     
             if (deptSelection) {
                 if (semaineSelection) {
-                    url = `?page=dashboard&dept=${deptSelection}&semaine_selection=${semaineSelection}`;
+                    url = `frontController.php?page=dashboard&dept=${deptSelection}&semaine_selection=${semaineSelection}`;
                     dataType = 'semaine';
                 } else if (dateSelection) {
-                    url = `?page=dashboard&dept=${deptSelection}&date_selection=${dateSelection}`;
+                    url = `frontController.php?page=dashboard&dept=${deptSelection}&date_selection=${dateSelection}`;
                     dataType = 'date';
                 } else if (moisSelection) {
-                    url = `?page=dashboard&dept=${deptSelection}&mois_selection=${moisSelection}`;
+                    url = `frontController.php?page=dashboard&dept=${deptSelection}&mois_selection=${moisSelection}`;
                     dataType = 'mois';
                 } else if (anneeSelection) {
-                    url = `?page=dashboard&dept=${deptSelection}&annee_selection=${anneeSelection}`;
+                    url = `frontController.php?page=dashboard&dept=${deptSelection}&annee_selection=${anneeSelection}`;
                     dataType = 'annee';
                 }
             }
 
             if (regionSelection) {
                 if (semaineSelection) {
-                    url = `dashboard.php?region=${regionSelection}&semaine_selection=${semaineSelection}`;
+                    url = `frontController.php?page=dashboard&region=${regionSelection}&semaine_selection=${semaineSelection}`;
                     dataType = 'semaine';
                 } else if (dateSelection) {
-                    url = `dashboard.php?region=${regionSelection}&date_selection=${dateSelection}`;
+                    url = `frontController.php?page=dashboard&region=${regionSelection}&date_selection=${dateSelection}`;
                     dataType = 'date';
                 } else if (moisSelection) {
-                    url = `dashboard.php?region=${regionSelection}&mois_selection=${moisSelection}`;
+                    url = `frontController.php?page=dashboard&region=${regionSelection}&mois_selection=${moisSelection}`;
                     dataType = 'mois';
                 } else if (anneeSelection) {
-                    url = `dashboard.php?region=${regionSelection}&annee_selection=${anneeSelection}`;
+                    url = `frontController.php?page=dashboard&region=${regionSelection}&annee_selection=${anneeSelection}`;
                     dataType = 'annee';
                 }
             }

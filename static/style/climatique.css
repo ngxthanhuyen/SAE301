@@ -247,3 +247,90 @@ h1 {
     z-index: 9999;
     display: none;
 }
+
+/* Media query pour les écrans de taille inférieure à 768px (tablettes et petits écrans) */
+@media (max-width: 768px) {
+    .main-container {
+        flex-direction: column; /* Passer à une disposition en colonne */
+    }
+
+    .sidebar {
+        width: 100%; /* Prendre toute la largeur */
+        height: auto; /* Ajuster la hauteur automatiquement */
+        box-shadow: none; /* Supprimer l'ombre pour un design plus simple */
+        margin-bottom: 20px; /* Ajouter un espacement avec la carte */
+    }
+
+    .map-container {
+        order: 2; /* Placer la carte après la barre latérale */
+        width: 100%; /* S'assurer que la carte prend toute la largeur */
+        height: auto; /* Ajuster la hauteur automatiquement */
+    }
+
+    #map {
+        height: 300px; /* Réduire la hauteur de la carte */
+    }
+
+    h1 {
+        font-size: 40px; /* Réduire la taille du titre */
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .sidebar-container {
+        width: 90%; /* Réduire la largeur pour s'adapter à l'écran */
+        padding: 10px;
+    }
+
+    .select-input {
+        width: 100%; /* Prendre toute la largeur */
+    }
+
+    .btn-search {
+        width: 100%; /* Prendre toute la largeur */
+        margin-left: 0; /* Centrer le bouton */
+    }
+
+    .legend {
+        flex-direction: column; /* Empiler les éléments */
+        align-items: flex-start; /* Aligner à gauche */
+    }
+}
+
+/* Media query pour les écrans de taille inférieure à 480px (mobiles) */
+@media (max-width: 480px) {
+    h1 {
+        font-size: 30px; /* Réduire davantage la taille du titre */
+    }
+
+    .sidebar {
+        padding: 10px; /* Réduire les marges */
+    }
+
+    .sidebar-container {
+        width: 100%; /* Prendre toute la largeur */
+        padding: 5px;
+    }
+
+    .select-input {
+        font-size: 12px; /* Réduire la taille de la police */
+    }
+
+    .btn-search {
+        font-size: 14px; /* Réduire la taille de la police */
+    }
+
+    .map-container {
+        height: 200px; /* Réduire encore la hauteur de la carte */
+    }
+
+    .zonage-selector {
+        top: 10px; /* Réduire l'espacement */
+        left: 10px;
+        padding: 5px;
+    }
+
+    .legend div {
+        font-size: 12px; /* Réduire la taille de la légende */
+    }
+}
