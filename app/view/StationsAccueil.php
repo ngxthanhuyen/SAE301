@@ -15,10 +15,11 @@ $stationsJson = json_encode($stations);
     <link rel="stylesheet" href="/SAE301/static/style/StationsAccueil.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"> <!-- AOS CSS -->
 </head>
 <body>
     <main class="stations-accueil" style="margin-top: 100px;">
-        <h1>Bienvenue à la page Station !</h1>
+        <h1 data-aos="zoom-in">Bienvenue à la page Station !</h1> <!-- Animation ajoutée -->
         <div class="search-bar">
             <form method="GET" action="?page=StationsInfos" id="searchForm">
                 <input type="hidden" name="page" value="StationsInfos">
@@ -50,7 +51,9 @@ $stationsJson = json_encode($stations);
         require_once __DIR__ . '/../view/footer.php';
     ?>
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script> <!-- AOS JS -->
     <script>
+        AOS.init(); // Initialisation d'AOS
         var stations = <?php echo $stationsJson; ?>;
     </script>
     <script src="/SAE301/static/script/stations.js"></script>

@@ -5,6 +5,21 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
+// Par défaut, définir l'utilisateur comme visiteur si aucune session utilisateur n'existe
+if (!isset($_SESSION['user_id'])) {
+    $_SESSION['is_visiteur'] = true;
+} else {
+    unset($_SESSION['is_visiteur']); // Retirer le statut de visiteur si l'utilisateur est connecté
+}
+
+// Vérifier si l'utilisateur tente d'accéder à une fonctionnalité restreinte
+$restrictedPages = ['user_page', 'edit', 'dashboard', 'meteotheque', 'StationsAccueil', 'StationsInfos', 'climatique', 'alerte']; // Ajouter ici les pages restreintes
+if (isset($_GET['page']) && in_array($_GET['page'], $restrictedPages) && !isset($_SESSION['user_id'])) {
+    // Rediriger vers la page de connexion si non connecté
+    header("Location: ?page=login_form");
+    exit;
+}
+
 $page = isset($_GET['page']) ? $_GET['page'] : 'accueil';
 
 switch ($page) {
