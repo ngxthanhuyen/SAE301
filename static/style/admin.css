@@ -1,0 +1,213 @@
+/* admin.css */
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Orelega+One&family=Signika:wght@300..700&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Orelega+One&family=Reddit+Sans:ital,wght@0,200..900;1,200..900&family=Signika:wght@300..700&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
+
+/* Style général */
+body {
+    font-family: 'Quicksand', sans-serif;
+    background-color: #f5f7fa;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Titres */
+h2 {
+    font-size: 2.8rem;
+    color: #4A4A8A;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-family: 'Signika', sans-serif;
+    font-weight: 600;
+    text-shadow: 2px 6px 4px rgba(0, 0, 0, 0.2);  
+}
+
+/* Messages d'alerte */
+.error {
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+    font-size: 1rem;
+}
+
+.success {
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+    font-size: 1rem;
+}
+
+/* Boutons */
+.btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.btn-success {
+    background-color: #5a5a5a;
+    color: white;
+}
+
+.btn-success:hover {
+    background-color: #6e6e6e;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-warning {
+    background-color: #808080;
+    color: white;
+}
+
+.btn-warning:hover {
+    background-color: #909090;
+}
+
+.btn-danger {
+    background-color: #a65d57;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #b66e68;
+}
+
+.btn-sm {
+    padding: 6px 12px;
+    font-size: 0.875rem;
+}
+
+/* Tableau */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: white;
+}
+
+.table th {
+    background-color: #4a4a4a;
+    color: white;
+    padding: 15px;
+    text-align: left;
+    font-family: 'Reddit Sans', sans-serif;
+    font-weight: 600;
+}
+
+.table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #e0e0e0;
+    transition: background-color 0.2s;
+}
+
+.table tr:last-child td {
+    border-bottom: none;
+}
+
+.table tr:hover td {
+    background-color: #f5f5ff;
+}
+
+.table-bordered {
+    border: 1px solid #dee2e6;
+}
+
+.table-bordered th,
+.table-bordered td {
+    border: 1px solid #dee2e6;
+}
+
+/* Cellules éditables */
+[contenteditable="true"] {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    transition: all 0.3s;
+}
+
+[contenteditable="true"]:focus {
+    outline: none;
+    border-color: #4A4A8A;
+    background-color: white;
+    box-shadow: 0 0 0 2px rgba(74, 74, 138, 0.2);
+}
+
+/* Texte protégé */
+.text-muted {
+    color: #9e9e9e;
+    font-style: italic;
+}
+
+/* Marges */
+.mb-3 {
+    margin-bottom: 1rem;
+}
+
+.mb-4 {
+    margin-bottom: 1.5rem;
+}
+
+.mt-4 {
+    margin-top: 1.5rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 15px;
+    }
+    
+    h2 {
+        font-size: 1.8rem;
+    }
+    
+    .table {
+        display: block;
+        overflow-x: auto;
+    }
+    
+    .btn {
+        padding: 8px 16px;
+        font-size: 0.875rem;
+    }
+}
+
+@media (max-width: 480px) {
+    h2 {
+        font-size: 1.5rem;
+    }
+    
+    .table th,
+    .table td {
+        padding: 10px;
+        font-size: 0.875rem;
+    }
+    
+    .btn-sm {
+        padding: 5px 10px;
+        font-size: 0.75rem;
+    }
+}

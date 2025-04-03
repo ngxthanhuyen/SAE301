@@ -27,19 +27,20 @@ if (!is_array($users)) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/SAE301/static/style/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 <div class="container mt-4">
-<?php if (isset($_SESSION['error'])): ?>
-    <div class="error"><?= $_SESSION['error'] ?></div>
-    <?php unset($_SESSION['error']); ?>
-<?php endif; ?>
+    <?php if (isset($_SESSION['error'])): ?>
+        <div class="error"><?= $_SESSION['error'] ?></div>
+        <?php unset($_SESSION['error']); ?>
+    <?php endif; ?>
 
-<?php if (isset($_SESSION['success'])): ?>
-    <div class="success"><?= $_SESSION['success'] ?></div>
-    <?php unset($_SESSION['success']); ?>
-<?php endif; ?>
+    <?php if (isset($_SESSION['success'])): ?>
+        <div class="success"><?= $_SESSION['success'] ?></div>
+        <?php unset($_SESSION['success']); ?>
+    <?php endif; ?>
     <h2 class="mb-4">Tableau de bord Administrateur</h2>
     
     <a href="?page=register_form" class="btn btn-success mb-3">Ajouter un utilisateur</a>
@@ -61,10 +62,10 @@ if (!is_array($users)) {
                 <?php if (isset($user['user_id'], $user['nom'], $user['prenom'], $user['username'], $user['email'], $user['role'])) : ?>
                     <tr id="user_<?php echo $user['user_id']; ?>">
                         <td><?php echo htmlspecialchars($user['user_id']); ?></td>
-                        <td contenteditable="true" data-field="nom"><?php echo htmlspecialchars($user['nom']); ?></td>
-                        <td contenteditable="true" data-field="prenom"><?php echo htmlspecialchars($user['prenom']); ?></td>
-                        <td contenteditable="true" data-field="username"><?php echo htmlspecialchars($user['username']); ?></td>
-                        <td contenteditable="true" data-field="email"><?php echo htmlspecialchars($user['email']); ?></td>
+                        <td data-field="nom"><?php echo htmlspecialchars($user['nom']); ?></td>
+                        <td data-field="prenom"><?php echo htmlspecialchars($user['prenom']); ?></td>
+                        <td data-field="username"><?php echo htmlspecialchars($user['username']); ?></td>
+                        <td data-field="email"><?php echo htmlspecialchars($user['email']); ?></td>
                         <td><?php echo htmlspecialchars($user['role']); ?></td>
                         <td>
                             <?php if ($user['role'] !== 'admin') : ?>

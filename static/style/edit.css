@@ -169,3 +169,51 @@ p a:hover {
     text-decoration: underline;
     color: #2b8196;
 }
+
+
+/* Bouton */
+button[type="submit"] {
+    background-color: #4A4A8A;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-family: 'Reddit Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    width: 100%;
+}
+
+button[type="submit"]:hover {
+    background-color: #6a6acb;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Lien de retour */
+.form-card p {
+    text-align: center;
+    margin-top: 25px;
+}
+
+.form-card a {
+    color: #4A4A8A;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.form-card a:hover {
+    color: #6a6acb;
+    text-decoration: underline;
+}
+
+.form-card a i {
+    font-size: 0.9rem;
+}
