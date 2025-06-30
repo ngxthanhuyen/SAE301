@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Afficher le menu déroulant dès que l'utilisateur clique dans le champ de recherche
     searchInput.addEventListener('focus', () => {
-        dropdownOptions.classList.add('visible'); // Afficher le menu déroulant
+        dropdownOptions.classList.add('visible'); 
     });
 
     // Afficher les options de station en fonction de la recherche

@@ -42,8 +42,8 @@ if ($userId) {
 
 //Enregistrement de la station en favoris 
 if (isset($_GET['action']) && $_GET['action'] === 'toggleFavorite') {
-    $success = $controllerMeteotheque->toggleFavorite($num_station);
-    $isFavorite = $controllerMeteotheque->estFavoris($_SESSION['user_id'], $num_station);
+    $controllerMeteotheque->toggleFavorite($num_station);
+    header('Location: ?page=StationsInfos&num_station=' . $num_station);
     exit;
 }
 

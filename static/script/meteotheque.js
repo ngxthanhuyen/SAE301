@@ -351,7 +351,7 @@ function displayChart(data, parameter, numStation) {
                     display: true, 
                     title: {
                         display: true,
-                        text: 'Heures', 
+                        text: 'Hours', 
                         color: '#12769E',
                         font: {
                             size: 14,

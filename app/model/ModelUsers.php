@@ -9,12 +9,6 @@ class ModelUsers {
         $this->checkAndAddRoleColumn();
     }
 
-    public function findUser($email_or_username) {
-        $stmt = $this->pdo->prepare("SELECT * FROM users WHERE email = :email_or_username OR username = :email_or_username");
-        $stmt->execute(['email_or_username' => $email_or_username]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
-
     public function create($username, $nom, $prenom, $email, $password, $photo_profil) {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
@@ -33,6 +27,12 @@ class ModelUsers {
             error_log("Erreur lors de l'insertion de l'utilisateur : " . $e->getMessage());
             return false;
         }
+    }
+
+    public function findUser($email_or_username) {
+        $stmt = $this->pdo->prepare("SELECT * FROM users WHERE email = :email_or_username OR username = :email_or_username");
+        $stmt->execute(['email_or_username' => $email_or_username]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     public function updateUser($id, $nom, $prenom, $username, $email) {
@@ -64,7 +64,6 @@ class ModelUsers {
                 'message' => $success ? 'Utilisateur et données associées supprimés' : 'Aucun utilisateur trouvé avec cet ID'
             ];
         } catch (PDOException $e) {
-            // S'assurer que les contraintes sont réactivées même en cas d'erreur
             $this->pdo->exec('SET FOREIGN_KEY_CHECKS = 1');
             error_log("Erreur suppression utilisateur : " . $e->getMessage());
             return [
@@ -74,7 +73,6 @@ class ModelUsers {
         }
     }
     
-
     public function exists($username, $email) {
         $stmt = $this->pdo->prepare("SELECT * FROM users WHERE username = :username OR email = :email");
         $stmt->execute(['username' => $username, 'email' => $email]);
@@ -94,14 +92,14 @@ class ModelUsers {
                         ADD COLUMN role ENUM('user', 'admin') 
                         CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci 
                         DEFAULT 'user' 
-                        AFTER photo_profil"; // ou à la position que vous souhaitez
+                        AFTER photo_profil"; 
                 
                 $this->pdo->exec($sql);
                 error_log("Colonne 'role' ajoutée à la table users");
                 return true;
             }
             
-            return false; // La colonne existait déjà
+            return false;
         } catch (PDOException $e) {
             error_log("Erreur lors de l'ajout de la colonne role: " . $e->getMessage());
             return false;

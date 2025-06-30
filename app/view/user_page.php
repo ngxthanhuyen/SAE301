@@ -34,7 +34,7 @@ $userData = $userController->index();
                 if ($userData) {
                     echo htmlspecialchars($userData['role']);
                 } else {
-                    echo "visiteur"; // Par défaut
+                    echo "visiteur"; 
                 }
                 ?>
             </p>

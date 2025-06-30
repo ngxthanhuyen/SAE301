@@ -313,7 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentMarkers = []; 
     // Définir l'icône personnalisée
     const iconPersonnalise = L.icon({
-        iconUrl: 'http://localhost/SAE3.01/static/images/marqueur.png',
+        iconUrl: 'http://localhost/SAE301/static/images/marqueur.png',
         iconSize: [35, 35],
         iconAnchor: [16, 32],
         popupAnchor: [0, -32],

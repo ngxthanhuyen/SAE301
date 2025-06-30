@@ -75,6 +75,16 @@ class ControllerAlerte {
                 'message' => 'Erreur lors de la sauvegarde des alertes : ' . $e->getMessage()
             ];
         }
-    }    
+    }  
+    public function supprimerToutesAlertes() {
+    $user_id = $_SESSION['user_id'] ?? null;
+    if ($user_id) {
+        $this->model->supprimerToutesAlertes($user_id);
+        $_SESSION['flash'] = [
+            'type' => 'success',
+            'message' => 'Toutes les alertes ont été supprimées avec succès.'
+        ];
+    }
+}  
 }
 ?>

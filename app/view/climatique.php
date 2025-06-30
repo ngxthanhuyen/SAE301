@@ -46,11 +46,11 @@ $stationsJson = json_encode($stations);
             <div class="sidebar-container">
                 <form action="?page=climatique" method="POST">
                     <div class="form-group">
-                        <label for="date-start">Période de début</label>
+                        <label for="date-start">Date de début</label>
                         <input type="date" id="date-start" name="date_start" value="<?php echo date('Y-m-d'); ?>">
                     </div>
                     <div class="form-group">
-                        <label for="date-end">Période de fin</label>
+                        <label for="date-end">Date de fin</label>
                         <input type="date" id="date-end" name="date_end" value="<?php echo date('Y-m-d'); ?>">
                     </div>
                     <div class="form-group">

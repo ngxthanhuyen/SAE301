@@ -13,7 +13,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 // Vérifier si l'utilisateur tente d'accéder à une fonctionnalité restreinte
-$restrictedPages = ['user_page', 'edit', 'dashboard', 'meteotheque', 'StationsAccueil', 'StationsInfos', 'climatique', 'alerte']; // Ajouter ici les pages restreintes
+$restrictedPages = ['user_page', 'edit', 'dashboard', 'meteotheque', 'StationsAccueil', 'StationsInfos', 'climatique', 'alerte']; 
 if (isset($_GET['page']) && in_array($_GET['page'], $restrictedPages) && !isset($_SESSION['user_id'])) {
     // Rediriger vers la page de connexion si non connecté
     header("Location: ?page=login_form");
@@ -35,7 +35,7 @@ switch ($page) {
     case 'dashboard':
         require(ROOT . '/app/view/dashboard.php');
         break;
-    case 'admin_page': // Ajout du tableau de bord admin
+    case 'admin_page': 
         require(ROOT . '/app/view/admin_page.php');
         break;
     case 'detailsMeteotheque':
@@ -122,6 +122,5 @@ switch ($page) {
         $controller = new ControllerUser();
         $controller->deleteUser();
         break;
-        
 }
 ?>

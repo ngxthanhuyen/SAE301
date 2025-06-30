@@ -34,8 +34,8 @@ class ControllerUser {
 
     // Méthode pour récupérer tous les utilisateurs
     public function getAllUsers() {
-        $model = new ModelUsers();  // Assurez-vous que ModelUsers est bien défini pour interagir avec la base de données
-        return $model->getAllUsers();  // Récupérer tous les utilisateurs
+        $model = new ModelUsers();  
+        return $model->getAllUsers();  
     }
 
     public function updateUser() {
@@ -67,7 +67,6 @@ class ControllerUser {
         }
     }
     
-    
 
     public function getUserById($id) {
         $model = new ModelUsers();
@@ -97,7 +96,6 @@ class ControllerUser {
         echo json_encode(['success' => false, 'message' => 'Méthode non autorisée']);
         exit;
     }
-    
 
     //Méthode pour gérer la mise à jour du profil
     public function updateProfile() {
@@ -112,7 +110,7 @@ class ControllerUser {
             // Traitement de la photo de profil
             $target_file = '';
             if ($photo_profil && $photo_profil['error'] === 0) {
-                $target_dir = __DIR__ . '/../upload/'; // Ensure the path is correct
+                $target_dir = __DIR__ . '/../upload/'; 
 
                 // Vérifier l'extension du fichier
                 $allowedExtensions = ['jpg', 'jpeg', 'png'];

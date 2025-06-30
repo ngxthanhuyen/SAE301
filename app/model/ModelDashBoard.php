@@ -574,7 +574,7 @@ class ModelDashBoard {
     }    
 
     public function getMesuresAnneeStation($num_station_recherche, $date_annee) {
-        set_time_limit(300); // 300 secondes = 5 minutes
+        set_time_limit(300); 
     
         try {
             $dateTimeAnnee = DateTime::createFromFormat('Y', $date_annee);

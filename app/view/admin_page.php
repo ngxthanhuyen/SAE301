@@ -15,9 +15,8 @@ $users = $userController->getAllUsers();  // Appel à la nouvelle méthode pour 
 
 // Vérification que la récupération des utilisateurs s'est bien passée
 if (!is_array($users)) {
-    $users = []; // Évite une erreur si la requête ne retourne rien
+    $users = []; 
 }
-
 
 ?>
 

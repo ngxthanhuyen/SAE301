@@ -23,25 +23,8 @@ document.addEventListener('DOMContentLoaded', function () {
     modalNo.addEventListener('click', closeModal);
 
     modalYes.addEventListener('click', () => {
-        fetch(`?page=StationsInfos&num_station=${stationId}&action=toggleFavorite`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                isFavorite = data.isFavorite;
-                updateButtonAppearance();
-                favoriteButton.dataset.favorite = isFavorite.toString();
-            } else {
-                console.error('Erreur lors de la mise à jour des favoris');
-            }
-        })
-        .catch(error => console.error('Erreur:', error));
-        
-        closeModal();
+        // Recharge la page avec le paramètre toggleFavorite
+        window.location.href = `?page=StationsInfos&num_station=${stationId}&action=toggleFavorite`;
     });
 
     document.addEventListener('click', function(event) {

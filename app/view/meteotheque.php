@@ -3,6 +3,7 @@ require_once __DIR__ . '/../controller/ControllerMeteotheque.php';
 require_once __DIR__ . '/../controller/ControllerStations.php';
 require_once __DIR__ . '/../controller/ControllerUser.php';
 require_once __DIR__ . '/../controller/ControllerComparaisons.php';
+require_once __DIR__ . '/../controller/ControllerAlerte.php';
 
 $userController = new ControllerUser();
 $userData = $userController->index();
@@ -74,7 +75,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['alert_id']) && isset(
     // Appel à la méthode pour supprimer l'alerte
     $controllerMeteotheque->supprimerAlerte($_POST['alert_id']);
 }
-
+if (isset($_POST['delete_all_alerts'])) {
+    $controllerAlerte = new ControllerAlerte();
+    $controllerAlerte->supprimerToutesAlertes();
+    // Recharge la page pour voir le changement
+    header('Location: ?page=meteotheque');
+    exit;
+}
 // Mettre à jour l'état de publication de la météothèque de l'utilisateur
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['publication'])) {
     $publicationStatus = $_POST['publication'] ?? 0; 
@@ -249,7 +256,7 @@ $publication = $controllerMeteotheque->getPublicationStatus($userId);
                                 if (!empty($weatherData)): 
                                     foreach ($weatherData as $date => $data):
                                         $timestamp = strtotime($date);
-                                        $joursSemaine = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
+                                        $joursSemaine = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
                                         $jour = ucfirst($joursSemaine[date('w', $timestamp)]);
                                         $icon = $controllerMeteotheque->getWeatherIcon($data['weather']); 
                                 ?>
@@ -381,6 +388,14 @@ $publication = $controllerMeteotheque->getPublicationStatus($userId);
     <?php if (!empty($alerts)): ?>
     <div class="alerts-section">
         <h2 class='alert-title'>Historique des alertes</h2>
+        <form method="post" style="display: flex; justify-content: flex-end; margin-bottom: 10px;">
+            <button type="submit" name="delete_all_alerts"
+                class="close-button"
+                aria-label="Close"
+                style="font-size:2rem; background:none; border:none; color:black; cursor:pointer; padding:0 12px; line-height:1;">
+                &times;
+            </button>
+        </form>
         <table id="historique-table">
             <thead>
                 <tr>

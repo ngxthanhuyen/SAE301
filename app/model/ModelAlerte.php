@@ -189,6 +189,12 @@ class ModelAlerte {
         $stmt->bindParam(':heure_alerte', $heure_alerte);
     
         return $stmt->execute(); 
-    }    
+    }  
+    public function supprimerToutesAlertes($user_id) {
+        $query = "DELETE FROM alertes WHERE user_id = :user_id";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam(':user_id', $user_id);
+        $stmt->execute();
+    }  
 }
 ?>

@@ -15,10 +15,9 @@ if (isset($_GET['query'])) {
     } catch (Exception $e) {
         echo json_encode(['error' => $e->getMessage()]);
     }
-    exit; // Arrêter l'exécution ici pour ne pas inclure le reste du HTML
+    exit; 
 }
 
-// Sinon, continuer pour afficher la page HTML complète
 $controller = new ControllerMeteothequeVisiteur();
 $meteotheques = $controller->afficherMeteothequesPubliees();
 
